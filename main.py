@@ -1,16 +1,3 @@
-# agentinstruct_medicinal_chemistry.py
-
-import re
-import openai
-from dotenv import load_dotenv  
-import os
-
-# Load environment variables from .env file
-load_dotenv()
-# Access the API key using the variable name defined in the .env file
-openai.api_key = os.getenv("OPENAI_API_KEY")
-
-# Import any additional modules if necessary
 from utils.text_extraction import extract_text_chunks_from_pdf
 
 from agents.base_agent import BaseAgent
