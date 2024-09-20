@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Reaction Mechanism Agent",
+        "system_prompt": "You are a chemistry expert specializing in reaction mechanisms.",
+        "user_prompt_template": "From the following text, identify any chemical reactions mentioned.\nFor each reaction, provide:\n1. The balanced chemical equation.\n2. A detailed step-by-step mechanism, including all intermediates and transition states.\n3. Explanations for each step.\n\nText:\n{text}"
+    },
+    {
+        "name": "Synthetic Route Agent",
+        "system_prompt": "You are an expert in organic synthesis and retrosynthesis planning.",
+        "user_prompt_template": "From the following text, identify any target molecules or compounds of interest.\nFor each, design a multi-step synthetic route to synthesize the molecule.\nProvide detailed steps, reagents, and conditions.\n\nText:\n{text}"
+    },
+    {
+        "name": "Biological Activity Agent",
+        "system_prompt": "You are a medicinal chemist knowledgeable in structure-activity relationships (SAR).",
+        "user_prompt_template": "From the following text, identify any chemical compounds mentioned.\nFor each compound, provide:\n1. The chemical name and structure (if available).\n2. Predicted biological activities.\n3. Target receptors or enzymes.\n4. Discussion on pharmacological properties.\n\nText:\n{text}"
+    },
+    {
+        "name": "Safety Data Agent",
+        "system_prompt": "You are a safety officer specializing in chemical safety and hazard analysis.",
+        "user_prompt_template": "Analyze the following text for any safety hazards related to chemical substances or procedures.\nProvide:\n1. Identified hazards (e.g., toxicity, flammability, corrosiveness).\n2. Relevant regulatory information.\n3. Suggested mitigation strategies.\n\nText:\n{text}"
+    },
+    {
+        "name": "Literature Context Agent",
+        "system_prompt": "You are a scientific literature expert with access to the latest research articles.",
+        "user_prompt_template": "From the following text, identify any key topics, compounds, or reactions.\nFor each, provide a summary of recent literature, including:\n1. Key findings.\n2. Advancements.\n3. Conflicting viewpoints.\n4. Relevant citations.\n\nText:\n{text}"
+    },
+    {
+        "name": "Text Simplifier Agent",
+        "system_prompt": "You are an assistant that simplifies complex technical texts while retaining essential information.",
+        "user_prompt_template": "Simplify the following text to make it accessible to a broader audience, such as undergraduate students, while retaining key information.\n\nText:\n{text}"
+    }
+]
