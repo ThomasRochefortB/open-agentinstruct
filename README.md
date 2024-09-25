@@ -20,7 +20,6 @@ open-agentinstruct is a project aimed at recreating the AgentInstruct agentic wo
 - **Content Transformation**: Transforms text content using various agent configurations.
 - **Instruction Generation**: Generates instructions based on transformed content.
 - **Instruction Refinement**: Refines generated instructions to enhance complexity and challenge.
-- **Dataset Compilation**: Compiles refined instructions and responses into a dataset.
 
 ## Installation
 
