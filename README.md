@@ -1,7 +1,27 @@
-# open-agentinstruct
+# open-agentinstruct [WIP]
 
-An open-source recreation of the AgentInstruct agentic workflow.
+An open-source recreation of the [AgentInstruct](https://arxiv.org/pdf/2407.03502v1) agentic workflow. [WIP]
 
+Let's plan the implementation to recreate the results of the paper. They implement AgentInstruct flows for 17 capabilities. We will start with a subset of:
+- Reading comprehension
+
+
+
+### Which model will we support?
+The paper uses Mistral-7b and compares to Mistral-7b instruct. To limit the hardware requirements at the start, we will use:
+
+-  [Llama-3.2-1B](https://huggingface.co/meta-llama/Llama-3.2-1B) and compare to its [instruct version](https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct)
+
+
+### TO-DO:
+
+
+- [ ] Finetuning pipeline
+- [ ] Benchmarking pipeline. We should be able to evaluate the performance of the - instruct baseline on the selected benchmarks
+
+
+
+---
 ## Table of Contents
 
 - [Introduction](#introduction)
