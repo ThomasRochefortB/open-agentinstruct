@@ -1,5 +1,5 @@
 import openai
-from utils.text_extraction import parse_refined_instruction_answer
+from utils.text_extraction import parse_instruction_answer_pairs
 
 def refine_instructions(instruction_answer_pairs, max_rounds=2):
     refined_pairs = instruction_answer_pairs.copy()
@@ -65,7 +65,7 @@ def refine_instructions(instruction_answer_pairs, max_rounds=2):
             refined_output = response_editor.choices[0].message.content
 
             # Parse the refined instruction and answer
-            refined_pair = parse_refined_instruction_answer(refined_output)
+            refined_pair = parse_instruction_answer_pairs(refined_output)
             if refined_pair:
                 new_refined_pairs.append(refined_pair)
             else:

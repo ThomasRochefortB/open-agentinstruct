@@ -1,57 +1,43 @@
-from utils.text_extraction import parse_instruction_answer_pairs
+import json
 import openai
+from utils.text_extraction import parse_instruction_answer_pairs
 
-def generate_instructions(transformed_contents):
+
+def generate_instructions(transformed_contents, instruction_agents):
     instruction_answer_pairs = []
     for item in transformed_contents:
-        # Use LLM to generate instruction-answer pairs
-        system_prompt = "You are an expert educator in medicinal chemistry, skilled at creating diverse and challenging instructional tasks for graduate-level students, along with their answers."
-        
-        # Define an instruction taxonomy
-        instruction_taxonomy = """
-                                Instruction Types:
-                                1. Explanation tasks (e.g., "Explain the mechanism of...")
-                                2. Analysis tasks (e.g., "Analyze the following reaction for...")
-                                3. Problem-solving tasks (e.g., "Propose a synthetic route for...")
-                                4. Critical thinking tasks (e.g., "Discuss the implications of...")
-                                5. Comparison tasks (e.g., "Compare and contrast...")
-                                6. Application tasks (e.g., "Apply the following principles to...")
-                                7. Prediction tasks (e.g., "Predict the outcome of...")
+        for agent_config in instruction_agents:
+            # Extract prompts from the configuration
+            system_prompt = agent_config['system_prompt']
+            user_prompt_template = agent_config['user_prompt_template']
+            agent_name = agent_config['name']
 
-                                Please use this taxonomy to generate the instructions.
-                                """
-        user_prompt = f"""
-                        Based on the following content only, generate three diverse instruction-answer pairs that can be used to create problem-solving tasks for graduate-level students in medicinal chemistry. 
-                        Ensure that the instructions cover different instruction types from the provided taxonomy and encourage critical thinking.
-                        Ensure that the answer is derived directly from the provided content.
+            # Format the user prompt with the content
+            user_prompt = user_prompt_template.format(
+                text=item['content']
+            )
 
-                        For each pair, provide:
+            # Use OpenAI API to generate instruction-answer pairs
+            try:
+                response = openai.chat.completions.create(
+                    model="gpt-4o-mini",
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_prompt}
+                    ]
+                )
 
-                        Instruction:
-                        [The instruction]
+                generated_pairs = response.choices[0].message.content
 
-                        Answer:
-                        [The answer based on the content]
+                # Parse the generated instruction-answer pair
+                pairs = parse_instruction_answer_pairs(generated_pairs)
 
-                        Content:
-                        {item['content']}
+                # Optionally, add agent name to each pair for tracking
+                for pair in pairs:
+                    pair['agent'] = agent_name
 
-                        {instruction_taxonomy}
-
-                        Provide the instruction-answer pairs in the format specified.
-                        """
-
-        response = openai.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
-            ]
-        )
-
-        generated_pairs = response.choices[0].message.content
-
-        # Parse the generated instruction-answer pairs
-        pairs = parse_instruction_answer_pairs(generated_pairs)
-        instruction_answer_pairs.extend(pairs)
+                instruction_answer_pairs.extend(pairs)
+            except Exception as e:
+                print(f"Error generating instructions with {agent_name}: {e}")
+                continue
     return instruction_answer_pairs

@@ -1,19 +1,13 @@
 import re
 from io import StringIO
-from pdfminer.high_level import extract_text
 from pdfminer.pdfpage import PDFPage
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
 import pymupdf4llm
-
-import re
-from io import StringIO
-from pdfminer.pdfpage import PDFPage
-from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
-from pdfminer.converter import TextConverter
-from pdfminer.layout import LAParams
-import pymupdf4llm
+from unstructured.partition.pdf import partition_pdf
+from unstructured.chunking.title import chunk_by_title
+from datasets import load_dataset
 
 def extract_text_chunks_from_pdf(pdf_path, engine="pdfminer", use_images=False, pages=None):
     """
@@ -21,15 +15,15 @@ def extract_text_chunks_from_pdf(pdf_path, engine="pdfminer", use_images=False, 
     
     Args:
         pdf_path (str): Path to the PDF file.
-        engine (str): The engine to use for extraction. Options: 'pdfminer', 'pymupdf'.
+        engine (str): The engine to use for extraction. Options: 'pdfminer', 'pymupdf', 'unstructured'.
         use_images (bool): Whether to include images in markdown extraction for PyMuPDF.
         pages (list of int, optional): A list of page numbers to extract. Pages are 1-indexed.
         
     Returns:
-        List[str]: A list of text chunks (one per page).
+        List[str]: A list of text chunks (one per page or chunk).
     """
     text_chunks = []
-    
+
     if engine == "pdfminer":
         # PDFMiner extraction
         resource_manager = PDFResourceManager()
@@ -61,17 +55,35 @@ def extract_text_chunks_from_pdf(pdf_path, engine="pdfminer", use_images=False, 
         markdown_chunks = pymupdf4llm.to_markdown(pdf_path, page_chunks=True, write_images=use_images, pages=pages)
 
         for page_dict in markdown_chunks:
-            # Extract markdown text from the current page
+            # Extract the 'text' key which contains the main page content
             page_text = page_dict.get('text', '')
             page_text = re.sub(r'\s+', ' ', page_text)  # Optional: Clean up the text
             text_chunks.append(page_text)
 
+    elif engine == "unstructured":
+        # Unstructured extraction
+        elements = partition_pdf(
+            filename=pdf_path,
+            strategy="hi_res",  # Use high-resolution strategy
+            extract_images_in_pdf=False,
+            extract_image_block_types=["Image", "Table"],  # Optional: Include images and tables
+            extract_image_block_to_payload=False,
+            extract_image_block_output_dir="./",  # Optional: Specify where to save extracted images
+        )
+
+        # Chunking the extracted elements by title (uses a heuristic to create chunks based on document structure)
+        chunks = chunk_by_title(elements)
+
+        # Combine the chunk content into text format
+        for chunk in chunks:
+            chunk_text = str(chunk)  # Convert chunk content to string
+            chunk_text = re.sub(r'\s+', ' ', chunk_text)  # Clean up the text
+            text_chunks.append(chunk_text)
+
     else:
-        raise ValueError("Unsupported engine. Choose either 'pdfminer' or 'pymupdf'.")
+        raise ValueError("Unsupported engine. Choose either 'pdfminer', 'pymupdf', or 'unstructured'.")
 
     return text_chunks
-
-
 
 
 def parse_instruction_answer_pairs(text):
@@ -97,39 +109,37 @@ def parse_instruction_answer_pairs(text):
             elif capturing_answer:
                 answer += ' ' + line.strip()
 
-        if instruction and answer:
-            pairs.append({'instruction': instruction.strip(), 'answer': answer.strip()})
-            instruction = ''
-            answer = ''
-            capturing_instruction = False
-            capturing_answer = False
-
+    if instruction and answer:
+        pairs.append({'instruction': instruction.strip(), 'answer': answer.strip()})
     return pairs
 
 
-def parse_refined_instruction_answer(text):
-    refined_instruction = ''
-    refined_answer = ''
-    lines = text.strip().split('\n')
-    capturing_instruction = False
-    capturing_answer = False
+def extract_text_chunks_from_dataset(dataset_name, split='train', text_field='text', chunk_size=1000, dataset_kwargs={}, use_samples=False):
+    """
+    Loads a HuggingFace dataset and extracts text chunks or individual samples.
 
-    for line in lines:
-        if line.strip().startswith('Refined Instruction:'):
-            capturing_instruction = True
-            capturing_answer = False
-            refined_instruction = line.replace('Refined Instruction:', '').strip()
-        elif line.strip().startswith('Refined Answer:'):
-            capturing_instruction = False
-            capturing_answer = True
-            refined_answer = line.replace('Refined Answer:', '').strip()
-        else:
-            if capturing_instruction:
-                refined_instruction += ' ' + line.strip()
-            elif capturing_answer:
-                refined_answer += ' ' + line.strip()
+    Args:
+        dataset_name (str): Name of the dataset to load.
+        split (str): Which split to use ('train', 'validation', 'test'). Default is 'train'.
+        text_field (str): The field containing the text. Default is 'text'.
+        chunk_size (int): The number of characters per chunk when not using samples. Default is 1000.
+        dataset_kwargs (dict): Additional keyword arguments to pass to `load_dataset`.
+        use_samples (bool): If True, return individual text samples from the dataset. If False, concatenate text and split into chunks.
 
-    if refined_instruction and refined_answer:
-        return {'instruction': refined_instruction.strip(), 'answer': refined_answer.strip()}
+    Returns:
+        list: A list of text chunks or individual samples.
+    """
+    # Load the dataset
+    dataset = load_dataset(dataset_name, split=split, **dataset_kwargs)
+
+    if use_samples:
+        # Return individual text samples
+        text_contents = [item[text_field] for item in dataset if text_field in item]
+        return text_contents
     else:
-        return None
+        # Concatenate all the text fields into one large string
+        all_text = ' '.join([item[text_field] for item in dataset if text_field in item])
+
+        # Split the text into chunks
+        text_chunks = [all_text[i:i+chunk_size] for i in range(0, len(all_text), chunk_size)]
+        return text_chunks

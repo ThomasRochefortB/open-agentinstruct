@@ -4,6 +4,19 @@ An open-source recreation of the [AgentInstruct](https://arxiv.org/pdf/2407.0350
 
 Let's plan the implementation to recreate the results of the paper. They implement AgentInstruct flows for 17 capabilities. We will start with a subset of:
 - Reading comprehension
+- Multiple Choice Questions 
+
+What benchmarks will evaluate these:
+- [MMLU](https://huggingface.co/datasets/cais/mmlu) (multiple choice questions)
+- DROP (Reading comprehension)
+- MMLU-Pro (?Question mark)
+
+### Which dataset will serve as seed data?
+The paper uses:
+- [Knowledge Pile](https://huggingface.co/datasets/Query-of-CC/Knowledge_Pile)
+- [AutoMathText](https://huggingface.co/datasets/math-ai/AutoMathText)
+- subset of [openstax](https://huggingface.co/datasets/crumb/openstax-text)
+- subset Apache 2.0 from codeparrot/github-code-clean
 
 
 
