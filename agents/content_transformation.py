@@ -1,8 +1,12 @@
 import openai
 
-def content_transformation_flow(text, content_agents):
+def content_transformation_flow(text, content_agents, debug=False):
     transformed_contents = []
-    for config in content_agents:
+    
+    # Limit to one agent if debug mode is enabled
+    agents_to_use = content_agents[:1] if debug else content_agents
+    
+    for config in agents_to_use:
         agent_name = config['name']
         system_prompt = config['system_prompt']
         user_prompt_template = config['user_prompt_template']
@@ -43,3 +47,4 @@ def content_transformation_flow(text, content_agents):
             continue
 
     return transformed_contents
+

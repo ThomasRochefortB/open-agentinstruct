@@ -87,7 +87,6 @@ def extract_text_chunks_from_pdf(pdf_path, engine="pdfminer", use_images=False, 
 
 
 def parse_instruction_answer_pairs(text):
-    pairs = []
     lines = text.strip().split('\n')
     instruction = ''
     answer = ''
@@ -95,14 +94,16 @@ def parse_instruction_answer_pairs(text):
     capturing_answer = False
 
     for line in lines:
-        if line.strip().startswith('Instruction:'):
+        line = line.strip()
+        if line.startswith('Instruction:') or line.startswith('Refined Instruction:'):
             capturing_instruction = True
             capturing_answer = False
-            instruction = line.replace('Instruction:', '').strip()
-        elif line.strip().startswith('Answer:'):
+            # Remove both possible prefixes
+            instruction = line.split(':', 1)[1].strip()
+        elif line.startswith('Answer:') or line.startswith('Refined Answer:'):
             capturing_instruction = False
             capturing_answer = True
-            answer = line.replace('Answer:', '').strip()
+            answer = line.split(':', 1)[1].strip()
         else:
             if capturing_instruction:
                 instruction += ' ' + line.strip()
@@ -110,8 +111,52 @@ def parse_instruction_answer_pairs(text):
                 answer += ' ' + line.strip()
 
     if instruction and answer:
-        pairs.append({'instruction': instruction.strip(), 'answer': answer.strip()})
-    return pairs
+        return [{'instruction': instruction.strip(), 'answer': answer.strip()}]
+    else:
+        return []
+
+def parse_modified_triple(text):
+    lines = text.strip().split('\n')
+    modified_passage = ''
+    modified_question = ''
+    modified_answer = ''
+    capturing_passage = False
+    capturing_question = False
+    capturing_answer = False
+
+    for line in lines:
+        line = line.strip()
+        if line.startswith('Modified Passage:'):
+            capturing_passage = True
+            capturing_question = False
+            capturing_answer = False
+            modified_passage = line[len('Modified Passage:'):].strip()
+        elif line.startswith('Modified Question:'):
+            capturing_passage = False
+            capturing_question = True
+            capturing_answer = False
+            modified_question = line[len('Modified Question:'):].strip()
+        elif line.startswith('Modified Answer:'):
+            capturing_passage = False
+            capturing_question = False
+            capturing_answer = True
+            modified_answer = line[len('Modified Answer:'):].strip()
+        else:
+            if capturing_passage:
+                modified_passage += ' ' + line.strip()
+            elif capturing_question:
+                modified_question += ' ' + line.strip()
+            elif capturing_answer:
+                modified_answer += ' ' + line.strip()
+
+    if modified_passage and modified_question and modified_answer:
+        return {
+            'instruction': modified_question,
+            'answer': modified_answer,
+            'context': modified_passage
+        }
+    else:
+        return None
 
 
 def extract_text_chunks_from_dataset(dataset_name, split='train', text_field='text', chunk_size=1000, dataset_kwargs={}, use_samples=False):
