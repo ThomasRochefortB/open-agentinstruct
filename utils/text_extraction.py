@@ -8,6 +8,7 @@ import pymupdf4llm
 from unstructured.partition.pdf import partition_pdf
 from unstructured.chunking.title import chunk_by_title
 from datasets import load_dataset
+import re
 
 def extract_text_chunks_from_pdf(pdf_path, engine="pdfminer", use_images=False, pages=None):
     """
@@ -116,46 +117,27 @@ def parse_instruction_answer_pairs(text):
         return []
 
 def parse_modified_triple(text):
-    lines = text.strip().split('\n')
-    modified_passage = ''
-    modified_question = ''
-    modified_answer = ''
-    capturing_passage = False
-    capturing_question = False
-    capturing_answer = False
+    # Remove any markdown formatting (e.g., **, __)
+    text = re.sub(r'[*_]{1,2}', '', text)
 
-    for line in lines:
-        line = line.strip()
-        if line.startswith('Modified Passage:'):
-            capturing_passage = True
-            capturing_question = False
-            capturing_answer = False
-            modified_passage = line[len('Modified Passage:'):].strip()
-        elif line.startswith('Modified Question:'):
-            capturing_passage = False
-            capturing_question = True
-            capturing_answer = False
-            modified_question = line[len('Modified Question:'):].strip()
-        elif line.startswith('Modified Answer:'):
-            capturing_passage = False
-            capturing_question = False
-            capturing_answer = True
-            modified_answer = line[len('Modified Answer:'):].strip()
-        else:
-            if capturing_passage:
-                modified_passage += ' ' + line.strip()
-            elif capturing_question:
-                modified_question += ' ' + line.strip()
-            elif capturing_answer:
-                modified_answer += ' ' + line.strip()
+    # Normalize the text by removing extra whitespace
+    text = re.sub(r'\r\n', '\n', text)  # Replace carriage returns
+    text = re.sub(r'\n+', '\n', text).strip()  # Remove extra newlines
 
-    if modified_passage and modified_question and modified_answer:
+    # Use regular expressions to match labels with optional whitespace
+    pattern = r'Modified Passage:\s*(.*?)\nModified Question:\s*(.*?)\nModified Answer:\s*(.*)'
+    match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
+    if match:
+        modified_passage = match.group(1).strip()
+        modified_question = match.group(2).strip()
+        modified_answer = match.group(3).strip()
         return {
             'instruction': modified_question,
             'answer': modified_answer,
             'context': modified_passage
         }
     else:
+        print("Failed to parse using regex.")
         return None
 
 
