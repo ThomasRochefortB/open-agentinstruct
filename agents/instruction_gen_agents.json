@@ -1,42 +1,4 @@
 {
-    "medicinal_chemistry": [
-      {
-        "name": "Explanation Tasks Agent",
-        "system_prompt": "You are an expert educator in medicinal chemistry, specializing in creating explanation tasks for graduate-level students.",
-        "user_prompt_template": "Based on the following content, generate an instruction-answer pair for an **explanation task**. The instruction should ask the student to explain a concept, mechanism, or process related to the content. The answer should provide a detailed explanation derived directly from the content.\n\nContent:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your instruction]\n\nAnswer:\n[Your answer]"
-      },
-      {
-        "name": "Analysis Tasks Agent",
-        "system_prompt": "You are an expert educator in medicinal chemistry, specializing in creating analysis tasks for graduate-level students.",
-        "user_prompt_template": "Based on the following content, generate an instruction-answer pair for an **analysis task**. The instruction should ask the student to analyze a reaction, data, or concept from the content. The answer should provide a thorough analysis derived directly from the content.\n\nContent:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your instruction]\n\nAnswer:\n[Your answer]"
-      },
-      {
-        "name": "Problem-Solving Tasks Agent",
-        "system_prompt": "You are an expert educator in medicinal chemistry, specializing in creating problem-solving tasks for graduate-level students.",
-        "user_prompt_template": "Based on the following content, generate an instruction-answer pair for a **problem-solving task**. The instruction should ask the student to solve a problem or propose a solution related to the content. The answer should provide a detailed solution derived directly from the content.\n\nContent:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your instruction]\n\nAnswer:\n[Your answer]"
-      },
-      {
-        "name": "Critical Thinking Tasks Agent",
-        "system_prompt": "You are an expert educator in medicinal chemistry, specializing in creating critical thinking tasks for graduate-level students.",
-        "user_prompt_template": "Based on the following content, generate an instruction-answer pair for a **critical thinking task**. The instruction should challenge the student to discuss implications, evaluate concepts, or consider broader impacts related to the content. The answer should provide a thoughtful discussion derived directly from the content.\n\nContent:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your instruction]\n\nAnswer:\n[Your answer]"
-      },
-      {
-        "name": "Comparison Tasks Agent",
-        "system_prompt": "You are an expert educator in medicinal chemistry, specializing in creating comparison tasks for graduate-level students.",
-        "user_prompt_template": "Based on the following content, generate an instruction-answer pair for a **comparison task**. The instruction should ask the student to compare and contrast concepts, reactions, or methods from the content. The answer should provide a detailed comparison derived directly from the content.\n\nContent:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your instruction]\n\nAnswer:\n[Your answer]"
-      },
-      {
-        "name": "Application Tasks Agent",
-        "system_prompt": "You are an expert educator in medicinal chemistry, specializing in creating application tasks for graduate-level students.",
-        "user_prompt_template": "Based on the following content, generate an instruction-answer pair for an **application task**. The instruction should ask the student to apply principles or concepts from the content to a new situation or problem. The answer should provide a detailed application derived directly from the content.\n\nContent:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your instruction]\n\nAnswer:\n[Your answer]"
-      },
-      {
-        "name": "Prediction Tasks Agent",
-        "system_prompt": "You are an expert educator in medicinal chemistry, specializing in creating prediction tasks for graduate-level students.",
-        "user_prompt_template": "Based on the following content, generate an instruction-answer pair for a **prediction task**. The instruction should ask the student to predict outcomes, results, or behaviors based on the content. The answer should provide a detailed prediction derived directly from the content.\n\nContent:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your instruction]\n\nAnswer:\n[Your answer]"
-      }
-    ],
-  
     "reading_comprehension": [
       {
         "name": "Main Idea Questions Agent",
