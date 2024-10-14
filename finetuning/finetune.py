@@ -4,9 +4,12 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 import torch
+torch.backends.cuda.matmul.allow_tf32 = True
+torch.backends.cudnn.allow_tf32 = True
+
 from transformers import (
-    LlamaTokenizer,
-    LlamaForCausalLM,
+    AutoTokenizer,
+    AutoModelForCausalLM,
     Trainer,
     TrainingArguments,
     DataCollatorForLanguageModeling,
@@ -75,14 +78,14 @@ def main(model_name_or_path: str, train_files: List[str]):
     # Configuration
     # -------------------------------
     output_dir = "llama-finetuned-with-context"
-    per_device_train_batch_size = 2
-    per_device_eval_batch_size = 2
+    per_device_train_batch_size = 1
+    per_device_eval_batch_size = 1
     num_train_epochs = 3
     logging_steps = 100
     save_steps = 500
     eval_steps = 500
     learning_rate = 5e-5
-    max_seq_length = 2048  # Adjust based on GPU memory
+    max_seq_length = 256  # Adjust based on GPU memory
 
     # -------------------------------
     # Load Dataset
@@ -105,22 +108,46 @@ def main(model_name_or_path: str, train_files: List[str]):
     # Initialize Tokenizer
     # -------------------------------
     print("Loading tokenizer...")
-    tokenizer = LlamaTokenizer.from_pretrained(model_name_or_path)
+
+    tokenizer = AutoTokenizer.from_pretrained(model_name_or_path)
 
     # Add special tokens to the tokenizer
     additional_special_tokens = list(SPECIAL_TOKENS.values())
     tokenizer.add_special_tokens({'additional_special_tokens': additional_special_tokens})
 
+    # Set the pad_token to your defined padding token
+    tokenizer.pad_token = SPECIAL_TOKENS["finetune_right_pad_id"]
+
+    # -------------------------------
+    # Initialize Model
+    # -------------------------------
+    print("Loading model...")
+    model = AutoModelForCausalLM.from_pretrained(
+        model_name_or_path,
+        load_in_8bit=False,  # Set to True if using bitsandbytes for 8-bit training
+        # torch_dtype=torch.float16,
+        device_map="auto",
+    )
+
+    # Resize token embeddings to accommodate new special tokens
+    model.resize_token_embeddings(len(tokenizer))
+
+    # Set the pad_token_id in the model's configuration
+    model.config.pad_token_id = tokenizer.pad_token_id
+
     # -------------------------------
     # Tokenize Dataset
     # -------------------------------
     def tokenize_function(examples):
-        return tokenizer(
+        tokenized = tokenizer(
             examples["text"],
             padding="max_length",
             truncation=True,
             max_length=max_seq_length,
+            return_attention_mask=True,
         )
+        tokenized["labels"] = tokenized["input_ids"].copy()
+        return tokenized
 
     print("Tokenizing dataset...")
     tokenized_datasets = tokenized_datasets.map(
@@ -129,19 +156,9 @@ def main(model_name_or_path: str, train_files: List[str]):
         remove_columns=["text"],
     )
 
-    # -------------------------------
-    # Initialize Model
-    # -------------------------------
-    print("Loading model...")
-    model = LlamaForCausalLM.from_pretrained(
-        model_name_or_path,
-        load_in_8bit=False,  # Set to True if using bitsandbytes for 8-bit training
-        torch_dtype=torch.float16,
-        device_map="auto",
-    )
-
-    # Resize token embeddings to accommodate new special tokens
-    model.resize_token_embeddings(len(tokenizer))
+    # Verify tokenized dataset
+    print("Columns after tokenization:", tokenized_datasets.column_names)
+    print("Example tokenized data:", tokenized_datasets[0])
 
     # -------------------------------
     # Data Collator
@@ -165,9 +182,13 @@ def main(model_name_or_path: str, train_files: List[str]):
         save_steps=save_steps,
         evaluation_strategy="steps",
         eval_steps=eval_steps,
+        gradient_accumulation_steps=4,
+        optim="adafactor",
+        gradient_checkpointing=True,
         save_total_limit=2,
-        fp16=True,  # Enable mixed precision
+        tf32=True,  # Enable mixed precision
         push_to_hub=False,  # Set to True if you want to push to Hugging Face Hub
+        remove_unused_columns=False,  # Temporarily set to False
     )
 
     # -------------------------------
@@ -198,5 +219,5 @@ def main(model_name_or_path: str, train_files: List[str]):
 
 if __name__ == "__main__":
     model_name_or_path = "meta-llama/Llama-3.2-1B"  # Replace with your LLaMA model path or Hugging Face model ID
-    train_files = ["data/train1.jsonl", "data/train2.jsonl"]  # List of paths to your training data JSON files
+    train_files = ["reading_comprehension.json"]  # List of paths to your training data JSON files
     main(model_name_or_path, train_files)
