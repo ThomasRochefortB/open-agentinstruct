@@ -6,10 +6,14 @@ from agents.instruction_refinement import refine_instructions
 from agents.content_transformation import content_transformation_flow
 from utils.agent_utils import load_agent_configs
 from utils.text_extraction import extract_text_chunks_from_dataset
+from dotenv import load_dotenv
 import nest_asyncio
 nest_asyncio.apply()
 
-chosen_task = 'multiple_choice_question'
+# Load environment variables
+load_dotenv()
+
+chosen_task = 'reading_comprehension'
 async def process_chunk(chunk_index, text, content_agents, instruction_agents, debug, semaphore):
     async with semaphore:
         print(f"Processing chunk {chunk_index + 1}...")
