@@ -1,7 +1,7 @@
 import os
 import json
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 import torch
 from transformers import (
@@ -11,7 +11,7 @@ from transformers import (
     TrainingArguments,
     DataCollatorForLanguageModeling,
 )
-from datasets import load_dataset, Dataset
+from datasets import load_dataset, Dataset, concatenate_datasets
 
 # -------------------------------
 # Define Special Tokens
@@ -35,11 +35,14 @@ ROLES = ["system", "user", "assistant", "ipython"]
 # Load and Preprocess Dataset
 # -------------------------------
 
-def load_jsonl_dataset(file_path: str) -> Dataset:
+def load_jsonl_dataset(file_paths: List[str]) -> Dataset:
     """
-    Load a JSONL file into a Hugging Face Dataset.
+    Load one or more JSONL files into a Hugging Face Dataset.
     """
-    return load_dataset("json", data_files=file_path)["train"]
+    datasets = []
+    for file_path in file_paths:
+        datasets.append(load_dataset("json", data_files=file_path)["train"])
+    return concatenate_datasets(datasets)
 
 def preprocess_function(examples: Dict[str, Any]) -> Dict[str, Any]:
     """
@@ -67,12 +70,10 @@ def preprocess_function(examples: Dict[str, Any]) -> Dict[str, Any]:
 # Main Fine-Tuning Function
 # -------------------------------
 
-def main():
+def main(model_name_or_path: str, train_files: List[str]):
     # -------------------------------
     # Configuration
     # -------------------------------
-    model_name_or_path = "meta-llama/Llama-3.2-1B"  # Replace with your LLaMA model path or Hugging Face model ID
-    train_file = "data/train.jsonl"  # Path to your training data
     output_dir = "llama-finetuned-with-context"
     per_device_train_batch_size = 2
     per_device_eval_batch_size = 2
@@ -87,7 +88,7 @@ def main():
     # Load Dataset
     # -------------------------------
     print("Loading dataset...")
-    raw_datasets = load_jsonl_dataset(train_file)
+    raw_datasets = load_jsonl_dataset(train_files)
     print(f"Number of training examples: {len(raw_datasets)}")
 
     # -------------------------------
@@ -196,4 +197,6 @@ def main():
     print("Training complete and model saved.")
 
 if __name__ == "__main__":
-    main()
+    model_name_or_path = "meta-llama/Llama-3.2-1B"  # Replace with your LLaMA model path or Hugging Face model ID
+    train_files = ["data/train1.jsonl", "data/train2.jsonl"]  # List of paths to your training data JSON files
+    main(model_name_or_path, train_files)
