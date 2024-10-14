@@ -76,7 +76,7 @@ Provide your suggestions as a numbered list.
     # Step 2: Editor Agent modifies the content based on suggestions
     system_prompt_editor = "You are an expert editor specializing in applying modifications to educational content based on provided suggestions."
     user_prompt_editor = f"""
-Using the suggestions below, modify the (passage, question, answer) triple to achieve the goal. Ensure the modified content is coherent and accurate.
+Using the suggestions below, modify the (passage, question, answer) triple to achieve the goal. Ensure the modified content is coherent and accurate and that it follows the original format.
 
 Original Passage:
 {context}

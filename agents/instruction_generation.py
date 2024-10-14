@@ -25,6 +25,7 @@ def generate_instructions(transformed_contents, instruction_agents, debug=False)
             try:
                 response = openai.chat.completions.create(
                     model="gpt-4o-mini",
+                    temperature=0.0,
                     messages=[
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": user_prompt}
