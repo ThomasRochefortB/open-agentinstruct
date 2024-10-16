@@ -120,10 +120,9 @@ Modified Answer:
 
 
 
-async def async_chat_completion(system_prompt, user_prompt, model="gpt-4o-mini", max_retries=3):
+async def async_chat_completion(system_prompt, user_prompt, model="gpt-4o-mini", max_retries=10):
     client = AsyncOpenAI()
-    semaphore = asyncio.Semaphore(10)  # Adjust the number based on your rate limit
-
+    semaphore = asyncio.Semaphore(5)  # Adjust the number based on your rate limit
     async with semaphore:
         for attempt in range(max_retries):
             try:
@@ -138,7 +137,7 @@ async def async_chat_completion(system_prompt, user_prompt, model="gpt-4o-mini",
                 )
                 content = response.choices[0].message.content
                 return content.strip()
-            except openai.error.RateLimitError:
+            except openai.RateLimitError as e:
                 wait_time = (2 ** attempt) * 1  # Exponential backoff
                 print(f"Rate limit exceeded. Retrying in {wait_time} seconds...")
                 await asyncio.sleep(wait_time)
