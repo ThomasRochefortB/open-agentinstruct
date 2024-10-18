@@ -128,9 +128,11 @@ async def main():
     # Start the writer coroutine
     writer_task = asyncio.create_task(writer(queue))
 
-    # Create processing tasks
+    # Create processing tasks as asyncio Tasks
     tasks = [
-        process_chunk(index, text, content_agents, instruction_agents, debug, semaphore, queue)
+        asyncio.create_task(
+            process_chunk(index, text, content_agents, instruction_agents, debug, semaphore, queue)
+        )
         for index, text in tasks_to_create
     ]
 
@@ -138,7 +140,8 @@ async def main():
     def shutdown():
         print("Received stop signal. Cancelling tasks...")
         for task in tasks:
-            task.cancel()
+            if not task.done():
+                task.cancel()
         asyncio.create_task(queue.put(None))  # Signal writer to terminate
 
     loop = asyncio.get_running_loop()
