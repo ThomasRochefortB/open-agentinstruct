@@ -75,10 +75,9 @@ The paper uses Mistral-7b and compares to Mistral-7b instruct. To limit the hard
 
 ## Usage
 
-1. Place your PDF file in the `data/` directory
-2. Run the main script:
+1. Run the main script:
     ```sh
-    python gen_data.py
+    python gen_data.py --task-name "reading_comprehension" --dataset-name "<hf_dataset_path>"
     ```
 
 ## Project Structure
