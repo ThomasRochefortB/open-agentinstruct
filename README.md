@@ -31,6 +31,9 @@ The paper uses Mistral-7b and compares to Mistral-7b instruct. To limit the hard
 |      DROP     |      3      |         f1         |       28.0       |            N/A            |       45.2       |               |
 
 
+### To-Do:
+[] Implement LiteLLM for multi-provider LLM sourcing
+
 ---
 ## Table of Contents
 
