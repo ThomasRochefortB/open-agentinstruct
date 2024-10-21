@@ -10,6 +10,8 @@ from utils.text_extraction import extract_text_chunks_from_dataset
 from dotenv import load_dotenv
 import nest_asyncio
 import signal
+from agents.async_chat import async_chat_completion  # Import the function
+from functools import partial
 
 nest_asyncio.apply()
 
@@ -18,6 +20,12 @@ load_dotenv()
 
 # Parse command-line arguments
 parser = argparse.ArgumentParser(description="Process dataset with specified task.")
+parser.add_argument(
+    "--model",
+    type=str,
+    default="gpt-4o-mini",  # Default model
+    help="The model to use for LLM completions."
+)
 parser.add_argument(
     "--dataset-name",
     type=str,
@@ -37,6 +45,10 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
+# Create a partial function with the model set
+from functools import partial
+async_chat_with_model = partial(async_chat_completion, model=args.model)
+
 # Define file paths
 os.makedirs("./data/generated_data", exist_ok=True)  # Ensure the generated data folder exists
 os.makedirs(".cache", exist_ok=True)  # Ensure the .cache folder exists
@@ -45,14 +57,15 @@ os.makedirs(".cache", exist_ok=True)  # Ensure the .cache folder exists
 DATA_FILE = f'./data/generated_data/{args.task_name}.jsonl'
 PROGRESS_FILE = f'.cache/{args.task_name}_{args.dataset_name.replace("/", "_")}_progress.json'
 
-async def process_chunk(chunk_index, text, content_agents, instruction_agents, debug, semaphore, queue):
+async def process_chunk(chunk_index, text, content_agents, instruction_agents, debug, semaphore, queue, async_chat_completion):
     async with semaphore:
         print(f"Processing chunk {chunk_index + 1}...")
 
         try:
-            transformed_contents = await content_transformation_flow(text, content_agents, debug)
-            instruction_answer_pairs = await generate_instructions(transformed_contents, instruction_agents, debug)
-            refined_pairs = await refine_instructions(instruction_answer_pairs, max_rounds=2)
+            # Pass async_chat_completion to the agent functions
+            transformed_contents = await content_transformation_flow(text, content_agents, async_chat_completion, debug)
+            instruction_answer_pairs = await generate_instructions(transformed_contents, instruction_agents, async_chat_completion, debug)
+            refined_pairs = await refine_instructions(instruction_answer_pairs, async_chat_completion, max_rounds=2)
 
             await queue.put(refined_pairs)
             await queue.put({'processed_chunk': chunk_index})
@@ -91,7 +104,7 @@ async def writer(queue):
         progress_f.write(json.dumps(list(processed_chunks)))
         progress_f.flush()
 
-async def main():
+async def main(async_chat_completion):
     content_agents, instruction_agents = load_agent_configs(args.task_name)
 
     text_chunks = extract_text_chunks_from_dataset(
@@ -131,7 +144,7 @@ async def main():
     writer_task = asyncio.create_task(writer(queue))
     tasks = [
         asyncio.create_task(
-            process_chunk(index, text, content_agents, instruction_agents, args.debug, semaphore, queue)
+            process_chunk(index, text, content_agents, instruction_agents, args.debug, semaphore, queue, async_chat_completion)
         )
         for index, text in tasks_to_create
     ]
@@ -158,4 +171,4 @@ async def main():
     print(f"{args.task_name.capitalize()} task processing complete!")
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    asyncio.run(main(async_chat_with_model))

@@ -4,17 +4,19 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 import torch
-torch.backends.cuda.matmul.allow_tf32 = True
-torch.backends.cudnn.allow_tf32 = True
+# torch.backends.cuda.matmul.allow_tf32 = True
+# torch.backends.cudnn.allow_tf32 = True
 
 from transformers import (
     AutoTokenizer,
-    AutoModelForCausalLM,
+    LlamaForCausalLM,
     Trainer,
     TrainingArguments,
-    DataCollatorForLanguageModeling,
+    DataCollatorForLanguageModeling
 )
+from trl import DataCollatorForCompletionOnlyLM, SFTTrainer
 from datasets import load_dataset, Dataset, concatenate_datasets
+from peft import LoraConfig, prepare_model_for_kbit_training, get_peft_model
 
 # -------------------------------
 # Define Special Tokens
@@ -31,146 +33,134 @@ SPECIAL_TOKENS = {
     "python_tag": "<|python_tag|>",
 }
 
-# Define Roles
-ROLES = ["system", "user", "assistant", "ipython"]
+# -------------------------------
+# Prompt Templates
+# -------------------------------
+
+def preprocess_function(examples: Dict[str, Any], prompt_template: str) -> Dict[str, Any]:
+    inputs = []
+    for i in range(len(examples["instruction"])):
+        if prompt_template == "instruct":
+            prompt = instruct_prompt(
+                examples["instruction"][i],
+                examples["context"][i],
+                examples["answer"][i]
+            )
+        else:
+            prompt = base_model_prompt(
+                examples["instruction"][i],
+                examples["context"][i],
+                examples["answer"][i]
+            )
+        inputs.append(prompt)
+    return {"text": inputs}
+
+def instruct_prompt(instruction: str, context: str, answer: str) -> str:
+    return (
+        f"{SPECIAL_TOKENS['begin_of_text']}"
+        f"{SPECIAL_TOKENS['start_header_id']}system{SPECIAL_TOKENS['end_header_id']}\n\n"
+        f"You are a helpful assistant.\n"
+        f"{SPECIAL_TOKENS['eot_id']}"
+        f"{SPECIAL_TOKENS['start_header_id']}user{SPECIAL_TOKENS['end_header_id']}\n\n"
+        f"Instruction: {instruction}\n\n"
+        f"Context: {context}\n"
+        f"{SPECIAL_TOKENS['eot_id']}"
+        f"{SPECIAL_TOKENS['start_header_id']}assistant{SPECIAL_TOKENS['end_header_id']}\n"
+        f"{answer}\n"
+        f"{SPECIAL_TOKENS['eot_id']}"
+    )
+
+def base_model_prompt(instruction: str, context: str, answer: str) -> str:
+    return f"Instruction: {instruction}\n\nContext: {context}\n\nAnswer: {answer}"
 
 # -------------------------------
 # Load and Preprocess Dataset
 # -------------------------------
 
 def load_jsonl_dataset(file_paths: List[str]) -> Dataset:
-    """
-    Load one or more JSONL files into a Hugging Face Dataset.
-    """
-    datasets = []
-    for file_path in file_paths:
-        datasets.append(load_dataset("json", data_files=file_path)["train"])
+    datasets = [load_dataset("json", data_files=file_path)["train"] for file_path in file_paths]
     return concatenate_datasets(datasets)
-
-def preprocess_function(examples: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    Convert instruction-context-answer pairs into the desired prompt format.
-    """
-    inputs = []
-    for instruction, context, answer in zip(examples["instruction"], examples["context"], examples["answer"]):
-        prompt = (
-            f"{SPECIAL_TOKENS['begin_of_text']}"
-            f"{SPECIAL_TOKENS['start_header_id']}system{SPECIAL_TOKENS['end_header_id']}\n\n"
-            f"You are a helpful assistant.\n"
-            f"{SPECIAL_TOKENS['eot_id']}"
-            f"{SPECIAL_TOKENS['start_header_id']}user{SPECIAL_TOKENS['end_header_id']}\n\n"
-            f"Instruction: {instruction}\n\n"
-            f"Context: {context}\n"
-            f"{SPECIAL_TOKENS['eot_id']}"
-            f"{SPECIAL_TOKENS['start_header_id']}assistant{SPECIAL_TOKENS['end_header_id']}\n"
-            f"{answer}\n"
-            f"{SPECIAL_TOKENS['eot_id']}"
-        )
-        inputs.append(prompt)
-    return {"text": inputs}
 
 # -------------------------------
 # Main Fine-Tuning Function
 # -------------------------------
 
-def main(model_name_or_path: str, train_files: List[str]):
-    # -------------------------------
-    # Configuration
-    # -------------------------------
-    output_dir = "llama-finetuned-with-context"
-    per_device_train_batch_size = 1
-    per_device_eval_batch_size = 1
-    num_train_epochs = 3
-    logging_steps = 100
-    save_steps = 500
-    eval_steps = 500
-    learning_rate = 5e-5
-    max_seq_length = 256  # Adjust based on GPU memory
+def freeze_model_except_last_layers(model, num_layers_to_train: int = 2):
+    """
+    Freezes all model parameters except the last few Transformer layers and the lm_head.
+    """
+    # Freeze all layers initially
+    for param in model.parameters():
+        param.requires_grad = False
 
-    # -------------------------------
-    # Load Dataset
-    # -------------------------------
+    # Unfreeze the last few transformer layers
+    for layer in model.model.layers[-num_layers_to_train:]:
+        for param in layer.parameters():
+            param.requires_grad = True
+
+    # Ensure the final lm_head is trainable (for causal language modeling tasks)
+    for param in model.lm_head.parameters():
+        param.requires_grad = True
+
+    print(f"Only the last {num_layers_to_train} transformer layers and lm_head are trainable.")
+
+def main(model_name_or_path: str, train_files: List[str], prompt_template: str):
+    output_dir = "llama-finetuned-with-context"
+    per_device_train_batch_size = 2
+    per_device_eval_batch_size = 2
+    num_train_epochs = 1
+    learning_rate = 2e-8
+    max_seq_length = 2048
+
     print("Loading dataset...")
     raw_datasets = load_jsonl_dataset(train_files)
-    print(f"Number of training examples: {len(raw_datasets)}")
+    split_datasets = raw_datasets.train_test_split(test_size=0.1, seed=42)
+    train_dataset = split_datasets["train"]
+    val_dataset = split_datasets["test"]
 
-    # -------------------------------
-    # Preprocess Dataset
-    # -------------------------------
-    print("Preprocessing dataset...")
-    tokenized_datasets = raw_datasets.map(
-        preprocess_function,
-        batched=True,
-        remove_columns=raw_datasets.column_names,
+    print("Preprocessing datasets...")
+    tokenized_train_dataset = train_dataset.map(
+        lambda examples: preprocess_function(examples, prompt_template),
+        batched=True, remove_columns=train_dataset.column_names
+    )
+    tokenized_val_dataset = val_dataset.map(
+        lambda examples: preprocess_function(examples, prompt_template),
+        batched=True, remove_columns=val_dataset.column_names
     )
 
-    # -------------------------------
-    # Initialize Tokenizer
-    # -------------------------------
     print("Loading tokenizer...")
-
     tokenizer = AutoTokenizer.from_pretrained(model_name_or_path)
+    if not tokenizer.pad_token_id:
+        tokenizer.pad_token_id = tokenizer.eos_token_id
 
-    # Add special tokens to the tokenizer
-    additional_special_tokens = list(SPECIAL_TOKENS.values())
-    tokenizer.add_special_tokens({'additional_special_tokens': additional_special_tokens})
-
-    # Set the pad_token to your defined padding token
-    tokenizer.pad_token = SPECIAL_TOKENS["finetune_right_pad_id"]
-
-    # -------------------------------
-    # Initialize Model
-    # -------------------------------
     print("Loading model...")
-    model = AutoModelForCausalLM.from_pretrained(
+    model = LlamaForCausalLM.from_pretrained(
         model_name_or_path,
-        load_in_8bit=False,  # Set to True if using bitsandbytes for 8-bit training
-        # torch_dtype=torch.float16,
+        load_in_8bit=False,
+        torch_dtype=torch.bfloat16,
         device_map="auto",
     )
 
-    # Resize token embeddings to accommodate new special tokens
-    model.resize_token_embeddings(len(tokenizer))
+    # Freeze all layers except the last few and the lm_head
+    # freeze_model_except_last_layers(model, num_layers_to_train=2)
 
-    # Set the pad_token_id in the model's configuration
-    model.config.pad_token_id = tokenizer.pad_token_id
-
-    # -------------------------------
-    # Tokenize Dataset
-    # -------------------------------
     def tokenize_function(examples):
         tokenized = tokenizer(
-            examples["text"],
-            padding="max_length",
-            truncation=True,
-            max_length=max_seq_length,
-            return_attention_mask=True,
+            examples["text"], padding="max_length", truncation=True,
+            max_length=max_seq_length, return_attention_mask=True
         )
         tokenized["labels"] = tokenized["input_ids"].copy()
         return tokenized
 
-    print("Tokenizing dataset...")
-    tokenized_datasets = tokenized_datasets.map(
-        tokenize_function,
-        batched=True,
-        remove_columns=["text"],
+    tokenized_train_dataset = tokenized_train_dataset.map(
+        tokenize_function, batched=True, remove_columns=["text"]
+    )
+    tokenized_val_dataset = tokenized_val_dataset.map(
+        tokenize_function, batched=True, remove_columns=["text"]
     )
 
-    # Verify tokenized dataset
-    print("Columns after tokenization:", tokenized_datasets.column_names)
-    print("Example tokenized data:", tokenized_datasets[0])
+    data_collator = DataCollatorForCompletionOnlyLM("Answer:", tokenizer=tokenizer)
 
-    # -------------------------------
-    # Data Collator
-    # -------------------------------
-    data_collator = DataCollatorForLanguageModeling(
-        tokenizer=tokenizer,
-        mlm=False,
-    )
-
-    # -------------------------------
-    # Training Arguments
-    # -------------------------------
     training_args = TrainingArguments(
         output_dir=output_dir,
         overwrite_output_dir=True,
@@ -178,46 +168,45 @@ def main(model_name_or_path: str, train_files: List[str]):
         per_device_train_batch_size=per_device_train_batch_size,
         per_device_eval_batch_size=per_device_eval_batch_size,
         learning_rate=learning_rate,
-        logging_steps=logging_steps,
-        save_steps=save_steps,
+        logging_steps=10,
+        save_steps=500,
         evaluation_strategy="steps",
-        eval_steps=eval_steps,
-        gradient_accumulation_steps=4,
+        eval_steps=500,
+        gradient_accumulation_steps=8,
+        remove_unused_columns=True,
         optim="adafactor",
-        gradient_checkpointing=True,
+        warmup_ratio=0.05,
+        max_grad_norm=0.3,
         save_total_limit=2,
-        tf32=True,  # Enable mixed precision
-        push_to_hub=False,  # Set to True if you want to push to Hugging Face Hub
-        remove_unused_columns=False,  # Temporarily set to False
+        bf16=True,
+        tf32=True,
+        weight_decay=0.1,
+        lr_scheduler_type="constant",
+        seed=42,
     )
 
-    # -------------------------------
-    # Initialize Trainer
-    # -------------------------------
     trainer = Trainer(
         model=model,
         args=training_args,
-        train_dataset=tokenized_datasets,
-        eval_dataset=None,  # Add eval_dataset if you have one
+        train_dataset=tokenized_train_dataset,
+        eval_dataset=tokenized_val_dataset,
         tokenizer=tokenizer,
         data_collator=data_collator,
     )
 
-    # -------------------------------
-    # Start Training
-    # -------------------------------
     print("Starting training...")
     trainer.train()
 
-    # -------------------------------
-    # Save Model
-    # -------------------------------
     print("Saving model...")
     trainer.save_model(output_dir)
     tokenizer.save_pretrained(output_dir)
     print("Training complete and model saved.")
 
 if __name__ == "__main__":
-    model_name_or_path = "meta-llama/Llama-3.2-1B"  # Replace with your LLaMA model path or Hugging Face model ID
-    train_files = ["reading_comprehension.json"]  # List of paths to your training data JSON files
-    main(model_name_or_path, train_files)
+    model_name_or_path = "meta-llama/Llama-3.2-1B"
+    train_files = ["data/generated_data/multiple_choice_question.jsonl", 
+                   "data/generated_data/reading_comprehension.jsonl"]
+    prompt_template = "base_model"
+
+    main(model_name_or_path, train_files, prompt_template)
+
