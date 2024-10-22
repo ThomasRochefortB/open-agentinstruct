@@ -4,8 +4,8 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 import torch
-# torch.backends.cuda.matmul.allow_tf32 = True
-# torch.backends.cudnn.allow_tf32 = True
+torch.backends.cuda.matmul.allow_tf32 = True
+torch.backends.cudnn.allow_tf32 = True
 
 from transformers import (
     AutoTokenizer,
@@ -109,11 +109,15 @@ def main(model_name_or_path: str, train_files: List[str], prompt_template: str):
     per_device_train_batch_size = 2
     per_device_eval_batch_size = 2
     num_train_epochs = 1
-    learning_rate = 2e-8
+    learning_rate = 8e-6
     max_seq_length = 2048
 
     print("Loading dataset...")
     raw_datasets = load_jsonl_dataset(train_files)
+
+    #Only use 50% of the dataset:
+    # raw_datasets = raw_datasets.select(range(len(raw_datasets)//2))
+
     split_datasets = raw_datasets.train_test_split(test_size=0.1, seed=42)
     train_dataset = split_datasets["train"]
     val_dataset = split_datasets["test"]
@@ -168,12 +172,12 @@ def main(model_name_or_path: str, train_files: List[str], prompt_template: str):
         per_device_train_batch_size=per_device_train_batch_size,
         per_device_eval_batch_size=per_device_eval_batch_size,
         learning_rate=learning_rate,
-        logging_steps=10,
+        logging_steps=50,
         save_steps=500,
         evaluation_strategy="steps",
         eval_steps=500,
-        gradient_accumulation_steps=8,
-        remove_unused_columns=True,
+        gradient_accumulation_steps=2,
+        # remove_unused_columns=True,
         optim="adafactor",
         warmup_ratio=0.05,
         max_grad_norm=0.3,
@@ -181,7 +185,7 @@ def main(model_name_or_path: str, train_files: List[str], prompt_template: str):
         bf16=True,
         tf32=True,
         weight_decay=0.1,
-        lr_scheduler_type="constant",
+        lr_scheduler_type="cosine",
         seed=42,
     )
 
@@ -204,8 +208,9 @@ def main(model_name_or_path: str, train_files: List[str], prompt_template: str):
 
 if __name__ == "__main__":
     model_name_or_path = "meta-llama/Llama-3.2-1B"
-    train_files = ["data/generated_data/multiple_choice_question.jsonl", 
-                   "data/generated_data/reading_comprehension.jsonl"]
+    train_files = ["data/generated_data/filtered_multiple_choice_question.jsonl", 
+                   "data/generated_data/reading_comprehension.jsonl",
+                   "data/generated_data/text_modification.jsonl"]
     prompt_template = "base_model"
 
     main(model_name_or_path, train_files, prompt_template)
