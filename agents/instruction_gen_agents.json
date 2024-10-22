@@ -128,6 +128,150 @@
         "system_prompt": "You are an expert in generating multiple-choice questions (MCQs) that require critical analysis and evaluation of arguments. **You must generate only multiple-choice questions with four options: one correct answer and three plausible distractors. Do not generate any other type of question.** **Ensure that in the 'Answer' section, only the correct option letter is provided, without any additional text.**",
         "user_prompt_template": "Based on the following text, create a **multiple-choice question** for a Critical Analysis topic. The question should ask the reader to evaluate an argument or claim presented in the passage and identify the most accurate critique or analysis. Provide four options labeled A) through D), with one correct answer and three distractors reflecting common analysis errors. **If you cannot create a multiple-choice question based on the text, state 'Cannot generate a multiple-choice question based on the provided text.' Do not provide any additional content.** Make sure your output strictly adheres to the format below, and that the question is a multiple-choice question.\n\n**Important:** In the 'Answer' section, provide only the letter corresponding to the correct option (A, B, C, or D). Do not include any additional text.\n\n**Examples:**\n\nExample 1:\n```\nInstruction:\nBased on the argument that exercise improves mental health, which of the following is a valid critique?\n\nChoices:\nA) Exercise has no physical benefits\nB) The argument ignores other factors affecting mental health\nC) Everyone exercises regularly\nD) Mental health does not impact overall well-being\n\nAnswer:\nB\n```\n\nExample 2:\n```\nInstruction:\nIf a study concludes that all students who study daily get high grades, what is a critical analysis of this conclusion?\n\nChoices:\nA) Studying daily guarantees high grades\nB) High grades are only due to intelligence\nC) The study may not account for other variables like teaching quality\nD) Grades do not reflect knowledge\n\nAnswer:\nC\n```\n\nExample 3:\n```\nInstruction:\nAn advertisement claims that their product is the best because it is the most popular. What logical fallacy does this argument contain?\n\nChoices:\nA) Straw man\nB) Bandwagon\nC) Red herring\nD) Slippery slope\n\nAnswer:\nB\n```\n\n**Text:**\n{text}\n\n**Remember to double-check that your question is a multiple-choice question and that the 'Answer' section contains only the correct option letter before you output it.**\n\n**Output Format:**\n```\nInstruction:\n[Your multiple-choice question here]\n\nChoices:\nA) [Option A]\nB) [Option B]\nC) [Option C]\nD) [Option D]\n\nAnswer:\n[Correct option letter]\n```"
       }
-    ]
+    ],
+    "text_modification": [
+      {
+        "name": "Paraphrasing Agent",
+        "system_prompt": "You are an expert editor specializing in creating paraphrasing tasks for text modification exercises.",
+        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **paraphrasing task**. The instruction should ask the reader to rewrite the text using different words and structures while maintaining the original meaning. Provide the correct answer as the paraphrased version of the text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your paraphrasing instruction]\n\nAnswer:\n[Paraphrased text]"
+      },
+      {
+        "name": "Text Simplification Agent",
+        "system_prompt": "You are an expert editor specializing in creating text simplification tasks for text modification exercises.",
+        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **text simplification task**. The instruction should ask the reader to simplify the text to make it easier to read and understand, using simpler words and sentence structures. Provide the correct answer as the simplified version of the text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your simplification instruction]\n\nAnswer:\n[Simplified text]"
+      },
+      {
+        "name": "Text Expansion Agent",
+        "system_prompt": "You are an expert editor specializing in creating text expansion tasks for text modification exercises.",
+        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **text expansion task**. The instruction should ask the reader to add more information or details to make the text more comprehensive or to meet a certain word count. Provide the correct answer as the expanded version of the text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your expansion instruction]\n\nAnswer:\n[Expanded text]"
+      },
+      {
+        "name": "Text Translation Agent",
+        "system_prompt": "You are an expert linguist specializing in creating text translation tasks for text modification exercises.",
+        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **text translation task**. The instruction should ask the reader to translate the text from one language to another. Specify the source and target languages in the instruction. Provide the correct answer as the translated text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your translation instruction]\n\nAnswer:\n[Translated text]"
+      },
+      {
+        "name": "Text Formatting Agent",
+        "system_prompt": "You are an expert editor specializing in creating text formatting tasks for text modification exercises.",
+        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **text formatting task**. The instruction should ask the reader to alter the appearance of the text to improve readability or for stylistic purposes, such as applying bullet points, headings, or bolding key terms. Provide the correct answer as the formatted text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your formatting instruction]\n\nAnswer:\n[Formatted text]"
+      },
+      {
+        "name": "Sentiment Modification Agent",
+        "system_prompt": "You are an expert editor specializing in creating sentiment modification tasks for text modification exercises.",
+        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **sentiment modification task**. The instruction should ask the reader to change the tone of the text to alter its emotional impact, such as making it more positive, negative, or neutral. Specify the desired sentiment in the instruction. Provide the correct answer as the sentiment-modified text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your sentiment modification instruction]\n\nAnswer:\n[Modified text]"
+      },
+      {
+        "name": "Text Annotation Agent",
+        "system_prompt": "You are an expert editor specializing in creating text annotation tasks for text modification exercises.",
+        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **text annotation task**. The instruction should ask the reader to add notes, comments, or explanations to the text to provide additional context or analysis. Provide the correct answer as the annotated text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your annotation instruction]\n\nAnswer:\n[Annotated text]"
+      },
+      {
+        "name": "Keyword Replacement Agent",
+        "system_prompt": "You are an expert editor specializing in creating keyword replacement tasks for text modification exercises.",
+        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **keyword replacement task**. The instruction should ask the reader to substitute specific words or phrases with synonyms or related terms. Specify the words to be replaced in the instruction. Provide the correct answer as the modified text with keywords replaced.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your keyword replacement instruction]\n\nAnswer:\n[Modified text]"
+      },
+      {
+        "name": "Text Removal Agent",
+        "system_prompt": "You are an expert editor specializing in creating text removal tasks for text modification exercises.",
+        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **text removal task**. The instruction should ask the reader to redact or remove specific content from the text, such as personal information or unnecessary details. Specify the content to be removed in the instruction. Provide the correct answer as the text with the specified content removed.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your removal instruction]\n\nAnswer:\n[Modified text]"
+      },
+      {
+        "name": "Text Capitalization Agent",
+        "system_prompt": "You are an expert editor specializing in creating text capitalization tasks for text modification exercises.",
+        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **text capitalization task**. The instruction should ask the reader to adjust the case of letters in the text, such as converting it to uppercase, lowercase, title case, or sentence case. Provide the correct answer as the text with adjusted capitalization.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your capitalization instruction]\n\nAnswer:\n[Modified text]"
+      },
+      {
+        "name": "Text Styling Agent",
+        "system_prompt": "You are an expert editor specializing in creating text styling tasks for text modification exercises.",
+        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **text styling task**. The instruction should ask the reader to apply styles like bold, italics, or underline to emphasize certain parts of the text or for aesthetic purposes. Specify which parts to style in the instruction. Provide the correct answer as the styled text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your styling instruction]\n\nAnswer:\n[Styled text]"
+      },
+      {
+        "name": "Content Rewriting Agent",
+        "system_prompt": "You are an expert editor specializing in creating content rewriting tasks for text modification exercises.",
+        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **content rewriting task**. The instruction should ask the reader to extensively modify the text to produce a new version, which could involve changing the perspective, style, or target audience. Specify the desired changes in the instruction. Provide the correct answer as the rewritten text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your rewriting instruction]\n\nAnswer:\n[Rewritten text]"
+      },
+      {
+        "name": "Data Normalization Agent",
+        "system_prompt": "You are an expert editor specializing in creating data normalization tasks for text modification exercises.",
+        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **data normalization task**. The instruction should ask the reader to standardize the text to ensure consistency, such as converting dates and times to a standard format or unifying the spelling of words. Specify what needs to be normalized in the instruction. Provide the correct answer as the normalized text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your normalization instruction]\n\nAnswer:\n[Normalized text]"
+      },
+      {
+        "name": "Plagiarism Rewording Agent",
+        "system_prompt": "You are an expert editor specializing in creating plagiarism rewording tasks for text modification exercises.",
+        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **plagiarism rewording task**. The instruction should ask the reader to alter the text to avoid plagiarism, ensuring that the content is original while maintaining the same meaning. Provide the correct answer as the reworded text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your rewording instruction]\n\nAnswer:\n[Reworded text]"
+      },
+      {
+        "name": "Code Switching Agent",
+        "system_prompt": "You are an expert editor specializing in creating code-switching tasks for text modification exercises.",
+        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **code-switching task**. The instruction should ask the reader to alternate between specified languages or dialects within the text, often to reflect bilingual speakers' patterns or for creative writing. Specify the languages or dialects in the instruction. Provide the correct answer as the code-switched text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your code-switching instruction]\n\nAnswer:\n[Code-switched text]"
+      },
+      {
+        "name": "Text Obfuscation Agent",
+        "system_prompt": "You are an expert editor specializing in creating text obfuscation tasks for text modification exercises.",
+        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **text obfuscation task**. The instruction should ask the reader to intentionally make the text vague or harder to understand, sometimes for security purposes like masking personal data. Provide the correct answer as the obfuscated text.\n\nText:\n{text}\n\n**Important:** Ensure that the obfuscated text does not reveal any sensitive information and complies with ethical guidelines.\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your obfuscation instruction]\n\nAnswer:\n[Obfuscated text]"
+      },
+      {
+        "name": "Textual Entailment Agent",
+        "system_prompt": "You are an expert editor specializing in creating textual entailment tasks for text modification exercises.",
+        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **textual entailment task**. The instruction should ask the reader to create a sentence that either entails (is logically supported by) or contradicts the original text. Specify whether to create an entailment or contradiction in the instruction. Provide the correct answer as the entailed or contradictory sentence.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your entailment or contradiction instruction]\n\nAnswer:\n[Entailed or contradictory sentence]"
+      },
+      {
+        "name": "Vocabulary Limitation Rewriting Agent",
+        "system_prompt": "You are an expert editor specializing in creating rewriting tasks with vocabulary limitations for text modification exercises.",
+        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **vocabulary limitation rewriting task**. The instruction should ask the reader to rewrite the text while using a limited vocabulary, such as all words starting with a certain letter, each sentence starting with a vowel, or avoiding certain words. Specify the vocabulary limitation in the instruction. Provide the correct answer as the rewritten text adhering to the limitation.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your vocabulary limitation instruction]\n\nAnswer:\n[Rewritten text]"
+      }
+    ],
+    "analytical_reasoning": [
+    {
+      "name": "Sequencing Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating sequencing questions for analytical reasoning exercises.",
+      "user_prompt_template": "Based on the following scenario, generate an instruction-answer pair for a **sequencing question**. The instruction should present the problem and ask the reader to determine the correct order of items based on the given constraints. Provide the correct answer, showing the sequence derived from the constraints.\n\nScenario:\n{scenario}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your sequencing question]\n\nAnswer:\n[The correct sequence]"
+    },
+    {
+      "name": "Grouping Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating grouping questions for analytical reasoning exercises.",
+      "user_prompt_template": "Based on the following scenario, generate an instruction-answer pair for a **grouping question**. The instruction should ask the reader to assign items to groups based on the provided constraints. Provide the correct answer, detailing the grouping that satisfies all conditions.\n\nScenario:\n{scenario}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your grouping question]\n\nAnswer:\n[The correct grouping]"
+    },
+    {
+      "name": "Deduction Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating deduction questions for analytical reasoning exercises.",
+      "user_prompt_template": "Using the following scenario, generate an instruction-answer pair for a **deduction question**. The instruction should ask the reader to draw logical conclusions from the given information and constraints. Provide the correct answer, explaining the reasoning process.\n\nScenario:\n{scenario}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your deduction question]\n\nAnswer:\n[Logical conclusion with explanation]"
+    },
+    {
+      "name": "Logical Inference Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating logical inference questions for analytical reasoning exercises.",
+      "user_prompt_template": "Based on the following scenario, generate an instruction-answer pair for a **logical inference question**. The instruction should require the reader to infer information that is not explicitly stated but is implied by the given data and constraints. Provide the correct answer, including the inference and a brief justification.\n\nScenario:\n{scenario}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your logical inference question]\n\nAnswer:\n[Inferred information with justification]"
+    },
+    {
+      "name": "Constraint Satisfaction Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating constraint satisfaction questions for analytical reasoning exercises.",
+      "user_prompt_template": "Using the following scenario, generate an instruction-answer pair for a **constraint satisfaction question**. The instruction should ask the reader to find a solution that meets all the specified constraints. Provide the correct answer, detailing the solution that satisfies all conditions.\n\nScenario:\n{scenario}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your constraint satisfaction question]\n\nAnswer:\n[Solution meeting all constraints]"
+    },
+    {
+      "name": "Pattern Recognition Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating pattern recognition questions for analytical reasoning exercises.",
+      "user_prompt_template": "Based on the following scenario, generate an instruction-answer pair for a **pattern recognition question**. The instruction should ask the reader to identify patterns or trends within the data provided. Provide the correct answer, explaining the pattern identified.\n\nScenario:\n{scenario}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your pattern recognition question]\n\nAnswer:\n[Identified pattern with explanation]"
+    },
+    {
+      "name": "Analogy Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating analogy questions for analytical reasoning exercises.",
+      "user_prompt_template": "Using the following scenario, generate an instruction-answer pair for an **analogy question**. The instruction should ask the reader to determine relationships between pairs of items based on analogical reasoning. Provide the correct answer, explaining the analogy.\n\nScenario:\n{scenario}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your analogy question]\n\nAnswer:\n[Correct analogy with explanation]"
+    },
+    {
+      "name": "Syllogism Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating syllogism questions for analytical reasoning exercises.",
+      "user_prompt_template": "Based on the following scenario, generate an instruction-answer pair for a **syllogism question**. The instruction should present premises and ask the reader to determine the validity of a conclusion based on those premises. Provide the correct answer, stating whether the conclusion is valid or invalid, with an explanation.\n\nScenario:\n{scenario}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your syllogism question]\n\nAnswer:\n[Valid/Invalid with explanation]"
+    },
+    {
+      "name": "Assumption Identification Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating assumption identification questions for analytical reasoning exercises.",
+      "user_prompt_template": "Using the following scenario, generate an instruction-answer pair for an **assumption identification question**. The instruction should ask the reader to identify underlying assumptions necessary for a conclusion to be true. Provide the correct answer, stating the assumption(s) with a brief explanation.\n\nScenario:\n{scenario}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your assumption identification question]\n\nAnswer:\n[Assumption(s) with explanation]"
+    },
+    {
+      "name": "Evaluation of Arguments Agent",
+      "system_prompt": "You are an expert educator specializing in creating argument evaluation questions for analytical reasoning exercises.",
+      "user_prompt_template": "Based on the following scenario, generate an instruction-answer pair for an **evaluation of arguments question**. The instruction should ask the reader to assess the strength or weakness of an argument presented. Provide the correct answer, including the evaluation and supporting reasons.\n\nScenario:\n{scenario}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your argument evaluation question]\n\nAnswer:\n[Evaluation with supporting reasons]"
+    }
+  ]
   }
   
