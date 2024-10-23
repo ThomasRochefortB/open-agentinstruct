@@ -10,10 +10,11 @@ from utils.text_extraction import parse_instruction_answer_pairs
 from openai import AsyncOpenAI  # Ensure this is installed or use the right async client
 import random
 
+
 async def process_with_instruction_agent(agent_config, context, async_chat_completion):
-    agent_name = agent_config['name']
-    system_prompt = agent_config['system_prompt']
-    user_prompt_template = agent_config['user_prompt_template']
+    agent_name = agent_config["name"]
+    system_prompt = agent_config["system_prompt"]
+    user_prompt_template = agent_config["user_prompt_template"]
 
     # Format the user prompt with the context
     user_prompt = user_prompt_template.format(text=context)
@@ -21,10 +22,9 @@ async def process_with_instruction_agent(agent_config, context, async_chat_compl
     try:
         # Use the async chat completion function
         generated_pairs = await async_chat_completion(
-            system_prompt=system_prompt,
-            user_prompt=user_prompt
+            system_prompt=system_prompt, user_prompt=user_prompt
         )
-        
+
         if not generated_pairs:
             print(f"No instruction-answer pair found for agent {agent_name}.")
             return []
@@ -38,8 +38,8 @@ async def process_with_instruction_agent(agent_config, context, async_chat_compl
 
         # Add agent name and context to each pair
         for pair in pairs:
-            pair['agent'] = agent_name
-            pair['context'] = context  # Add the context from the original content
+            pair["agent"] = agent_name
+            pair["context"] = context  # Add the context from the original content
 
         return pairs
 
@@ -48,18 +48,24 @@ async def process_with_instruction_agent(agent_config, context, async_chat_compl
         return []
 
 
-async def generate_instructions(transformed_contents, instruction_agents, async_chat_completion, debug=False):
+async def generate_instructions(
+    transformed_contents, instruction_agents, async_chat_completion, debug=False
+):
     instruction_answer_pairs = []
-    
+
     # Limit to one agent if debug mode is enabled
     if debug:
         agents_to_use = instruction_agents[:1]
     else:
-        agents_to_use = random.sample(instruction_agents, min(3, len(instruction_agents)))
+        agents_to_use = random.sample(
+            instruction_agents, min(3, len(instruction_agents))
+        )
 
     # Create a list of asyncio tasks for each transformed content and agent
     tasks = [
-        process_with_instruction_agent(agent_config, item['content'], async_chat_completion)
+        process_with_instruction_agent(
+            agent_config, item["content"], async_chat_completion
+        )
         for item in transformed_contents
         for agent_config in agents_to_use
     ]

@@ -4,6 +4,7 @@ import sys
 from pathlib import Path
 from typing import List
 
+
 def extract_answer_letter(answer: str) -> str:
     """
     Extract the letter-based answer or raise a ValueError if not found.
@@ -15,9 +16,10 @@ def extract_answer_letter(answer: str) -> str:
     else:
         raise ValueError("No valid letter-based answer found.")
 
+
 def filter_and_extract_answers(input_file: str, output_file: str) -> None:
     """
-    Read a .jsonl file, filter and extract valid answers, 
+    Read a .jsonl file, filter and extract valid answers,
     and write to a new .jsonl file with only the letter as the answer.
 
     Parameters:
@@ -27,7 +29,7 @@ def filter_and_extract_answers(input_file: str, output_file: str) -> None:
     valid_samples = []
 
     # Read and process the dataset
-    with open(input_file, 'r', encoding='utf-8') as f:
+    with open(input_file, "r", encoding="utf-8") as f:
         for line in f:
             sample = json.loads(line)
             try:
@@ -40,11 +42,14 @@ def filter_and_extract_answers(input_file: str, output_file: str) -> None:
                 pass  # Skip samples without a valid letter-based answer
 
     # Write the filtered dataset to a new .jsonl file
-    with open(output_file, 'w', encoding='utf-8') as f:
+    with open(output_file, "w", encoding="utf-8") as f:
         for sample in valid_samples:
-            f.write(json.dumps(sample) + '\n')
+            f.write(json.dumps(sample) + "\n")
 
-    print(f"Filtered dataset saved to {output_file} with {len(valid_samples)} valid samples.")
+    print(
+        f"Filtered dataset saved to {output_file} with {len(valid_samples)} valid samples."
+    )
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:

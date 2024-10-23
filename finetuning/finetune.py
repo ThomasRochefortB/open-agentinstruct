@@ -3,6 +3,7 @@ import json
 from typing import Any, Dict, List
 
 import torch
+
 torch.backends.cuda.matmul.allow_tf32 = True
 torch.backends.cudnn.allow_tf32 = True
 
@@ -19,21 +20,29 @@ from datasets import load_dataset, Dataset, concatenate_datasets
 # Preprocess Function
 # -------------------------------
 
-def preprocess_function(examples: Dict[str, Any], tokenizer: AutoTokenizer) -> Dict[str, Any]:
+
+def preprocess_function(
+    examples: Dict[str, Any], tokenizer: AutoTokenizer
+) -> Dict[str, Any]:
     """Preprocess the dataset examples using chat template or default formatting."""
     inputs = [
-        apply_chat_template_if_available(tokenizer, {
-            "instruction": examples["instruction"][i],
-            "context": examples["context"][i],
-            "answer": examples["answer"][i],
-        })[0]
+        apply_chat_template_if_available(
+            tokenizer,
+            {
+                "instruction": examples["instruction"][i],
+                "context": examples["context"][i],
+                "answer": examples["answer"][i],
+            },
+        )[0]
         for i in range(len(examples["instruction"]))
     ]
     return {"text": inputs}
 
+
 # -------------------------------
 # Chat Template Helper
 # -------------------------------
+
 
 def apply_chat_template_if_available(
     tokenizer: AutoTokenizer, examples: Dict[str, Any]
@@ -43,7 +52,10 @@ def apply_chat_template_if_available(
         try:
             messages = [
                 {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": f"{examples['context']}\n{examples['instruction']}"},
+                {
+                    "role": "user",
+                    "content": f"{examples['context']}\n{examples['instruction']}",
+                },
                 {"role": "assistant", "content": examples["answer"]},
             ]
             tokenized_chat = tokenizer.apply_chat_template(
@@ -51,7 +63,9 @@ def apply_chat_template_if_available(
             )
             return tokenized_chat
         except Exception as e:
-            print(f"Error applying chat template: {e}. Falling back to default formatting.")
+            print(
+                f"Error applying chat template: {e}. Falling back to default formatting."
+            )
 
     # Fallback to default formatting: Context first, then instruction.
     return [
@@ -59,17 +73,24 @@ def apply_chat_template_if_available(
         f"Instruction: {examples['instruction']}\n\n"
         f"Answer: {examples['answer']}"
     ]
+
+
 # -------------------------------
 # Load and Preprocess Dataset
 # -------------------------------
 
+
 def load_jsonl_dataset(file_paths: List[str]) -> Dataset:
-    datasets = [load_dataset("json", data_files=file_path)["train"] for file_path in file_paths]
+    datasets = [
+        load_dataset("json", data_files=file_path)["train"] for file_path in file_paths
+    ]
     return concatenate_datasets(datasets)
+
 
 # -------------------------------
 # Main Fine-Tuning Function
 # -------------------------------
+
 
 def main(args):
     print("Loading tokenizer...")
@@ -87,11 +108,13 @@ def main(args):
     print("Preprocessing datasets...")
     tokenized_train_dataset = train_dataset.map(
         lambda examples: preprocess_function(examples, tokenizer),
-        batched=True, remove_columns=train_dataset.column_names
+        batched=True,
+        remove_columns=train_dataset.column_names,
     )
     tokenized_val_dataset = val_dataset.map(
         lambda examples: preprocess_function(examples, tokenizer),
-        batched=True, remove_columns=val_dataset.column_names
+        batched=True,
+        remove_columns=val_dataset.column_names,
     )
 
     print("Loading model...")
@@ -102,8 +125,11 @@ def main(args):
 
     def tokenize_function(examples):
         tokenized = tokenizer(
-            examples["text"], padding="max_length", truncation=True,
-            max_length=args.max_seq_length, return_attention_mask=True
+            examples["text"],
+            padding="max_length",
+            truncation=True,
+            max_length=args.max_seq_length,
+            return_attention_mask=True,
         )
         tokenized["labels"] = tokenized["input_ids"].copy()
         return tokenized
@@ -119,8 +145,10 @@ def main(args):
 
     print("Preparing training arguments...")
     # Parse any extra training arguments passed via CLI
-    extra_training_args = json.loads(args.training_kwargs) if args.training_kwargs else {}
-    
+    extra_training_args = (
+        json.loads(args.training_kwargs) if args.training_kwargs else {}
+    )
+
     # Initialize TrainingArguments with defaults and any extra arguments
     training_args = TrainingArguments(
         output_dir="finetuned_models",
@@ -162,16 +190,35 @@ def main(args):
     tokenizer.save_pretrained(args.output_dir)
     print("Training complete and model saved.")
 
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Fine-tune a HF model with custom datasets.")
-    parser.add_argument("--model_name_or_path", type=str, default="HuggingFaceTB/SmolLM-135M", 
-                        help="Path to the pre-trained model or model identifier from huggingface.co.")
-    parser.add_argument("--train_files", nargs='+', required=True, 
-                        help="List of paths to JSONL training files.")
-    parser.add_argument("--max_seq_length", type=int, default=2048, 
-                        help="Maximum sequence length for tokenization.")
-    parser.add_argument("--training_kwargs", type=str, default="{}", 
-                        help="Additional TrainingArguments as a JSON string.")
+    parser = argparse.ArgumentParser(
+        description="Fine-tune a HF model with custom datasets."
+    )
+    parser.add_argument(
+        "--model_name_or_path",
+        type=str,
+        default="HuggingFaceTB/SmolLM-135M",
+        help="Path to the pre-trained model or model identifier from huggingface.co.",
+    )
+    parser.add_argument(
+        "--train_files",
+        nargs="+",
+        required=True,
+        help="List of paths to JSONL training files.",
+    )
+    parser.add_argument(
+        "--max_seq_length",
+        type=int,
+        default=2048,
+        help="Maximum sequence length for tokenization.",
+    )
+    parser.add_argument(
+        "--training_kwargs",
+        type=str,
+        default="{}",
+        help="Additional TrainingArguments as a JSON string.",
+    )
 
     args = parser.parse_args()
     main(args)

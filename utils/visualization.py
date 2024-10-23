@@ -1,6 +1,7 @@
 import json
 import textwrap
 
+
 def visualize_dataset(dataset_path, num_samples=5, start_index=0, wrap_width=80):
     """
     Visualizes samples from the medicinal chemistry dataset.
@@ -16,7 +17,7 @@ def visualize_dataset(dataset_path, num_samples=5, start_index=0, wrap_width=80)
     """
     # Load the dataset
     try:
-        with open(dataset_path, 'r') as f:
+        with open(dataset_path, "r") as f:
             dataset = json.load(f)
     except FileNotFoundError:
         print(f"Dataset file not found at {dataset_path}")
@@ -32,12 +33,14 @@ def visualize_dataset(dataset_path, num_samples=5, start_index=0, wrap_width=80)
         print("Start index is beyond the dataset size.")
         return
 
-    print(f"Displaying samples {start_index + 1} to {end_index} out of {total_samples}:\n")
+    print(
+        f"Displaying samples {start_index + 1} to {end_index} out of {total_samples}:\n"
+    )
 
     for idx in range(start_index, end_index):
         sample = dataset[idx]
-        instruction = sample.get('instruction', 'No instruction provided.')
-        response = sample.get('response', 'No response provided.')
+        instruction = sample.get("instruction", "No instruction provided.")
+        response = sample.get("response", "No response provided.")
 
         print(f"Sample {idx + 1}:\n")
         print("Instruction:")
