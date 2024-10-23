@@ -8,7 +8,6 @@ import pymupdf4llm
 from unstructured.partition.pdf import partition_pdf
 from unstructured.chunking.title import chunk_by_title
 from datasets import load_dataset
-import re
 
 
 def extract_text_chunks_from_pdf(

@@ -1,7 +1,5 @@
 import asyncio
-import openai
 from utils.text_extraction import parse_modified_triple
-from openai import AsyncOpenAI
 
 
 async def refine_instructions(

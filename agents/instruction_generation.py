@@ -1,13 +1,5 @@
-import json
-import openai
 import asyncio
 from utils.text_extraction import parse_instruction_answer_pairs
-from openai import AsyncOpenAI
-
-import json
-import asyncio
-from utils.text_extraction import parse_instruction_answer_pairs
-from openai import AsyncOpenAI  # Ensure this is installed or use the right async client
 import random
 
 

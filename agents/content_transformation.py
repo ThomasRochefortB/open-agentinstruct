@@ -1,6 +1,4 @@
-import openai
 import asyncio
-from openai import AsyncOpenAI  # Ensure this is installed or use the right async client
 import random
 
 

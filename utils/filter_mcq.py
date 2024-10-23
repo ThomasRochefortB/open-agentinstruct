@@ -2,7 +2,6 @@ import re
 import json
 import sys
 from pathlib import Path
-from typing import List
 
 
 def extract_answer_letter(answer: str) -> str:

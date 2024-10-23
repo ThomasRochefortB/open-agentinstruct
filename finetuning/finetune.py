@@ -1,12 +1,7 @@
 import argparse
 import json
 from typing import Any, Dict, List
-
 import torch
-
-torch.backends.cuda.matmul.allow_tf32 = True
-torch.backends.cudnn.allow_tf32 = True
-
 from transformers import (
     AutoTokenizer,
     AutoModelForCausalLM,
@@ -16,6 +11,8 @@ from transformers import (
 from trl import DataCollatorForCompletionOnlyLM
 from datasets import load_dataset, Dataset, concatenate_datasets
 
+torch.backends.cuda.matmul.allow_tf32 = True
+torch.backends.cudnn.allow_tf32 = True
 # -------------------------------
 # Preprocess Function
 # -------------------------------
