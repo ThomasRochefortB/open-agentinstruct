@@ -2,6 +2,21 @@
 
 An open-source recreation of the [AgentInstruct](https://arxiv.org/pdf/2407.03502v1) agentic workflow.
 
+`open-agentinstruct` is a project aimed at recreating the AgentInstruct agentic workflow. It supports any LiteLLM model to be used in the agentic synthetic data generation worflow. The AgentInstruct workflow involves three agentic step for synthetic data generation based on "seed" data:
+- **Content Transformation**: Transforms text content using various agent configurations.
+- **Instruction Generation**: Generates instructions based on transformed content.
+- **Instruction Refinement**: Refines generated instructions to enhance complexity and challenge.
+
+## Table of Contents
+- [Supported tasks](#supported-tasks)
+- [Supported seed datasets](#supported-seed-datasets)
+- [Introduction](#introduction)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [License](#license)
+
 ## Supported tasks
 The AgentInstruct paper implements the following tasks which are not all implemented yet in open-agentinstruct:
 |            **AgentInstruct Task name**           | **Open-AgentInstruct** |
@@ -53,25 +68,10 @@ The paper uses Mistral-7b and compares to Mistral-7b instruct. To limit the hard
 
  -->
 
----
-## Table of Contents
 
-- [Introduction](#introduction)
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [License](#license)
-
-## Introduction
-
-`open-agentinstruct` is a project aimed at recreating the AgentInstruct agentic workflow. It supports any LiteLLM model to be used in the agentic synthetic data generation worflow.
 
 ## Features
-
-- **Content Transformation**: Transforms text content using various agent configurations.
-- **Instruction Generation**: Generates instructions based on transformed content.
-- **Instruction Refinement**: Refines generated instructions to enhance complexity and challenge.
+- LiteLLM compatible LLMs
 - Finetuning pipeline for llama3 
 
 ## Installation
@@ -88,11 +88,14 @@ The paper uses Mistral-7b and compares to Mistral-7b instruct. To limit the hard
     micromamba activate open-agentinstruct
     ```
 
-3. Set up your OpenAI API key:
+3. Set up your API keys necessary to use the desired LiteLLM model:
     - Create a `.env` file in the root directory.
-    - Add your OpenAI API key to the `.env` file:
+    - Add your API key to the `.env` file:
         ```
         OPENAI_API_KEY=your_openai_api_key
+        COHERE_API_KEY=your_cohere_api_key
+        ANTHROPIC_API_KEY=your_anthropic_key
+        ...
         ```
 4. Benchmarking requires the [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) library. To install please [follow this](https://github.com/EleutherAI/lm-evaluation-harness?tab=readme-ov-file#install).
 
@@ -102,14 +105,31 @@ The paper uses Mistral-7b and compares to Mistral-7b instruct. To limit the hard
     ```sh
     python gen_data.py --task-name "reading_comprehension" --dataset-name "<hf_dataset_path>"
     ```
+2. Train a model on the generated dataset:
+    ```sh
+    python finetuning/finetune.py 
+    ```
+3. Benchmark your finetuned model:
+    ```sh
+   lm_eval --model hf \
+    --model_args pretrained=HuggingFaceTB/SmolLM-135M \
+    --tasks mmlu \
+    --num_fewshot 5 \
+    --device cuda:0 \
+    --batch_size auto \
+    --output_path results
+    ```
 
 ## Project Structure
 
 The main script to generate datasets using the open-agentinstruct workflow is in `gen_data.py`
 
-The agents/  folder holds:
-- Prompts for content_transformation and instruction_generation agents
-- Code for content_transformation, instruction_generation and instruction_refinement
+The `agents/`  folder holds: 
+- `content_gen_agents.json` : The prompts defining the content transformation agents for the various tasks
+- `instruction_gen_agents.json` : The prompts defining the instruction generation agents for the various tasks
+- `content_transformation.py` : The code for the content transformation agent 
+- `instruction_generation.py` : The code for the instruction generation agent
+- `instruction_refinement.py` : The code for the instruction refinement agent
 
 The benchmarks/ folder holds:
 - The bash script using 
