@@ -1,17 +1,18 @@
-# open-agentinstruct [WIP]
+# open-agentinstruct
 
 An open-source recreation of the [AgentInstruct](https://arxiv.org/pdf/2407.03502v1) agentic workflow.
 
-The AgentInstruct paper implements the following tasks:
-|            **Task name**           | **Open-AgentInstructed** |
+## Supported tasks
+The AgentInstruct paper implements the following tasks which are not all implemented yet in open-agentinstruct:
+|            **AgentInstruct Task name**           | **Open-AgentInstruct** |
 |:----------------------------------:|:------------------------:|
 | **Reading Comprehension**          |             :heavy_check_mark:             |
 | **Open Domain Question Answering** |                          |
-| **Text Modification**              |                          |
+| **Text Modification**              |             :heavy_check_mark:              |
 | **Web Agent**                      |                          |
 | **Brain Teaser**                   |                          |
-| **Analytical Reasoning**           |                          |
-| **Multiple Choice Questions**      |                          |
+| **Analytical Reasoning**           |                :heavy_check_mark:           |
+| **Multiple Choice Questions**      |              :heavy_check_mark:             |
 | **Data To Text**                   |                          |
 | **Fermi**                          |                          |
 | **Coding**                         |                          |
@@ -23,31 +24,34 @@ The AgentInstruct paper implements the following tasks:
 | **Few Shot Reasoning**             |                          |
 | **Conversation**                   |                          |
 
-What benchmarks will evaluate these:
+<!-- What benchmarks will evaluate these:
 - [MMLU](https://huggingface.co/datasets/cais/mmlu) (Multiple choice questions)
-- [DROP](https://huggingface.co/datasets/ucinlp/drop) (Reading comprehension)
+- [DROP](https://huggingface.co/datasets/ucinlp/drop) (Reading comprehension) -->
 
-### Which datasets will serve as seed data?
-The paper uses:
-- [Knowledge Pile](https://huggingface.co/datasets/Query-of-CC/Knowledge_Pile)
-- [AutoMathText](https://huggingface.co/datasets/math-ai/AutoMathText)
-- subset of [openstax](https://huggingface.co/datasets/crumb/openstax-text)
-- subset Apache 2.0 from [codeparrot/github-code-clean](https://huggingface.co/datasets/codeparrot/github-code-clean)
+## Supported seed datasets
+- Any HF datasets:
+    - The AgentInstruct uses the following:
+        - [Knowledge Pile](https://huggingface.co/datasets/Query-of-CC/Knowledge_Pile)
+        - [AutoMathText](https://huggingface.co/datasets/math-ai/AutoMathText)
+        - subset of [openstax](https://huggingface.co/datasets/crumb/openstax-text)
+        - subset Apache 2.0 from [codeparrot/github-code-clean](https://huggingface.co/datasets/codeparrot/github-code-clean)
+- Any set of user-defined set of seed `.pdf`s
 
 
 
-### Which model will we support?
+
+<!-- ### Which model will we support?
 The paper uses Mistral-7b and compares to Mistral-7b instruct. To limit the hardware requirements at the start, we will use:
 
--  [Llama-3.2-1B](https://huggingface.co/meta-llama/Llama-3.2-1B) and compare to its [instruct version](https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct)
+-  [Llama-3.2-1B](https://huggingface.co/meta-llama/Llama-3.2-1B) and compare to its [instruct version](https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct) -->
 
-### Current results:
+<!-- ### Current results:
 | **Benchmark** | **# shots** |     **Metric**     | **LLama 3.2 1B** | **Llama 3.2 1B-Instruct** | **Llama 3.2 3B** | **OpenOrca3** |
 |:-------------:|:-----------:|:------------------:|:----------------:|:-------------------------:|:----------------:|:-------------:|
 |      MMLU     |      5      | macro_avg/acc_char |       32.2       |            49.3           |       58.0       |               |
 |      DROP     |      3      |         f1         |       28.0       |            N/A            |       45.2       |               |
 
-
+ -->
 
 ---
 ## Table of Contents
@@ -61,13 +65,14 @@ The paper uses Mistral-7b and compares to Mistral-7b instruct. To limit the hard
 
 ## Introduction
 
-`open-agentinstruct` is a project aimed at recreating the AgentInstruct agentic workflow. It leverages OpenAI's GPT models to process and transform text, generate and refine instructions, and compile datasets.
+`open-agentinstruct` is a project aimed at recreating the AgentInstruct agentic workflow. It supports any LiteLLM model to be used in the agentic synthetic data generation worflow.
 
 ## Features
 
 - **Content Transformation**: Transforms text content using various agent configurations.
 - **Instruction Generation**: Generates instructions based on transformed content.
 - **Instruction Refinement**: Refines generated instructions to enhance complexity and challenge.
+- Finetuning pipeline for llama3 
 
 ## Installation
 
