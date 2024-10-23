@@ -1,10 +1,27 @@
 # open-agentinstruct [WIP]
 
-An open-source recreation of the [AgentInstruct](https://arxiv.org/pdf/2407.03502v1) agentic workflow. [WIP]
+An open-source recreation of the [AgentInstruct](https://arxiv.org/pdf/2407.03502v1) agentic workflow.
 
-Let's plan the implementation to recreate the results of the paper. They implement AgentInstruct flows for 17 capabilities. We will start by supporting only:
-- Reading comprehension
-- Multiple Choice Questions 
+The AgentInstruct paper implements the following tasks:
+|            **Task name**           | **Open-AgentInstructed** |
+|:----------------------------------:|:------------------------:|
+| **Reading Comprehension**          |             :heavy_check_mark:             |
+| **Open Domain Question Answering** |                          |
+| **Text Modification**              |                          |
+| **Web Agent**                      |                          |
+| **Brain Teaser**                   |                          |
+| **Analytical Reasoning**           |                          |
+| **Multiple Choice Questions**      |                          |
+| **Data To Text**                   |                          |
+| **Fermi**                          |                          |
+| **Coding**                         |                          |
+| **Text Extraction**                |                          |
+| **Text Classification**            |                          |
+| **Retrieval Augmented Generation** |                          |
+| **Tool Use**                       |                          |
+| **Creative Content Generation**    |                          |
+| **Few Shot Reasoning**             |                          |
+| **Conversation**                   |                          |
 
 What benchmarks will evaluate these:
 - [MMLU](https://huggingface.co/datasets/cais/mmlu) (Multiple choice questions)
@@ -31,8 +48,6 @@ The paper uses Mistral-7b and compares to Mistral-7b instruct. To limit the hard
 |      DROP     |      3      |         f1         |       28.0       |            N/A            |       45.2       |               |
 
 
-### To-Do:
-[] Implement LiteLLM for multi-provider LLM sourcing
 
 ---
 ## Table of Contents
