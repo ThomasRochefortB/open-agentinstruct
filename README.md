@@ -115,21 +115,22 @@ The paper uses Mistral-7b and compares to Mistral-7b instruct. To limit the hard
     --model_args pretrained=HuggingFaceTB/SmolLM-135M \
     --tasks mmlu \
     --num_fewshot 5 \
-    --device cuda:0 \
+    --device cuda \
     --batch_size auto \
     --output_path results
     ```
 
 ## Project Structure
 
-The main script to generate datasets using the open-agentinstruct workflow is in `gen_data.py`
+- The main script to generate datasets using the open-agentinstruct workflow is in `gen_data.py`
 
-The `agents/`  folder holds: 
-- `content_gen_agents.json` : The prompts defining the content transformation agents for the various tasks
-- `instruction_gen_agents.json` : The prompts defining the instruction generation agents for the various tasks
-- `content_transformation.py` : The code for the content transformation agent 
-- `instruction_generation.py` : The code for the instruction generation agent
-- `instruction_refinement.py` : The code for the instruction refinement agent
+- The `agents/` folder holds: 
+    - `content_gen_agents.json` : The prompts defining the content transformation agents for the various tasks
+    - `instruction_gen_agents.json` : The prompts defining the instruction generation agents for the various tasks
+    - `content_transformation.py` : The code for the content transformation agent 
+    - `instruction_generation.py` : The code for the instruction generation agent
+    - `instruction_refinement.py` : The code for the instruction refinement agent
 
-The benchmarks/ folder holds:
-- The bash script using 
+- The `utils/` folder holds:
+
+- The `data/` folder holds:
