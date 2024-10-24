@@ -10,12 +10,11 @@ An open-source recreation of the [AgentInstruct](https://arxiv.org/pdf/2407.0350
 ## Table of Contents
 - [Supported tasks](#supported-tasks)
 - [Supported seed datasets](#supported-seed-datasets)
-- [Introduction](#introduction)
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Example of generated data](#example-of-generated-data)
 - [Project Structure](#project-structure)
-- [License](#license)
 
 ## Supported tasks
 The AgentInstruct paper implements the following tasks which are not all implemented yet in open-agentinstruct:
@@ -102,8 +101,13 @@ The paper uses Mistral-7b and compares to Mistral-7b instruct. To limit the hard
 ## Usage
 
 1. Run the main script:
+- To run on a HF dataset
     ```sh
-    python gen_data.py
+    python gen_data.py --dataset_name <hf/datasetname>
+    ```
+- To run on a set of seed `.pdf`s
+    ```sh
+    python gen_data.py --pdf-dir data/seed_data/
     ```
 2. Train a model on the generated dataset:
     ```sh
@@ -120,6 +124,11 @@ The paper uses Mistral-7b and compares to Mistral-7b instruct. To limit the hard
     --output_path results
     ```
 
+## Example of generated data:
+```json
+{"instruction": "What is the primary message or theme of the passage regarding the immune system?", "answer": "The primary message of the passage is that the immune system, while important for protecting the body from diseases, has significant limitations and challenges. It highlights the difficulties in vaccine development, the potential for the immune system to fail in recognizing pathogens, and the negative outcomes associated with immune responses, suggesting that its effectiveness may not be as reliable as previously portrayed.", "context": "The immune system is a complex network that, while essential for protecting the body from infections and diseases, also has notable limitations and challenges. Its ability to respond to a wide range of pathogens is not always effective, as evidenced by the ongoing difficulties in developing vaccines for certain diseases, such as HIV and malaria. These challenges highlight that the immune system, despite its intended role as a defender of health, can sometimes fail to recognize harmful invaders or may overreact, leading to autoimmune diseases and allergies. \nMoreover, while advancements in immunology have been made, the progress is often slow and fraught with setbacks. The hygiene hypothesis, which suggests that exposure to various environmental factors can positively influence immune development, remains a topic of debate, raising questions about its universal applicability. In transplantation, the immune system's role is equally complex; while immunosuppressive therapies have improved transplant success rates, they also illustrate the immune system's struggle to accept necessary foreign elements, such as transplanted organs, which can lead to rejection.\nIn conclusion, while the immune system is a crucial component of our health, its limitations and the challenges it faces cannot be overlooked. Ongoing research is essential, but many questions remain unanswered, suggesting that the immune system's capabilities may not be as reliable as once thought. By critically examining the immune system's weaknesses, we can better understand the need for effective treatments and interventions that address its shortcomings.", "agent": "Refinement Round 2, Goal 2"}
+
+```
 ## Project Structure
 
 - The main script to generate datasets using the open-agentinstruct workflow is in `gen_data.py`
