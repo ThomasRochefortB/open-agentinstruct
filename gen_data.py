@@ -5,7 +5,6 @@ import os
 from agents.instruction_generation import generate_instructions
 from agents.instruction_refinement import refine_instructions
 from agents.content_transformation import content_transformation_flow
-from utils.agent_utils import load_agent_configs
 from utils.text_extraction import (
     extract_text_chunks_from_dataset,
     extract_text_chunks_from_pdf,
@@ -56,6 +55,18 @@ parser.add_argument(
     help="The name of the task. Can also be set via the TASK_NAME environment variable.",
 )
 parser.add_argument(
+    "--content-agent-config",
+    type=str,
+    default="agents/content_gen_agents.json",
+    help="Path to the content generation agents configuration file.",
+)
+parser.add_argument(
+    "--instruction-agent-config",
+    type=str,
+    default="agents/instruction_gen_agents.json",
+    help="Path to the instruction generation agents configuration file.",
+)
+parser.add_argument(
     "--debug",
     action="store_true",
     help="Enable debug mode to limit the number of chunks processed.",
@@ -71,7 +82,6 @@ async_chat_with_model = partial(async_chat_completion, model=args.model)
 os.makedirs("./data/generated_data", exist_ok=True)
 os.makedirs(".cache", exist_ok=True)
 
-# Use both task name and source name for progress tracking
 source_name = args.dataset_name if args.dataset_name else Path(args.pdf_dir).name
 DATA_FILE = f"./data/generated_data/{args.task_name}.jsonl"
 PROGRESS_FILE = f'.cache/{args.task_name}_{source_name.replace("/", "_")}_progress.json'
@@ -95,7 +105,6 @@ def get_text_chunks():
             chunks = extract_text_chunks_from_pdf(
                 str(pdf_file), engine=args.pdf_engine, use_images=False
             )
-            # Add source file information to chunks
             chunks = [(str(pdf_file), chunk) for chunk in chunks]
             all_chunks.extend(chunks)
 
@@ -116,10 +125,9 @@ async def process_chunk(
         print(f"Processing chunk {chunk_index + 1}...")
 
         try:
-            # Handle both dataset and PDF chunks
-            if isinstance(chunk_data, tuple):  # PDF chunk with source information
+            if isinstance(chunk_data, tuple):
                 source_file, text = chunk_data
-            else:  # Dataset chunk
+            else:
                 source_file = args.dataset_name
                 text = chunk_data
 
@@ -133,7 +141,6 @@ async def process_chunk(
                 instruction_answer_pairs, async_chat_completion, max_rounds=2
             )
 
-            # Add source information to the refined pairs
             for pair in refined_pairs:
                 pair["source"] = source_file
 
@@ -145,7 +152,6 @@ async def process_chunk(
             await queue.put({"error": {"chunk": chunk_index, "error": str(e)}})
 
 
-# writer and main function remain largely the same
 async def writer(queue):
     if os.path.exists(PROGRESS_FILE):
         with open(PROGRESS_FILE, "r") as f:
@@ -179,8 +185,24 @@ async def writer(queue):
         progress_f.flush()
 
 
+def load_agent_configs(content_agent_path, instruction_agent_path, task_type):
+    with open(content_agent_path, "r") as f:
+        content_generation_configs = json.load(f)
+
+    content_agents = content_generation_configs.get(task_type, [])
+
+    with open(instruction_agent_path, "r") as f:
+        instruction_generation_configs = json.load(f)
+
+    instruction_agents = instruction_generation_configs.get(task_type, [])
+
+    return content_agents, instruction_agents
+
+
 async def main(async_chat_completion):
-    content_agents, instruction_agents = load_agent_configs(args.task_name)
+    content_agents, instruction_agents = load_agent_configs(
+        args.content_agent_config, args.instruction_agent_config, args.task_name
+    )
 
     text_chunks = get_text_chunks()
     source_type = "dataset" if args.dataset_name else "PDF directory"
