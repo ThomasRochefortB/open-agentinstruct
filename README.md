@@ -103,7 +103,7 @@ The paper uses Mistral-7b and compares to Mistral-7b instruct. To limit the hard
 
 1. Run the main script:
     ```sh
-    python gen_data.py --task-name "reading_comprehension" --dataset-name "<hf_dataset_path>"
+    python gen_data.py
     ```
 2. Train a model on the generated dataset:
     ```sh
@@ -112,7 +112,7 @@ The paper uses Mistral-7b and compares to Mistral-7b instruct. To limit the hard
 3. Benchmark your finetuned model:
     ```sh
    lm_eval --model hf \
-    --model_args pretrained=HuggingFaceTB/SmolLM-135M \
+    --model_args pretrained=<your finetuned model path> \
     --tasks mmlu \
     --num_fewshot 5 \
     --device cuda \
