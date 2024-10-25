@@ -15,6 +15,7 @@ import signal
 from agents.async_chat import async_chat_completion
 from functools import partial
 from pathlib import Path
+import random
 
 nest_asyncio.apply()
 
@@ -71,6 +72,11 @@ parser.add_argument(
     action="store_true",
     help="Enable debug mode to limit the number of chunks processed.",
 )
+parser.add_argument(
+    "--random",
+    action="store_true",
+    help="Process chunks in random order by shuffling them before processing.",
+)
 args = parser.parse_args()
 
 if not args.dataset_name and not args.pdf_dir:
@@ -84,8 +90,7 @@ os.makedirs(".cache", exist_ok=True)
 
 source_name = args.dataset_name if args.dataset_name else Path(args.pdf_dir).name
 DATA_FILE = f"./data/generated_data/{args.task_name}.jsonl"
-PROGRESS_FILE = f'.cache/{args.task_name}_{source_name.replace("/", "_")}_progress.json'
-
+PROGRESS_FILE = f'.cache/{args.task_name}_{source_name.replace("/", "_")}_progress.jsonl'
 
 def get_text_chunks():
     if args.dataset_name:
@@ -110,7 +115,6 @@ def get_text_chunks():
 
         return all_chunks
 
-
 async def process_chunk(
     chunk_index,
     chunk_data,
@@ -122,8 +126,7 @@ async def process_chunk(
     async_chat_completion,
 ):
     async with semaphore:
-        print(f"Processing chunk {chunk_index + 1}...")
-
+        print(f"Processing chunk {chunk_index}...")
         try:
             if isinstance(chunk_data, tuple):
                 source_file, text = chunk_data
@@ -144,60 +147,43 @@ async def process_chunk(
             for pair in refined_pairs:
                 pair["source"] = source_file
 
-            await queue.put(refined_pairs)
+            await queue.put((chunk_index, refined_pairs))
             await queue.put({"processed_chunk": chunk_index})
 
         except Exception as e:
-            print(f"Error processing chunk {chunk_index + 1}: {e}")
+            print(f"Error processing chunk {chunk_index}: {e}")
             await queue.put({"error": {"chunk": chunk_index, "error": str(e)}})
 
-
 async def writer(queue):
+    processed_chunks = set()
     if os.path.exists(PROGRESS_FILE):
         with open(PROGRESS_FILE, "r") as f:
-            try:
-                processed_chunks = set(json.load(f))
-            except json.JSONDecodeError:
-                processed_chunks = set()
-    else:
-        processed_chunks = set()
+            for line in f:
+                index = int(line.strip())
+                processed_chunks.add(index)
 
-    with open(DATA_FILE, "a") as data_f, open(PROGRESS_FILE, "w") as progress_f:
+    with open(DATA_FILE, "a") as data_f, open(PROGRESS_FILE, "a") as progress_f:
         while True:
             item = await queue.get()
             if item is None:
                 break
 
-            if isinstance(item, list):
-                for pair in item:
+            if isinstance(item, tuple):
+                chunk_index, refined_pairs = item
+                for pair in refined_pairs:
                     data_f.write(json.dumps(pair) + "\n")
                 data_f.flush()
             elif isinstance(item, dict):
                 if "processed_chunk" in item:
-                    processed_chunks.add(item["processed_chunk"])
+                    chunk_index = item["processed_chunk"]
+                    progress_f.write(f"{chunk_index}\n")
+                    progress_f.flush()
+                    processed_chunks.add(chunk_index)
                 elif "error" in item:
                     print(
-                        f"Error in chunk {item['error']['chunk'] + 1}: {item['error']['error']}"
+                        f"Error in chunk {item['error']['chunk']}: {item['error']['error']}"
                     )
             queue.task_done()
-
-        progress_f.write(json.dumps(list(processed_chunks)))
-        progress_f.flush()
-
-
-def load_agent_configs(content_agent_path, instruction_agent_path, task_type):
-    with open(content_agent_path, "r") as f:
-        content_generation_configs = json.load(f)
-
-    content_agents = content_generation_configs.get(task_type, [])
-
-    with open(instruction_agent_path, "r") as f:
-        instruction_generation_configs = json.load(f)
-
-    instruction_agents = instruction_generation_configs.get(task_type, [])
-
-    return content_agents, instruction_agents
-
 
 async def main(async_chat_completion):
     content_agents, instruction_agents = load_agent_configs(
@@ -208,20 +194,28 @@ async def main(async_chat_completion):
     source_type = "dataset" if args.dataset_name else "PDF directory"
     print(f"Extracted {len(text_chunks)} text chunks from the {source_type}.")
 
-    chunks_to_process = text_chunks[1000:1010] if args.debug else text_chunks
+    # Create a list of (original_index, chunk) pairs
+    chunks_with_indices = list(enumerate(text_chunks))
 
+    # Shuffle chunks if --random is specified
+    if args.random:
+        random.shuffle(chunks_with_indices)
+        print("Shuffled the text chunks for random processing order.")
+
+    # Process 10 chunks if --debug is specified
+    if args.debug:
+        chunks_with_indices = chunks_with_indices[:10]
+
+    processed_chunks = set()
     if os.path.exists(PROGRESS_FILE):
         with open(PROGRESS_FILE, "r") as f:
-            try:
-                processed_chunks = set(json.load(f))
-            except json.JSONDecodeError:
-                processed_chunks = set()
-    else:
-        processed_chunks = set()
+            for line in f:
+                index = int(line.strip())
+                processed_chunks.add(index)
 
     tasks_to_create = [
         (index, chunk)
-        for index, chunk in enumerate(chunks_to_process)
+        for index, chunk in chunks_with_indices
         if index not in processed_chunks
     ]
 
@@ -270,6 +264,18 @@ async def main(async_chat_completion):
 
     print(f"{args.task_name.capitalize()} task processing complete!")
 
+def load_agent_configs(content_agent_path, instruction_agent_path, task_type):
+    with open(content_agent_path, "r") as f:
+        content_generation_configs = json.load(f)
+
+    content_agents = content_generation_configs.get(task_type, [])
+
+    with open(instruction_agent_path, "r") as f:
+        instruction_generation_configs = json.load(f)
+
+    instruction_agents = instruction_generation_configs.get(task_type, [])
+
+    return content_agents, instruction_agents
 
 if __name__ == "__main__":
     asyncio.run(main(async_chat_with_model))
