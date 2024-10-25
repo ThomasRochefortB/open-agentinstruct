@@ -1,3 +1,4 @@
+![1-8d2861cb](https://github.com/user-attachments/assets/2717bf2a-8f6a-4043-9538-8b832118798c)
 # open-agentinstruct
 
 An open-source recreation of the [AgentInstruct](https://arxiv.org/pdf/2407.03502v1) agentic workflow.
