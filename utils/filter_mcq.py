@@ -3,23 +3,28 @@ import json
 import sys
 from pathlib import Path
 
-
 def extract_answer_letter(answer: str) -> str:
     """
-    Extract the letter-based answer or raise a ValueError if not found.
+    Extract the letter-based answer or return None if not found.
     Assumes the answer is in the format: 'X) "Some verbose text..."'.
     """
     match = re.match(r"([A-Z])\)", answer.strip())
     if match:
-        return match.group(1)  # Return the selected letter (e.g., 'D')
+        return match.group(1)  # Return the letter (e.g., 'B')
     else:
-        raise ValueError("No valid letter-based answer found.")
+        return None  # Indicate no valid letter was found
 
+def has_question_choices(instruction: str) -> bool:
+    """
+    Check if the instruction contains question choices.
+    Looks for the presence of 'A)' to 'D)' (or more) patterns.
+    """
+    return bool(re.search(r"\b[A-Z]\)", instruction))
 
 def filter_and_extract_answers(input_file: str, output_file: str) -> None:
     """
-    Read a .jsonl file, filter and extract valid answers,
-    and write to a new .jsonl file with only the letter as the answer.
+    Filter dataset to remove samples without question choices,
+    and extract valid answer letters if possible.
 
     Parameters:
     - input_file: Path to the original .jsonl file.
@@ -31,24 +36,27 @@ def filter_and_extract_answers(input_file: str, output_file: str) -> None:
     with open(input_file, "r", encoding="utf-8") as f:
         for line in f:
             sample = json.loads(line)
-            try:
-                # Extract the letter-based answer
-                letter = extract_answer_letter(sample["answer"])
-                # Replace the answer with only the letter
+            
+            # Skip samples without question choices
+            if not has_question_choices(sample.get("instruction", "")):
+                continue
+
+            # Attempt to extract the answer letter
+            letter = extract_answer_letter(sample.get("answer", ""))
+            
+            if letter:
+                # Replace answer with the extracted letter
                 sample["answer"] = letter
-                valid_samples.append(sample)
-            except ValueError:
-                pass  # Skip samples without a valid letter-based answer
+            
+            # Append the sample, even if letter extraction fails
+            valid_samples.append(sample)
 
     # Write the filtered dataset to a new .jsonl file
     with open(output_file, "w", encoding="utf-8") as f:
         for sample in valid_samples:
             f.write(json.dumps(sample) + "\n")
 
-    print(
-        f"Filtered dataset saved to {output_file} with {len(valid_samples)} valid samples."
-    )
-
+    print(f"Filtered dataset saved to {output_file} with {len(valid_samples)} valid samples.")
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
