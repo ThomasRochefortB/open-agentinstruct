@@ -29,7 +29,8 @@ def load_dataset(dataset_path):
 def filter_complete_samples(dataset):
     """Filter out incomplete samples that don't have both an answer and choices."""
     return [
-        sample for sample in dataset
+        sample
+        for sample in dataset
         if sample.get("answer") and "Choices:" in sample.get("instruction", "")
     ]
 
@@ -48,7 +49,9 @@ def format_mcq(sample, wrap_width=80):
     output.append("Context:")
     output.append(textwrap.fill(context, width=wrap_width))
     output.append("\nInstruction:")
-    output.append(textwrap.fill(instruction.split("Choices:")[0].strip(), width=wrap_width))
+    output.append(
+        textwrap.fill(instruction.split("Choices:")[0].strip(), width=wrap_width)
+    )
     output.append("\nChoices:")
     output.append(textwrap.fill(choices, width=wrap_width))
     output.append(f"\nCorrect Answer: {answer}")
@@ -73,7 +76,9 @@ def visualize_sample(sample, wrap_width=80):
     return "\n".join(output)
 
 
-def visualize_dataset(dataset, num_samples=5, wrap_width=80, mcq=False, filter_incomplete=False):
+def visualize_dataset(
+    dataset, num_samples=5, wrap_width=80, mcq=False, filter_incomplete=False
+):
     """
     Visualizes and returns samples from the dataset as a string.
 
@@ -96,9 +101,13 @@ def visualize_dataset(dataset, num_samples=5, wrap_width=80, mcq=False, filter_i
         return "No complete samples available in the dataset."
 
     # Randomly select `num_samples` samples from the filtered dataset
-    sampled_indices = random.sample(range(total_samples), min(num_samples, total_samples))
+    sampled_indices = random.sample(
+        range(total_samples), min(num_samples, total_samples)
+    )
 
-    output = [f"Displaying {len(sampled_indices)} random samples out of {total_samples}:\n"]
+    output = [
+        f"Displaying {len(sampled_indices)} random samples out of {total_samples}:\n"
+    ]
 
     for i, idx in enumerate(sampled_indices):
         sample = dataset[idx]
@@ -126,11 +135,11 @@ def main():
         "--mcq", action="store_true", help="Format and display the sample as an MCQ."
     )
     parser.add_argument(
-        "--filter", action="store_true", help="Only display complete samples with answers and choices."
+        "--filter",
+        action="store_true",
+        help="Only display complete samples with answers and choices.",
     )
-    parser.add_argument(
-        "--output_file", type=str, help="Path to the output .txt file."
-    )
+    parser.add_argument("--output_file", type=str, help="Path to the output .txt file.")
 
     args = parser.parse_args()
 
