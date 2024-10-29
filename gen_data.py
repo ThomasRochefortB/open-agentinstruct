@@ -9,6 +9,8 @@ from utils.text_extraction import (
     extract_text_chunks_from_dataset,
     extract_text_chunks_from_pdf,
 )
+from utils.agent_utils import load_agent_configs
+
 from dotenv import load_dotenv
 import nest_asyncio
 import signal
@@ -90,7 +92,10 @@ os.makedirs(".cache", exist_ok=True)
 
 source_name = args.dataset_name if args.dataset_name else Path(args.pdf_dir).name
 DATA_FILE = f"./data/generated_data/{args.task_name}.jsonl"
-PROGRESS_FILE = f'.cache/{args.task_name}_{source_name.replace("/", "_")}_progress.jsonl'
+PROGRESS_FILE = (
+    f'.cache/{args.task_name}_{source_name.replace("/", "_")}_progress.jsonl'
+)
+
 
 def get_text_chunks():
     if args.dataset_name:
@@ -115,11 +120,13 @@ def get_text_chunks():
 
         return all_chunks
 
+
 async def process_chunk(
     chunk_index,
     chunk_data,
     content_agents,
     instruction_agents,
+    one_shot_example,
     debug,
     semaphore,
     queue,
@@ -137,9 +144,15 @@ async def process_chunk(
             transformed_contents = await content_transformation_flow(
                 text, content_agents, async_chat_completion, debug
             )
+
             instruction_answer_pairs = await generate_instructions(
-                transformed_contents, instruction_agents, async_chat_completion, debug
+                transformed_contents,
+                instruction_agents,
+                one_shot_example,
+                async_chat_completion,
+                debug,
             )
+
             refined_pairs = await refine_instructions(
                 instruction_answer_pairs, async_chat_completion, max_rounds=2
             )
@@ -153,6 +166,7 @@ async def process_chunk(
         except Exception as e:
             print(f"Error processing chunk {chunk_index}: {e}")
             await queue.put({"error": {"chunk": chunk_index, "error": str(e)}})
+
 
 async def writer(queue):
     processed_chunks = set()
@@ -185,8 +199,9 @@ async def writer(queue):
                     )
             queue.task_done()
 
+
 async def main(async_chat_completion):
-    content_agents, instruction_agents = load_agent_configs(
+    content_agents, instruction_agents, one_shot_example = load_agent_configs(
         args.content_agent_config, args.instruction_agent_config, args.task_name
     )
 
@@ -234,6 +249,7 @@ async def main(async_chat_completion):
                 chunk,
                 content_agents,
                 instruction_agents,
+                one_shot_example,
                 args.debug,
                 semaphore,
                 queue,
@@ -264,18 +280,6 @@ async def main(async_chat_completion):
 
     print(f"{args.task_name.capitalize()} task processing complete!")
 
-def load_agent_configs(content_agent_path, instruction_agent_path, task_type):
-    with open(content_agent_path, "r") as f:
-        content_generation_configs = json.load(f)
-
-    content_agents = content_generation_configs.get(task_type, [])
-
-    with open(instruction_agent_path, "r") as f:
-        instruction_generation_configs = json.load(f)
-
-    instruction_agents = instruction_generation_configs.get(task_type, [])
-
-    return content_agents, instruction_agents
 
 if __name__ == "__main__":
     asyncio.run(main(async_chat_with_model))

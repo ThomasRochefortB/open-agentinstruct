@@ -8,6 +8,7 @@ import pymupdf4llm
 from unstructured.partition.pdf import partition_pdf
 from unstructured.chunking.title import chunk_by_title
 from datasets import load_dataset
+from typing import Dict, Optional
 
 
 def extract_text_chunks_from_pdf(
@@ -99,57 +100,103 @@ def extract_text_chunks_from_pdf(
 
 
 def parse_instruction_answer_pairs(text):
-    lines = text.strip().split("\n")
-    instruction = ""
-    answer = ""
-    capturing_instruction = False
-    capturing_answer = False
+    """
+    Parses text to extract instruction and answer pairs, handling multiple pairs and various formats.
+    """
+    # Remove any markdown formatting or unnecessary characters
+    text = re.sub(r"[*_]{1,2}", "", text).strip()
 
-    for line in lines:
-        line = line.strip()
-        if line.startswith("Instruction:") or line.startswith("Refined Instruction:"):
-            capturing_instruction = True
-            capturing_answer = False
-            # Remove both possible prefixes
-            instruction = line.split(":", 1)[1].strip()
-        elif line.startswith("Answer:") or line.startswith("Refined Answer:"):
-            capturing_instruction = False
-            capturing_answer = True
-            answer = line.split(":", 1)[1].strip()
+    # Remove code block markers if present
+    text = re.sub(r"```[^\n]*\n?", "", text).strip()
+
+    # Split text into potential pairs
+    pairs = []
+
+    # Find all instruction-answer blocks
+    blocks = re.split(r"(?=Instruction:)", text)
+
+    for block in blocks:
+        if not block.strip():
+            continue
+
+        # Match instruction and answer within each block
+        instruction_match = re.search(
+            r"Instruction:\s*(.*?)(?=Answer:|$)", block, re.DOTALL | re.IGNORECASE
+        )
+        answer_match = re.search(
+            r"Answer:\s*(.*?)(?=Instruction:|$)", block, re.DOTALL | re.IGNORECASE
+        )
+
+        if instruction_match and answer_match:
+            instruction = instruction_match.group(1).strip()
+            answer = answer_match.group(1).strip()
+
+            # Validate the pair
+            if instruction and answer:
+                pairs.append({"instruction": instruction, "answer": answer})
         else:
-            if capturing_instruction:
-                instruction += " " + line.strip()
-            elif capturing_answer:
-                answer += " " + line.strip()
+            print(f"Failed to parse block:\n{block}")
 
-    if instruction and answer:
-        return [{"instruction": instruction.strip(), "answer": answer.strip()}]
-    else:
-        return []
+    if not pairs:
+        print("No valid instruction-answer pairs found in:\n{text[:200]}...")
+
+    return pairs
 
 
-def parse_modified_triple(text):
-    # Remove any markdown formatting (e.g., **, __)
-    text = re.sub(r"[*_]{1,2}", "", text)
+def parse_modified_output(text: str) -> Optional[Dict]:
+    """
+    Parses modified instruction and answer from the text with specific prefixes,
+    but removes these prefixes from the final output.
 
-    # Normalize the text by removing extra whitespace
-    text = re.sub(r"\r\n", "\n", text)  # Replace carriage returns
-    text = re.sub(r"\n+", "\n", text).strip()  # Remove extra newlines
+    Args:
+        text (str): The text containing modified instruction and answer
 
-    # Use regular expressions to match labels with optional whitespace
-    pattern = r"Modified Passage:\s*(.*?)\nModified Question:\s*(.*?)\nModified Answer:\s*(.*)"
-    match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
-    if match:
-        modified_passage = match.group(1).strip()
-        modified_question = match.group(2).strip()
-        modified_answer = match.group(3).strip()
-        return {
-            "instruction": modified_question,
-            "answer": modified_answer,
-            "context": modified_passage,
-        }
-    else:
-        print("Failed to parse using regex.")
+    Returns:
+        Optional[Dict]: Dictionary with 'instruction' and 'answer' keys, or None if parsing fails
+    """
+    try:
+        # Remove any markdown formatting and normalize whitespace
+        text = re.sub(r"[*_]{1,2}", "", text).strip()
+        text = re.sub(r"\r\n", "\n", text)
+        text = re.sub(r"\n+", "\n", text).strip()
+
+        # Patterns to match modified instruction and answer sections
+        instruction_pattern = r"Modified Instruction:\s*(.*?)(?=Modified Answer:|$)"
+        answer_pattern = r"Modified Answer:\s*(.*?)(?=Modified Instruction:|$)"
+
+        instruction_match = re.search(instruction_pattern, text, re.DOTALL)
+        answer_match = re.search(answer_pattern, text, re.DOTALL)
+
+        if instruction_match and answer_match:
+            instruction = instruction_match.group(1).strip()
+            answer = answer_match.group(1).strip()
+
+            # Verify that we have actual content
+            if instruction and answer:
+                return {"instruction": instruction, "answer": answer}
+
+        # If the first attempt fails, try to parse as multiple choice question
+        question_pattern = r"Modified Instruction:\s*(.*?)(?:Choices:|(?=\s*[A-D]\)))"
+        choices_pattern = r"(?:Choices:\s*|\n\s*)((?:[A-D]\).*?\n?)+)"
+
+        question_match = re.search(question_pattern, text, re.DOTALL)
+        choices_match = re.search(choices_pattern, text, re.DOTALL)
+
+        if question_match and choices_match:
+            instruction = question_match.group(1).strip()
+            choices = choices_match.group(1).strip()
+
+            if instruction and choices:
+                return {
+                    "instruction": f"{instruction}\nChoices:\n{choices}",
+                    "answer": choices,  # or extract specific answer if indicated
+                }
+
+        print("Failed to parse modified instruction and answer sections.")
+        return None
+
+    except Exception as e:
+        print(f"Error parsing modified output: {str(e)}")
         return None
 
 

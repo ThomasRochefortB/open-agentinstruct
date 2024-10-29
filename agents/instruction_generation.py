@@ -3,22 +3,28 @@ from utils.text_extraction import parse_instruction_answer_pairs
 import random
 
 
-async def process_with_instruction_agent(agent_config, context, async_chat_completion):
+async def process_with_instruction_agent(
+    agent_config, text, one_shot_example, async_chat_completion
+):
     agent_name = agent_config["name"]
     system_prompt = agent_config["system_prompt"]
     user_prompt_template = agent_config["user_prompt_template"]
 
-    # Format the user prompt with the context
-    user_prompt = user_prompt_template.format(text=context)
+    # Add instruction for handling irrelevant content
+    additional_instruction = "\n\nIf the provided text has no relevant content to your task, output an empty string."
+    modified_system_prompt = system_prompt + additional_instruction
+
+    # Format the user prompt with the text and one-shot example
+    user_prompt = construct_user_prompt(user_prompt_template, text, one_shot_example)
 
     try:
-        # Use the async chat completion function
         generated_pairs = await async_chat_completion(
-            system_prompt=system_prompt, user_prompt=user_prompt
+            system_prompt=modified_system_prompt, user_prompt=user_prompt
         )
 
-        if not generated_pairs:
-            print(f"No instruction-answer pair found for agent {agent_name}.")
+        # Check if the output is empty (content not relevant)
+        if not generated_pairs or generated_pairs.strip() == "":
+            print(f"{agent_name}: No relevant content found. Skipping.")
             return []
 
         # Parse the generated instruction-answer pairs
@@ -28,10 +34,9 @@ async def process_with_instruction_agent(agent_config, context, async_chat_compl
             print(f"No instruction-answer pair found for agent {agent_name}.")
             return []
 
-        # Add agent name and context to each pair
+        # Add agent name to each pair
         for pair in pairs:
             pair["agent"] = agent_name
-            pair["context"] = context  # Add the context from the original content
 
         return pairs
 
@@ -40,8 +45,43 @@ async def process_with_instruction_agent(agent_config, context, async_chat_compl
         return []
 
 
+def construct_user_prompt(user_prompt_template, text, one_shot_example):
+    """
+    Constructs the user prompt by inserting the text and one-shot example into the template.
+    """
+    if one_shot_example:
+        # Format the one-shot example to show the expected format
+        formatted_one_shot_example = (
+            "Here is an example of the expected format:\n\n"
+            "```\n"
+            f"{one_shot_example['instruction']}\n"
+            f"{one_shot_example['answer']}\n"
+            "```\n\n"
+            "Please follow this format strictly to generate a new question based on the provided content.\n\n"
+            "If the content is not relevant for generating a question in your domain, output an empty string."
+        )
+
+        # Insert the text and the formatted example into the template
+        user_prompt = user_prompt_template.format(
+            text=text,
+        )
+        user_prompt = user_prompt + "\n\n" + formatted_one_shot_example
+    else:
+        # Add instruction for handling irrelevant content
+        user_prompt = (
+            user_prompt_template.format(text=text)
+            + "\n\nIf the content is not relevant for generating a question in your domain, output an empty string."
+        )
+
+    return user_prompt
+
+
 async def generate_instructions(
-    transformed_contents, instruction_agents, async_chat_completion, debug=False
+    transformed_contents,
+    instruction_agents,
+    one_shot_example,
+    async_chat_completion,
+    debug=False,
 ):
     instruction_answer_pairs = []
 
@@ -56,7 +96,7 @@ async def generate_instructions(
     # Create a list of asyncio tasks for each transformed content and agent
     tasks = [
         process_with_instruction_agent(
-            agent_config, item["content"], async_chat_completion
+            agent_config, item["content"], one_shot_example, async_chat_completion
         )
         for item in transformed_contents
         for agent_config in agents_to_use
