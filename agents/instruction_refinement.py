@@ -110,11 +110,6 @@ async def refine_pair(pair, goals, round_number, async_chat_completion):
             and res.get("answer")
         ]
         if not valid_results:
-            # Log to .txt file for debugging
-            with open("refinement_errors.txt", "a") as f:
-                f.write(
-                    f"No valid refinements produced for pair: {pair.get('instruction')}...\n"
-                )
             print(
                 f"No valid refinements produced for pair: {pair.get('instruction')[:50]}..."
             )
@@ -180,12 +175,6 @@ Suggestions:
 
 Remember to maintain the same format as the original content (including multiple choice options if present) but prefix with "Modified Instruction:" and "Modified Answer:"."""
 
-        # Log prompts to .txt file for debugging:
-        with open("refinement_prompts.txt", "a") as f:
-            f.write(
-                f"Goal {goal_number}:\n{system_prompt_editor}\n{user_prompt_editor}\n"
-            )
-
         modified_output = await async_chat_completion(
             system_prompt_editor, user_prompt_editor
         )
@@ -193,13 +182,7 @@ Remember to maintain the same format as the original content (including multiple
             print(f"No modified output generated for goal {goal_number}")
             return None
 
-        # Log the modified output to .txt file for debugging
-        with open("refinement_logs.txt", "a") as f:
-            f.write(f"Goal {goal_number}:\n{modified_output}\n")
         result = parse_modified_output(modified_output)
-        # Log result to .txt file for debugging
-        with open("refinement_results.txt", "a") as f:
-            f.write(f"Goal {goal_number}:\n{result}\n")
 
         if result:
             result["agent"] = f"Refinement Round {round_number + 1}, Goal {goal_number}"
