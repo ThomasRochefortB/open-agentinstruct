@@ -1,135 +1,152 @@
 {
-    "reading_comprehension": [
+    "reading_comprehension": {
+    "one_shot_example": {
+      "instruction": "Instruction:\n Read the following passage:\n\nClimate change poses an unprecedented threat to global ecosystems. Rising temperatures are causing polar ice caps to melt at an alarming rate, leading to rising sea levels and threatening coastal communities. Additionally, changing weather patterns are disrupting traditional agricultural cycles, potentially impacting food security worldwide.\n\nQuestion: What is the main impact of rising temperatures on coastal communities according to the passage?",
+      "answer": "Answer:\n According to the passage, rising temperatures are causing polar ice caps to melt, which leads to rising sea levels that threaten coastal communities."
+    },
+    "agents": [
       {
         "name": "Main Idea Questions Agent",
         "system_prompt": "You are an expert educator specializing in creating main idea questions for reading comprehension exercises.",
-        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **main idea question**. The instruction should ask the reader to identify the primary message or theme of the passage. Provide the correct answer based directly on the text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your question]\n\nAnswer:\n[The correct answer]"
+        "user_prompt_template": "Create an instruction-answer pair for a **main idea question**. The instruction should include both the passage and a question asking to identify the primary message or theme.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your main idea question]\n\nAnswer:\n[The correct answer]"
       },
       {
         "name": "Detail Questions Agent",
         "system_prompt": "You are an expert educator specializing in creating detail-oriented questions for reading comprehension exercises.",
-        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **detail question**. The instruction should ask about specific details or facts mentioned in the passage. Provide the correct answer based directly on the text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your question]\n\nAnswer:\n[The correct answer]"
+        "user_prompt_template": "Create an instruction-answer pair for a **detail question**. The instruction should include both the passage and a question about specific details or facts.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your detail question]\n\nAnswer:\n[The correct answer]"
       },
       {
         "name": "Inference Questions Agent",
         "system_prompt": "You are an expert educator specializing in creating inference questions for reading comprehension exercises.",
-        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for an **inference question**. The instruction should require the reader to make an inference or draw a conclusion not explicitly stated but supported by the passage. Provide the correct answer based on logical inference from the text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your question]\n\nAnswer:\n[The correct answer]"
+        "user_prompt_template": "Create an instruction-answer pair for an **inference question**. The instruction should include both the passage and a question requiring logical inference.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your inference question]\n\nAnswer:\n[The correct answer with explanation of inference]"
       },
       {
         "name": "Vocabulary-in-Context Questions Agent",
         "system_prompt": "You are an expert educator specializing in creating vocabulary-in-context questions for reading comprehension exercises.",
-        "user_prompt_template": "Based on the following text, select a word or phrase and generate an instruction-answer pair for a **vocabulary-in-context question**. The instruction should ask about the meaning of the word or phrase as used in the passage. Provide the correct answer, explaining the meaning based on the context.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your question]\n\nAnswer:\n[The correct answer]"
+        "user_prompt_template": "Create an instruction-answer pair for a **vocabulary-in-context question**. The instruction should include both the passage and a question about word meaning in context.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your vocabulary question]\n\nAnswer:\n[The correct answer with context-based explanation]"
       },
       {
         "name": "Purpose Questions Agent",
         "system_prompt": "You are an expert educator specializing in creating purpose questions for reading comprehension exercises.",
-        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **purpose question**. The instruction should ask about the author's purpose or intent in writing the passage or a specific part of it. Provide the correct answer based directly on the text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your question]\n\nAnswer:\n[The correct answer]"
+        "user_prompt_template": "Create an instruction-answer pair for a **purpose question**. The instruction should include both the passage and a question about author's purpose or intent.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your purpose question]\n\nAnswer:\n[The correct answer]"
       },
       {
         "name": "Tone and Attitude Questions Agent",
         "system_prompt": "You are an expert educator specializing in creating tone and attitude questions for reading comprehension exercises.",
-        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **tone and attitude question**. The instruction should ask about the author's tone or attitude toward the subject matter. Provide the correct answer based on cues from the text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your question]\n\nAnswer:\n[The correct answer]"
+        "user_prompt_template": "Create an instruction-answer pair for a **tone and attitude question**. The instruction should include both the passage and a question about author's tone or attitude.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your tone/attitude question]\n\nAnswer:\n[The correct answer with evidence from text]"
       },
       {
         "name": "Logical Structure Questions Agent",
         "system_prompt": "You are an expert educator specializing in creating logical structure questions for reading comprehension exercises.",
-        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **logical structure question**. The instruction should ask about the organizational pattern or reasoning used in the passage. Provide the correct answer that explains how the passage is structured.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your question]\n\nAnswer:\n[The correct answer]"
+        "user_prompt_template": "Create an instruction-answer pair for a **logical structure question**. The instruction should include both the passage and a question about organizational pattern or reasoning.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your structure question]\n\nAnswer:\n[The correct answer with explanation]"
       },
       {
         "name": "Summary Questions Agent",
         "system_prompt": "You are an expert educator specializing in creating summary questions for reading comprehension exercises.",
-        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **summary question**. The instruction should ask the reader to summarize the passage or a specific section. Provide the correct answer as a concise summary based directly on the text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your question]\n\nAnswer:\n[The concise summary]"
+        "user_prompt_template": "Create an instruction-answer pair for a **summary question**. The instruction should include both the passage and a request for summarization.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your summary request]\n\nAnswer:\n[The concise summary]"
       },
       {
         "name": "Application Questions Agent",
         "system_prompt": "You are an expert educator specializing in creating application questions for reading comprehension exercises.",
-        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for an **application question**. The instruction should ask the reader to apply information or concepts from the passage to a new situation or context. Provide the correct answer, showing how the application is derived from the text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your question]\n\nAnswer:\n[The correct answer]"
+        "user_prompt_template": "Create an instruction-answer pair for an **application question**. The instruction should include both the passage and a question about applying the information.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your application question]\n\nAnswer:\n[The correct answer with application explanation]"
       },
       {
         "name": "Comparison Questions Agent",
         "system_prompt": "You are an expert educator specializing in creating comparison questions for reading comprehension exercises.",
-        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **comparison question**. The instruction should ask the reader to compare and contrast ideas, characters, or events within the passage. Provide the correct answer highlighting the similarities and differences based on the text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your question]\n\nAnswer:\n[The correct answer]"
+        "user_prompt_template": "Create an instruction-answer pair for a **comparison question**. The instruction should include both the passage and a question comparing elements.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your comparison question]\n\nAnswer:\n[The correct answer with comparison details]"
       },
       {
         "name": "Cause and Effect Questions Agent",
         "system_prompt": "You are an expert educator specializing in creating cause and effect questions for reading comprehension exercises.",
-        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **cause and effect question**. The instruction should ask about the cause(s) and effect(s) of events or actions described in the passage. Provide the correct answer explaining the relationship based on the text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your question]\n\nAnswer:\n[The correct answer]"
+        "user_prompt_template": "Create an instruction-answer pair for a **cause and effect question**. The instruction should include both the passage and a question about causal relationships.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your cause/effect question]\n\nAnswer:\n[The correct answer with causal explanation]"
       },
       {
         "name": "Paraphrase Questions Agent",
         "system_prompt": "You are an expert educator specializing in creating paraphrase questions for reading comprehension exercises.",
-        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **paraphrase question**. The instruction should ask the reader to restate a sentence or passage in their own words. Provide the correct answer as a paraphrased version based directly on the text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your question]\n\nAnswer:\n[Paraphrased version]"
+        "user_prompt_template": "Create an instruction-answer pair for a **paraphrase question**. The instruction should include both the passage and a request to restate content.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your paraphrase request]\n\nAnswer:\n[The correct paraphrase]"
       },
       {
         "name": "Critical Evaluation Questions Agent",
         "system_prompt": "You are an expert educator specializing in creating critical evaluation questions for reading comprehension exercises.",
-        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **critical evaluation question**. The instruction should ask the reader to critically evaluate arguments, evidence, or assumptions in the passage. Provide the correct answer, including a critical analysis based on the text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your question]\n\nAnswer:\n[Critical evaluation]"
+        "user_prompt_template": "Create an instruction-answer pair for a **critical evaluation question**. The instruction should include both the passage and a question requiring critical analysis.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your evaluation question]\n\nAnswer:\n[The correct evaluation with analysis]"
       },
       {
         "name": "Prediction Questions Agent",
         "system_prompt": "You are an expert educator specializing in creating prediction questions for reading comprehension exercises.",
-        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **prediction question**. The instruction should ask the reader to predict what might happen next or anticipate future developments based on information in the passage. Provide the correct answer logically inferred from the text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your question]\n\nAnswer:\n[Predicted outcome]"
+        "user_prompt_template": "Create an instruction-answer pair for a **prediction question**. The instruction should include both the passage and a question about likely future developments.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your prediction question]\n\nAnswer:\n[The logical prediction with justification]"
       },
       {
         "name": "Integration Questions Agent",
         "system_prompt": "You are an expert educator specializing in creating integration questions for reading comprehension exercises.",
-        "user_prompt_template": "Based on the following text, generate an instruction-answer pair for an **integration question**. The instruction should ask the reader to integrate information from multiple parts of the passage or with prior knowledge. Provide the correct answer demonstrating the integration based on the text.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your question]\n\nAnswer:\n[Integrated answer]"
+        "user_prompt_template": "Create an instruction-answer pair for an **integration question**. The instruction should include both the passage and a question requiring information integration.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your integration question]\n\nAnswer:\n[The integrated answer with explanation]"
       }
-    ],
-    
-    "multiple_choice_question": [
+    ]
+  },
+  "multiple_choice_question": {
+    "one_shot_example": {
+      "instruction": "Instruction:\n The human heart beats approximately 100,000 times per day, pumping about 2,000 gallons of blood through the circulatory system. This process delivers oxygen and nutrients to cells while removing waste products.\n\nWhat is the primary function of blood circulation in the human body?\nChoices:\n A) To regulate body temperature B) To deliver oxygen and nutrients to cells C) To produce hormones D) To store energy",
+      "answer": "Answer:\n B"
+    },
+    "agents": [
       {
         "name": "General Knowledge Questions Agent",
-        "system_prompt": "You are an expert in creating diverse multiple-choice questions (MCQs) that assess general knowledge across various subjects. **You must generate only multiple-choice questions with four options: one correct answer and three plausible distractors. Do not generate any other type of question.** **Ensure that in the 'Answer' section, only the correct option letter is provided, without any additional text.**",
-        "user_prompt_template": "Using the following text, generate a **multiple-choice question** for a General Knowledge topic. The question must focus on a basic fact or concept presented in the text. Provide four options labeled A) through D), with one correct answer and three plausible distractors derived from the content. **If you cannot create a multiple-choice question based on the text, state 'Cannot generate a multiple-choice question based on the provided text.' Do not provide any additional content.** Ensure that your output strictly follows the format below, and that the question is indeed a multiple-choice question.\n\n**Important:** In the 'Answer' section, provide only the letter corresponding to the correct option (A, B, C, or D). Do not include any additional text.\n\n**Examples:**\n\nExample 1:\n```\nInstruction:\nWhat is the capital city of France?\n\nChoices:\nA) Berlin\nB) Madrid\nC) Paris\nD) Rome\n\nAnswer:\nC\n```\n\nExample 2:\n```\nInstruction:\nWhich planet is known as the Red Planet?\n\nChoices:\nA) Earth\nB) Mars\nC) Jupiter\nD) Venus\n\nAnswer:\nB\n```\n\nExample 3:\n```\nInstruction:\nWho wrote the play \"Romeo and Juliet\"?\n\nChoices:\nA) William Shakespeare\nB) Charles Dickens\nC) Mark Twain\nD) Jane Austen\n\nAnswer:\nA\n```\n\n**Text:**\n{text}\n\n**Remember to double-check that your question is a multiple-choice question and that the 'Answer' section contains only the correct option letter before you output it.**\n\n**Output Format:**\n```\nInstruction:\n[Your multiple-choice question here]\n\nChoices:\nA) [Option A]\nB) [Option B]\nC) [Option C]\nD) [Option D]\n\nAnswer:\n[Correct option letter]\n```"
+        "system_prompt": "Create MCQs that assess general knowledge with one correct answer and three plausible distractors. Focus on basic facts and concepts.",
+        "user_prompt_template": "Create a multiple-choice question from this content:\n\n{text}\n\n```\nInstruction:\n[Question with choices A-D]\n\nAnswer:\n[Letter only]\n```"
       },
       {
         "name": "Concept Clarification Questions Agent",
-        "system_prompt": "You are an expert in designing multiple-choice questions (MCQs) that clarify and reinforce key concepts. **You must generate only multiple-choice questions with four options: one correct answer and three plausible distractors. Do not generate any other type of question.** **Ensure that in the 'Answer' section, only the correct option letter is provided, without any additional text.**",
-        "user_prompt_template": "Based on the following text, create a **multiple-choice question** for a Concept Clarification topic. The question should target a specific concept explained in the text, helping to clarify common misunderstandings. Provide four options labeled A) through D), with one correct answer and three plausible distractors reflecting common misconceptions. **If you cannot create a multiple-choice question based on the text, state 'Cannot generate a multiple-choice question based on the provided text.' Do not provide any additional content.** Make sure your output strictly adheres to the format below, and that the question is a multiple-choice question.\n\n**Important:** In the 'Answer' section, provide only the letter corresponding to the correct option (A, B, C, or D). Do not include any additional text.\n\n**Examples:**\n\nExample 1:\n```\nInstruction:\nWhat is the primary function of red blood cells in the human body?\n\nChoices:\nA) To fight infections\nB) To carry oxygen\nC) To aid in digestion\nD) To transmit nerve signals\n\nAnswer:\nB\n```\n\nExample 2:\n```\nInstruction:\nWhich gas do plants absorb from the atmosphere during photosynthesis?\n\nChoices:\nA) Oxygen\nB) Nitrogen\nC) Carbon Dioxide\nD) Hydrogen\n\nAnswer:\nC\n```\n\nExample 3:\n```\nInstruction:\nIn mathematics, what is the value of pi approximately?\n\nChoices:\nA) 2.14\nB) 3.14\nC) 4.14\nD) 5.14\n\nAnswer:\nB\n```\n\n**Text:**\n{text}\n\n**Remember to double-check that your question is a multiple-choice question and that the 'Answer' section contains only the correct option letter before you output it.**\n\n**Output Format:**\n```\nInstruction:\n[Your multiple-choice question here]\n\nChoices:\nA) [Option A]\nB) [Option B]\nC) [Option C]\nD) [Option D]\n\nAnswer:\n[Correct option letter]\n```"
+        "system_prompt": "Create MCQs that clarify and reinforce key concepts with one correct answer and three plausible distractors reflecting common misconceptions.",
+        "user_prompt_template": "Create a multiple-choice question from this content:\n\n{text}\n\n```\nInstruction:\n[Question with choices A-D]\n\nAnswer:\n[Letter only]\n```"
       },
       {
         "name": "Process-Based Questions Agent",
-        "system_prompt": "You specialize in generating multiple-choice questions (MCQs) that assess understanding of processes and sequences. **You must generate only multiple-choice questions with four options: one correct answer and three plausible distractors. Do not generate any other type of question.** **Ensure that in the 'Answer' section, only the correct option letter is provided, without any additional text.**",
-        "user_prompt_template": "From the following text, develop a **multiple-choice question** for a Process-Based topic. The question should examine the sequence or steps of a process described in the text. Include four options labeled A) through D), with one correct answer and three distractors representing common errors in understanding the process. **If you cannot create a multiple-choice question based on the text, state 'Cannot generate a multiple-choice question based on the provided text.' Do not provide any additional content.** Ensure that your output strictly follows the format below, and that the question is a multiple-choice question.\n\n**Important:** In the 'Answer' section, provide only the letter corresponding to the correct option (A, B, C, or D). Do not include any additional text.\n\n**Examples:**\n\nExample 1:\n```\nInstruction:\nWhat is the first step in the scientific method?\n\nChoices:\nA) Conducting experiments\nB) Formulating a hypothesis\nC) Making observations\nD) Drawing conclusions\n\nAnswer:\nC\n```\n\nExample 2:\n```\nInstruction:\nDuring cellular respiration, glucose is broken down to produce energy. Which molecule is primarily produced as energy currency?\n\nChoices:\nA) DNA\nB) ATP\nC) RNA\nD) ADP\n\nAnswer:\nB\n```\n\nExample 3:\n```\nInstruction:\nIn the water cycle, what process describes water vapor cooling and changing into liquid droplets?\n\nChoices:\nA) Evaporation\nB) Condensation\nC) Precipitation\nD) Transpiration\n\nAnswer:\nB\n```\n\n**Text:**\n{text}\n\n**Remember to double-check that your question is a multiple-choice question and that the 'Answer' section contains only the correct option letter before you output it.**\n\n**Output Format:**\n```\nInstruction:\n[Your multiple-choice question here]\n\nChoices:\nA) [Option A]\nB) [Option B]\nC) [Option C]\nD) [Option D]\n\nAnswer:\n[Correct option letter]\n```"
+        "system_prompt": "Create MCQs that assess understanding of processes and sequences with one correct answer and three plausible distractors representing common errors.",
+        "user_prompt_template": "Create a multiple-choice question from this content:\n\n{text}\n\n```\nInstruction:\n[Question with choices A-D]\n\nAnswer:\n[Letter only]\n```"
       },
       {
         "name": "Contextual Application Questions Agent",
-        "system_prompt": "You are skilled in creating multiple-choice questions (MCQs) that require applying information to new or hypothetical contexts. **You must generate only multiple-choice questions with four options: one correct answer and three plausible distractors. Do not generate any other type of question.** **Ensure that in the 'Answer' section, only the correct option letter is provided, without any additional text.**",
-        "user_prompt_template": "Using the following text, generate a **multiple-choice question** for a Contextual Application topic. The question should ask how a concept, process, or fact from the text applies to a new or hypothetical situation. Provide four options labeled A) through D), with one correct answer and three plausible distractors based on the content. **If you cannot create a multiple-choice question based on the text, state 'Cannot generate a multiple-choice question based on the provided text.' Do not provide any additional content.** Make sure your output strictly adheres to the format below, and that the question is a multiple-choice question.\n\n**Important:** In the 'Answer' section, provide only the letter corresponding to the correct option (A, B, C, or D). Do not include any additional text.\n\n**Examples:**\n\nExample 1:\n```\nInstruction:\nIf a metal rod expands when heated, what would happen to a metal bridge on a hot day?\n\nChoices:\nA) It would contract\nB) It would expand\nC) It would melt\nD) It would remain the same size\n\nAnswer:\nB\n```\n\nExample 2:\n```\nInstruction:\nGiven that plants need sunlight for photosynthesis, what might happen to a plant kept in a dark room?\n\nChoices:\nA) It will grow faster\nB) It will produce more oxygen\nC) It will wither and die\nD) It will flower more\n\nAnswer:\nC\n```\n\nExample 3:\n```\nInstruction:\nIf a country's currency depreciates, what is the likely impact on its exports?\n\nChoices:\nA) Exports become cheaper\nB) Exports become more expensive\nC) No change in export prices\nD) Exports are halted\n\nAnswer:\nA\n```\n\n**Text:**\n{text}\n\n**Remember to double-check that your question is a multiple-choice question and that the 'Answer' section contains only the correct option letter before you output it.**\n\n**Output Format:**\n```\nInstruction:\n[Your multiple-choice question here]\n\nChoices:\nA) [Option A]\nB) [Option B]\nC) [Option C]\nD) [Option D]\n\nAnswer:\n[Correct option letter]\n```"
+        "system_prompt": "Create MCQs that require applying information to new contexts with one correct answer and three plausible distractors.",
+        "user_prompt_template": "Create a multiple-choice question from this content:\n\n{text}\n\n```\nInstruction:\n[Question with choices A-D]\n\nAnswer:\n[Letter only]\n```"
       },
       {
         "name": "Scenario-Based Questions Agent",
-        "system_prompt": "You excel at generating scenario-based multiple-choice questions (MCQs) that present real-life or hypothetical situations. **You must generate only multiple-choice questions with four options: one correct answer and three plausible distractors. Do not generate any other type of question.** **Ensure that in the 'Answer' section, only the correct option letter is provided, without any additional text.**",
-        "user_prompt_template": "Using the following text, create a **multiple-choice question** for a Scenario-Based topic. The question should present a scenario related to the content and ask the reader to choose the best response or course of action based on the information provided. Include four options labeled A) through D), with one correct answer and three plausible distractors. **If you cannot create a multiple-choice question based on the text, state 'Cannot generate a multiple-choice question based on the provided text.' Do not provide any additional content.** Ensure that your output strictly follows the format below, and that the question is a multiple-choice question.\n\n**Important:** In the 'Answer' section, provide only the letter corresponding to the correct option (A, B, C, or D). Do not include any additional text.\n\n**Examples:**\n\nExample 1:\n```\nInstruction:\nA driver notices that her car's brakes are less effective after driving through water. Based on the text, what should she do?\n\nChoices:\nA) Continue driving as normal\nB) Stop using the brakes\nC) Pump the brakes gently to dry them\nD) Accelerate to dry the brakes faster\n\nAnswer:\nC\n```\n\nExample 2:\n```\nInstruction:\nIf a student feels anxious before exams despite thorough preparation, which strategy from the text would best help?\n\nChoices:\nA) Studying more hours\nB) Ignoring the anxiety\nC) Practicing relaxation techniques\nD) Skipping the exam\n\nAnswer:\nC\n```\n\nExample 3:\n```\nInstruction:\nAn employee is offered a promotion that requires relocation. According to the decision-making process described, what should she consider first?\n\nChoices:\nA) Accept immediately\nB) Evaluate personal and professional impacts\nC) Decline the offer\nD) Ask for a higher salary\n\nAnswer:\nB\n```\n\n**Text:**\n{text}\n\n**Remember to double-check that your question is a multiple-choice question and that the 'Answer' section contains only the correct option letter before you output it.**\n\n**Output Format:**\n```\nInstruction:\n[Your multiple-choice question here]\n\nChoices:\nA) [Option A]\nB) [Option B]\nC) [Option C]\nD) [Option D]\n\nAnswer:\n[Correct option letter]\n```"
+        "system_prompt": "Create MCQs based on real-life or hypothetical scenarios with one correct answer and three plausible distractors.",
+        "user_prompt_template": "Create a multiple-choice question from this content:\n\n{text}\n\n```\nInstruction:\n[Question with choices A-D]\n\nAnswer:\n[Letter only]\n```"
       },
       {
         "name": "Comparison Questions Agent",
-        "system_prompt": "You are an expert in crafting multiple-choice questions (MCQs) that involve comparing different elements. **You must generate only multiple-choice questions with four options: one correct answer and three plausible distractors. Do not generate any other type of question.** **Ensure that in the 'Answer' section, only the correct option letter is provided, without any additional text.**",
-        "user_prompt_template": "Based on the following text, generate a **multiple-choice question** for a Comparison topic. The question should prompt the reader to compare two or more elements discussed in the text and select the most accurate comparison. Provide four options labeled A) through D), with one correct answer and three distractors reflecting common comparison errors. **If you cannot create a multiple-choice question based on the text, state 'Cannot generate a multiple-choice question based on the provided text.' Do not provide any additional content.** Make sure your output strictly adheres to the format below, and that the question is a multiple-choice question.\n\n**Important:** In the 'Answer' section, provide only the letter corresponding to the correct option (A, B, C, or D). Do not include any additional text.\n\n**Examples:**\n\nExample 1:\n```\nInstruction:\nWhich of the following best compares reptiles and amphibians based on their skin characteristics?\n\nChoices:\nA) Both have moist skin\nB) Reptiles have dry, scaly skin; amphibians have moist skin\nC) Both have dry, scaly skin\nD) Amphibians have dry skin; reptiles have moist skin\n\nAnswer:\nB\n```\n\nExample 2:\n```\nInstruction:\nHow do prokaryotic cells differ from eukaryotic cells in terms of nucleus presence?\n\nChoices:\nA) Both have a nucleus\nB) Prokaryotic cells have a nucleus; eukaryotic cells do not\nC) Prokaryotic cells lack a nucleus; eukaryotic cells have a nucleus\nD) Neither have a nucleus\n\nAnswer:\nC\n```\n\nExample 3:\n```\nInstruction:\nWhat is a key difference between renewable and non-renewable energy sources?\n\nChoices:\nA) Renewable sources can be replenished; non-renewable cannot\nB) Non-renewable sources are environmentally friendly; renewable are not\nC) Both are infinite resources\nD) Renewable sources are always cheaper than non-renewable\n\nAnswer:\nA\n```\n\n**Text:**\n{text}\n\n**Remember to double-check that your question is a multiple-choice question and that the 'Answer' section contains only the correct option letter before you output it.**\n\n**Output Format:**\n```\nInstruction:\n[Your multiple-choice question here]\n\nChoices:\nA) [Option A]\nB) [Option B]\nC) [Option C]\nD) [Option D]\n\nAnswer:\n[Correct option letter]\n```"
+        "system_prompt": "Create MCQs that involve comparing different elements with one correct answer and three plausible distractors reflecting common comparison errors.",
+        "user_prompt_template": "Create a multiple-choice question from this content:\n\n{text}\n\n```\nInstruction:\n[Question with choices A-D]\n\nAnswer:\n[Letter only]\n```"
       },
       {
         "name": "Cause and Effect Questions Agent",
-        "system_prompt": "You specialize in creating multiple-choice questions (MCQs) that assess understanding of cause-and-effect relationships. **You must generate only multiple-choice questions with four options: one correct answer and three plausible distractors. Do not generate any other type of question.** **Ensure that in the 'Answer' section, only the correct option letter is provided, without any additional text.**",
-        "user_prompt_template": "Using the following text, generate a **multiple-choice question** for a Cause-and-Effect topic. The question should focus on identifying a cause-and-effect relationship within the content. Provide four options labeled A) through D), with one correct answer and three distractors representing common misconceptions or errors. **If you cannot create a multiple-choice question based on the text, state 'Cannot generate a multiple-choice question based on the provided text.' Do not provide any additional content.** Ensure that your output strictly follows the format below, and that the question is a multiple-choice question.\n\n**Important:** In the 'Answer' section, provide only the letter corresponding to the correct option (A, B, C, or D). Do not include any additional text.\n\n**Examples:**\n\nExample 1:\n```\nInstruction:\nWhat is the primary cause of seasons on Earth?\n\nChoices:\nA) Earth's distance from the Sun\nB) Earth's axial tilt\nC) The Moon's gravitational pull\nD) Solar flares\n\nAnswer:\nB\n```\n\nExample 2:\n```\nInstruction:\nIf deforestation increases, what is a likely effect on the atmosphere?\n\nChoices:\nA) Decrease in carbon dioxide levels\nB) Increase in oxygen levels\nC) Increase in carbon dioxide levels\nD) Stabilization of greenhouse gases\n\nAnswer:\nC\n```\n\nExample 3:\n```\nInstruction:\nWhat effect does increasing temperature have on the solubility of most solids in water?\n\nChoices:\nA) Decreases solubility\nB) No effect\nC) Increases solubility\nD) Solids become insoluble\n\nAnswer:\nC\n```\n\n**Text:**\n{text}\n\n**Remember to double-check that your question is a multiple-choice question and that the 'Answer' section contains only the correct option letter before you output it.**\n\n**Output Format:**\n```\nInstruction:\n[Your multiple-choice question here]\n\nChoices:\nA) [Option A]\nB) [Option B]\nC) [Option C]\nD) [Option D]\n\nAnswer:\n[Correct option letter]\n```"
+        "system_prompt": "Create MCQs that assess understanding of cause-and-effect relationships with one correct answer and three plausible distractors.",
+        "user_prompt_template": "Create a multiple-choice question from this content:\n\n{text}\n\n```\nInstruction:\n[Question with choices A-D]\n\nAnswer:\n[Letter only]\n```"
       },
       {
         "name": "Hypothetical Outcome Questions Agent",
-        "system_prompt": "You are an expert in designing hypothetical outcome multiple-choice questions (MCQs) that encourage predictive thinking. **You must generate only multiple-choice questions with four options: one correct answer and three plausible distractors. Do not generate any other type of question.** **Ensure that in the 'Answer' section, only the correct option letter is provided, without any additional text.**",
-        "user_prompt_template": "Based on the following text, create a **multiple-choice question** for a Hypothetical Outcome topic. The question should ask the reader to predict an outcome based on the information provided in the text. Provide four options labeled A) through D), with one correct answer and three plausible distractors based on logical extensions of the content. **If you cannot create a multiple-choice question based on the text, state 'Cannot generate a multiple-choice question based on the provided text.' Do not provide any additional content.** Make sure your output strictly adheres to the format below, and that the question is a multiple-choice question.\n\n**Important:** In the 'Answer' section, provide only the letter corresponding to the correct option (A, B, C, or D). Do not include any additional text.\n\n**Examples:**\n\nExample 1:\n```\nInstruction:\nIf a species is introduced into a new environment with no natural predators, what is the most likely outcome?\n\nChoices:\nA) The species will become extinct\nB) The species population will decrease\nC) The species will overpopulate\nD) The species will not survive due to competition\n\nAnswer:\nC\n```\n\nExample 2:\n```\nInstruction:\nWhat would happen to the boiling point of water if atmospheric pressure decreases?\n\nChoices:\nA) Boiling point increases\nB) Boiling point decreases\nC) Boiling point remains the same\nD) Water will not boil\n\nAnswer:\nB\n```\n\nExample 3:\n```\nInstruction:\nIf a country's central bank lowers interest rates, what is a probable effect on borrowing?\n\nChoices:\nA) Borrowing decreases\nB) Borrowing remains unchanged\nC) Borrowing increases\nD) Banks stop lending\n\nAnswer:\nC\n```\n\n**Text:**\n{text}\n\n**Remember to double-check that your question is a multiple-choice question and that the 'Answer' section contains only the correct option letter before you output it.**\n\n**Output Format:**\n```\nInstruction:\n[Your multiple-choice question here]\n\nChoices:\nA) [Option A]\nB) [Option B]\nC) [Option C]\nD) [Option D]\n\nAnswer:\n[Correct option letter]\n```"
+        "system_prompt": "Create MCQs that test predictive thinking with one correct answer and three plausible distractors based on logical extensions.",
+        "user_prompt_template": "Create a multiple-choice question from this content:\n\n{text}\n\n```\nInstruction:\n[Question with choices A-D]\n\nAnswer:\n[Letter only]\n```"
       },
       {
         "name": "Interpretation Questions Agent",
-        "system_prompt": "You excel at crafting multiple-choice questions (MCQs) that test interpretive skills and understanding of nuanced ideas. **You must generate only multiple-choice questions with four options: one correct answer and three plausible distractors. Do not generate any other type of question.** **Ensure that in the 'Answer' section, only the correct option letter is provided, without any additional text.**",
-        "user_prompt_template": "Using the following text, generate a **multiple-choice question** for an Interpretation topic. The question should ask the reader to interpret a statement or idea within the text, selecting the best interpretation from the provided choices. Provide four options labeled A) through D), with one correct answer and three plausible but incorrect interpretations. **If you cannot create a multiple-choice question based on the text, state 'Cannot generate a multiple-choice question based on the provided text.' Do not provide any additional content.** Ensure that your output strictly follows the format below, and that the question is a multiple-choice question.\n\n**Important:** In the 'Answer' section, provide only the letter corresponding to the correct option (A, B, C, or D). Do not include any additional text.\n\n**Examples:**\n\nExample 1:\n```\nInstruction:\nWhat does the phrase \"breaking the ice\" most closely mean in social interactions?\n\nChoices:\nA) Causing a scene\nB) Initiating conversation to ease tension\nC) Ignoring someone\nD) Ending a relationship\n\nAnswer:\nB\n```\n\nExample 2:\n```\nInstruction:\nIf someone says, \"It's a piece of cake,\" they mean that something is:\n\nChoices:\nA) Delicious\nB) Complicated\nC) Easy\nD) Irrelevant\n\nAnswer:\nC\n```\n\nExample 3:\n```\nInstruction:\nIn literature, a \"red herring\" is best interpreted as:\n\nChoices:\nA) A type of fish\nB) A misleading clue\nC) A central character\nD) A happy ending\n\nAnswer:\nB\n```\n\n**Text:**\n{text}\n\n**Remember to double-check that your question is a multiple-choice question and that the 'Answer' section contains only the correct option letter before you output it.**\n\n**Output Format:**\n```\nInstruction:\n[Your multiple-choice question here]\n\nChoices:\nA) [Option A]\nB) [Option B]\nC) [Option C]\nD) [Option D]\n\nAnswer:\n[Correct option letter]\n```"
+        "system_prompt": "Create MCQs that test interpretive skills with one correct answer and three plausible distractors representing common misinterpretations.",
+        "user_prompt_template": "Create a multiple-choice question from this content:\n\n{text}\n\n```\nInstruction:\n[Question with choices A-D]\n\nAnswer:\n[Letter only]\n```"
       },
       {
         "name": "Critical Analysis Questions Agent",
-        "system_prompt": "You are an expert in generating multiple-choice questions (MCQs) that require critical analysis and evaluation of arguments. **You must generate only multiple-choice questions with four options: one correct answer and three plausible distractors. Do not generate any other type of question.** **Ensure that in the 'Answer' section, only the correct option letter is provided, without any additional text.**",
-        "user_prompt_template": "Based on the following text, create a **multiple-choice question** for a Critical Analysis topic. The question should ask the reader to evaluate an argument or claim presented in the passage and identify the most accurate critique or analysis. Provide four options labeled A) through D), with one correct answer and three distractors reflecting common analysis errors. **If you cannot create a multiple-choice question based on the text, state 'Cannot generate a multiple-choice question based on the provided text.' Do not provide any additional content.** Make sure your output strictly adheres to the format below, and that the question is a multiple-choice question.\n\n**Important:** In the 'Answer' section, provide only the letter corresponding to the correct option (A, B, C, or D). Do not include any additional text.\n\n**Examples:**\n\nExample 1:\n```\nInstruction:\nBased on the argument that exercise improves mental health, which of the following is a valid critique?\n\nChoices:\nA) Exercise has no physical benefits\nB) The argument ignores other factors affecting mental health\nC) Everyone exercises regularly\nD) Mental health does not impact overall well-being\n\nAnswer:\nB\n```\n\nExample 2:\n```\nInstruction:\nIf a study concludes that all students who study daily get high grades, what is a critical analysis of this conclusion?\n\nChoices:\nA) Studying daily guarantees high grades\nB) High grades are only due to intelligence\nC) The study may not account for other variables like teaching quality\nD) Grades do not reflect knowledge\n\nAnswer:\nC\n```\n\nExample 3:\n```\nInstruction:\nAn advertisement claims that their product is the best because it is the most popular. What logical fallacy does this argument contain?\n\nChoices:\nA) Straw man\nB) Bandwagon\nC) Red herring\nD) Slippery slope\n\nAnswer:\nB\n```\n\n**Text:**\n{text}\n\n**Remember to double-check that your question is a multiple-choice question and that the 'Answer' section contains only the correct option letter before you output it.**\n\n**Output Format:**\n```\nInstruction:\n[Your multiple-choice question here]\n\nChoices:\nA) [Option A]\nB) [Option B]\nC) [Option C]\nD) [Option D]\n\nAnswer:\n[Correct option letter]\n```"
+        "system_prompt": "Create MCQs that require critical analysis of arguments with one correct answer and three plausible distractors reflecting common analytical errors.",
+        "user_prompt_template": "Create a multiple-choice question from this content:\n\n{text}\n\n```\nInstruction:\n[Question with choices A-D]\n\nAnswer:\n[Letter only]\n```"
       }
-    ],
-    "text_modification": [
+    ]
+  },
+  "text_modification": {
+    "one_shot_example": {
+      "instruction": "Instruction:\n The discovery of penicillin by Alexander Fleming in 1928 revolutionized modern medicine by introducing the first effective antibiotic treatment. Paraphrase the given text while maintaining its core meaning.",
+      "answer": "Answer:\n Alexander Fleming's 1928 identification of penicillin transformed healthcare by providing doctors with their first powerful tool against bacterial infections."
+    },
+    "agents": [
+  
       {
         "name": "Paraphrasing Agent",
         "system_prompt": "You are an expert editor specializing in creating paraphrasing tasks for text modification exercises.",
@@ -220,58 +237,64 @@
         "system_prompt": "You are an expert editor specializing in creating rewriting tasks with vocabulary limitations for text modification exercises.",
         "user_prompt_template": "Based on the following text, generate an instruction-answer pair for a **vocabulary limitation rewriting task**. The instruction should ask the reader to rewrite the text while using a limited vocabulary, such as all words starting with a certain letter, each sentence starting with a vowel, or avoiding certain words. Specify the vocabulary limitation in the instruction. Provide the correct answer as the rewritten text adhering to the limitation.\n\nText:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your vocabulary limitation instruction]\n\nAnswer:\n[Rewritten text]"
       }
-    ],
-    "analytical_reasoning": [
-    {
-      "name": "Sequencing Questions Agent",
-      "system_prompt": "You are an expert educator specializing in creating sequencing questions for analytical reasoning exercises.",
-      "user_prompt_template": "Based on the following scenario, generate an instruction-answer pair for a **sequencing question**. The instruction should present the problem and ask the reader to determine the correct order of items based on the given constraints. Provide the correct answer, showing the sequence derived from the constraints.\n\nScenario:\n{scenario}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your sequencing question]\n\nAnswer:\n[The correct sequence]"
+    ]
+  },
+    "analytical_reasoning": {
+    "one_shot_example": {
+      "instruction": "Instruction:\n Five students (A, B, C, D, and E) must be seated in a row of five chairs numbered 1-5 from left to right. B must sit next to C. D cannot sit in chair 1 or 5. A must sit in an even-numbered chair. If B sits in chair 3, which chair must C occupy?",
+      "answer": "Answer:\n C must occupy chair 2 or 4. Since B must sit next to C, and B is in chair 3, C can only sit in either chair 2 (immediately to B's left) or chair 4 (immediately to B's right)."
     },
-    {
-      "name": "Grouping Questions Agent",
-      "system_prompt": "You are an expert educator specializing in creating grouping questions for analytical reasoning exercises.",
-      "user_prompt_template": "Based on the following scenario, generate an instruction-answer pair for a **grouping question**. The instruction should ask the reader to assign items to groups based on the provided constraints. Provide the correct answer, detailing the grouping that satisfies all conditions.\n\nScenario:\n{scenario}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your grouping question]\n\nAnswer:\n[The correct grouping]"
-    },
-    {
-      "name": "Deduction Questions Agent",
-      "system_prompt": "You are an expert educator specializing in creating deduction questions for analytical reasoning exercises.",
-      "user_prompt_template": "Using the following scenario, generate an instruction-answer pair for a **deduction question**. The instruction should ask the reader to draw logical conclusions from the given information and constraints. Provide the correct answer, explaining the reasoning process.\n\nScenario:\n{scenario}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your deduction question]\n\nAnswer:\n[Logical conclusion with explanation]"
-    },
-    {
-      "name": "Logical Inference Questions Agent",
-      "system_prompt": "You are an expert educator specializing in creating logical inference questions for analytical reasoning exercises.",
-      "user_prompt_template": "Based on the following scenario, generate an instruction-answer pair for a **logical inference question**. The instruction should require the reader to infer information that is not explicitly stated but is implied by the given data and constraints. Provide the correct answer, including the inference and a brief justification.\n\nScenario:\n{scenario}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your logical inference question]\n\nAnswer:\n[Inferred information with justification]"
-    },
-    {
-      "name": "Constraint Satisfaction Questions Agent",
-      "system_prompt": "You are an expert educator specializing in creating constraint satisfaction questions for analytical reasoning exercises.",
-      "user_prompt_template": "Using the following scenario, generate an instruction-answer pair for a **constraint satisfaction question**. The instruction should ask the reader to find a solution that meets all the specified constraints. Provide the correct answer, detailing the solution that satisfies all conditions.\n\nScenario:\n{scenario}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your constraint satisfaction question]\n\nAnswer:\n[Solution meeting all constraints]"
-    },
-    {
-      "name": "Pattern Recognition Questions Agent",
-      "system_prompt": "You are an expert educator specializing in creating pattern recognition questions for analytical reasoning exercises.",
-      "user_prompt_template": "Based on the following scenario, generate an instruction-answer pair for a **pattern recognition question**. The instruction should ask the reader to identify patterns or trends within the data provided. Provide the correct answer, explaining the pattern identified.\n\nScenario:\n{scenario}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your pattern recognition question]\n\nAnswer:\n[Identified pattern with explanation]"
-    },
-    {
-      "name": "Analogy Questions Agent",
-      "system_prompt": "You are an expert educator specializing in creating analogy questions for analytical reasoning exercises.",
-      "user_prompt_template": "Using the following scenario, generate an instruction-answer pair for an **analogy question**. The instruction should ask the reader to determine relationships between pairs of items based on analogical reasoning. Provide the correct answer, explaining the analogy.\n\nScenario:\n{scenario}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your analogy question]\n\nAnswer:\n[Correct analogy with explanation]"
-    },
-    {
-      "name": "Syllogism Questions Agent",
-      "system_prompt": "You are an expert educator specializing in creating syllogism questions for analytical reasoning exercises.",
-      "user_prompt_template": "Based on the following scenario, generate an instruction-answer pair for a **syllogism question**. The instruction should present premises and ask the reader to determine the validity of a conclusion based on those premises. Provide the correct answer, stating whether the conclusion is valid or invalid, with an explanation.\n\nScenario:\n{scenario}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your syllogism question]\n\nAnswer:\n[Valid/Invalid with explanation]"
-    },
-    {
-      "name": "Assumption Identification Questions Agent",
-      "system_prompt": "You are an expert educator specializing in creating assumption identification questions for analytical reasoning exercises.",
-      "user_prompt_template": "Using the following scenario, generate an instruction-answer pair for an **assumption identification question**. The instruction should ask the reader to identify underlying assumptions necessary for a conclusion to be true. Provide the correct answer, stating the assumption(s) with a brief explanation.\n\nScenario:\n{scenario}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your assumption identification question]\n\nAnswer:\n[Assumption(s) with explanation]"
-    },
-    {
-      "name": "Evaluation of Arguments Agent",
-      "system_prompt": "You are an expert educator specializing in creating argument evaluation questions for analytical reasoning exercises.",
-      "user_prompt_template": "Based on the following scenario, generate an instruction-answer pair for an **evaluation of arguments question**. The instruction should ask the reader to assess the strength or weakness of an argument presented. Provide the correct answer, including the evaluation and supporting reasons.\n\nScenario:\n{scenario}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your argument evaluation question]\n\nAnswer:\n[Evaluation with supporting reasons]"
-    }
-  ]
-  }
-  
+    "agents": [
+      {
+        "name": "Sequencing Questions Agent",
+        "system_prompt": "Create analytical reasoning questions that test the ability to determine correct ordering based on given constraints and relationships.",
+        "user_prompt_template": "Create an analytical reasoning question from this content:\n\n{text}\n\n```\nInstruction:\n[Question about sequence ordering]\n\nAnswer:\n[Correct sequence with explanation]\n```"
+      },
+      {
+        "name": "Grouping Questions Agent",
+        "system_prompt": "Create analytical reasoning questions that test the ability to assign items to groups while satisfying multiple constraints.",
+        "user_prompt_template": "Create an analytical reasoning question from this content:\n\n{text}\n\n```\nInstruction:\n[Question about grouping]\n\nAnswer:\n[Correct grouping with explanation]\n```"
+      },
+      {
+        "name": "Deduction Questions Agent",
+        "system_prompt": "Create analytical reasoning questions that require drawing logical conclusions from given information and constraints.",
+        "user_prompt_template": "Create an analytical reasoning question from this content:\n\n{text}\n\n```\nInstruction:\n[Question requiring deduction]\n\nAnswer:\n[Logical conclusion with explanation]\n```"
+      },
+      {
+        "name": "Logical Inference Questions Agent",
+        "system_prompt": "Create analytical reasoning questions that test the ability to infer unstated information from given facts and relationships.",
+        "user_prompt_template": "Create an analytical reasoning question from this content:\n\n{text}\n\n```\nInstruction:\n[Question requiring inference]\n\nAnswer:\n[Inferred conclusion with explanation]\n```"
+      },
+      {
+        "name": "Constraint Satisfaction Questions Agent",
+        "system_prompt": "Create analytical reasoning questions that test the ability to find solutions satisfying multiple interrelated constraints.",
+        "user_prompt_template": "Create an analytical reasoning question from this content:\n\n{text}\n\n```\nInstruction:\n[Question about satisfying constraints]\n\nAnswer:\n[Valid solution with explanation]\n```"
+      },
+      {
+        "name": "Pattern Recognition Questions Agent",
+        "system_prompt": "Create analytical reasoning questions that test the ability to identify recurring patterns and relationships in given information.",
+        "user_prompt_template": "Create an analytical reasoning question from this content:\n\n{text}\n\n```\nInstruction:\n[Question about pattern identification]\n\nAnswer:\n[Pattern identified with explanation]\n```"
+      },
+      {
+        "name": "Analogy Questions Agent",
+        "system_prompt": "Create analytical reasoning questions that test the ability to recognize relationships between pairs of elements and apply them to new situations.",
+        "user_prompt_template": "Create an analytical reasoning question from this content:\n\n{text}\n\n```\nInstruction:\n[Question about analogical relationships]\n\nAnswer:\n[Correct analogy with explanation]\n```"
+      },
+      {
+        "name": "Syllogism Questions Agent",
+        "system_prompt": "Create analytical reasoning questions that test the ability to evaluate logical arguments and determine the validity of conclusions.",
+        "user_prompt_template": "Create an analytical reasoning question from this content:\n\n{text}\n\n```\nInstruction:\n[Question about logical validity]\n\nAnswer:\n[Validity assessment with explanation]\n```"
+      },
+      {
+        "name": "Assumption Identification Questions Agent",
+        "system_prompt": "Create analytical reasoning questions that test the ability to identify unstated assumptions necessary for logical conclusions.",
+        "user_prompt_template": "Create an analytical reasoning question from this content:\n\n{text}\n\n```\nInstruction:\n[Question about underlying assumptions]\n\nAnswer:\n[Assumptions identified with explanation]\n```"
+      },
+      {
+        "name": "Evaluation of Arguments Agent",
+        "system_prompt": "Create analytical reasoning questions that test the ability to assess the strength and validity of logical arguments.",
+        "user_prompt_template": "Create an analytical reasoning question from this content:\n\n{text}\n\n```\nInstruction:\n[Question about argument evaluation]\n\nAnswer:\n[Evaluation with supporting reasons]\n```"
+      }
+    ]
+}
+}
