@@ -8,7 +8,6 @@ from transformers import (
     Trainer,
     TrainingArguments,
 )
-from trl import DataCollatorForCompletionOnlyLM
 from datasets import load_dataset, Dataset, concatenate_datasets
 
 torch.backends.cuda.matmul.allow_tf32 = True
@@ -21,61 +20,44 @@ torch.backends.cudnn.allow_tf32 = True
 def preprocess_function(
     examples: Dict[str, Any], tokenizer: AutoTokenizer
 ) -> Dict[str, Any]:
-    """Preprocess the dataset examples using chat template or default formatting."""
-    inputs = [
-        apply_chat_template_if_available(
-            tokenizer,
-            {
-                "instruction": examples["instruction"][i],
-                "answer": examples["answer"][i],
-            },
-        )[0]
-        for i in range(len(examples["instruction"]))
-    ]
+    """Preprocess the dataset examples using chat template."""
+    inputs = []
+    # Parse the string representation of the messages list if needed
+    for messages_str in examples["messages"]:
+        if isinstance(messages_str, str):
+            messages = json.loads(messages_str)
+        else:
+            messages = messages_str
+            
+        # If messages is a single dict, wrap it in a list
+        if isinstance(messages, dict):
+            messages = [messages]
+            
+        chat_text = tokenizer.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=True
+        )
+        inputs.append(chat_text)
     return {"text": inputs}
 
-# -------------------------------
-# Chat Template Helper
-# -------------------------------
-
-def apply_chat_template_if_available(
-    tokenizer: AutoTokenizer, examples: Dict[str, Any]
-) -> List[str]:
-    """Apply chat template if available, otherwise use default formatting."""
-    if hasattr(tokenizer, "apply_chat_template"):
-        try:
-            messages = [
-                {"role": "system", "content": "You are a helpful assistant."},
-                {
-                    "role": "user",
-                    "content": examples['instruction'],
-                },
-                {"role": "assistant", "content": examples["answer"]},
-            ]
-            tokenized_chat = tokenizer.apply_chat_template(
-                messages, tokenize=False, add_generation_prompt=True
-            )
-            return tokenized_chat
-        except Exception as e:
-            print(
-                f"Error applying chat template: {e}. Falling back to default formatting."
-            )
-
-    # Fallback to default formatting: Just instruction and answer
-    return [
-        f"Instruction: {examples['instruction']}\n\n"
-        f"Answer: {examples['answer']}"
-    ]
-
-# -------------------------------
-# Load and Preprocess Dataset
-# -------------------------------
-
 def load_jsonl_dataset(file_paths: List[str]) -> Dataset:
-    datasets = [
-        load_dataset("json", data_files=file_path)["train"] for file_path in file_paths
-    ]
-    return concatenate_datasets(datasets)
+    datasets = []
+    for file_path in file_paths:
+        # Load the raw JSONL file
+        messages_data = []
+        with open(file_path, 'r', encoding='utf-8') as f:
+            for line in f:
+                if line.strip():
+                    # Parse the JSON array from each line
+                    messages = json.loads(line.strip())
+                    messages_data.append(messages)
+        
+        # Convert to Dataset format
+        dataset = Dataset.from_dict({"messages": messages_data})
+        datasets.append(dataset)
+    
+    return concatenate_datasets(datasets) if len(datasets) > 1 else datasets[0]
 
 # -------------------------------
 # Main Fine-Tuning Function
@@ -86,6 +68,11 @@ def main(args):
     tokenizer = AutoTokenizer.from_pretrained(args.model_name_or_path)
     if not tokenizer.pad_token_id:
         tokenizer.pad_token_id = tokenizer.eos_token_id
+
+    # Set ChatML template if not already set
+    if not tokenizer.chat_template:
+        chatml_template = """{% if not add_generation_prompt is defined %}{% set add_generation_prompt = false %}{% endif %}{% for message in messages %}{{'<|im_start|>' + message['role'] + '\n' + message['content'] + '<|im_end|>' + '\n'}}{% endfor %}{% if add_generation_prompt %}{{ '<|im_start|>assistant\n' }}{% endif %}"""
+        tokenizer.chat_template = chatml_template
 
     print("Loading dataset...")
     raw_datasets = load_jsonl_dataset(args.train_files)
@@ -130,8 +117,6 @@ def main(args):
         tokenize_function, batched=True, remove_columns=["text"]
     )
 
-    data_collator = DataCollatorForCompletionOnlyLM("Answer:", tokenizer=tokenizer)
-
     print("Preparing training arguments...")
     extra_training_args = (
         json.loads(args.training_kwargs) if args.training_kwargs else {}
@@ -166,7 +151,6 @@ def main(args):
         train_dataset=tokenized_train_dataset,
         eval_dataset=tokenized_val_dataset,
         tokenizer=tokenizer,
-        data_collator=data_collator,
     )
 
     print("Starting training...")
