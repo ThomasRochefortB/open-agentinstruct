@@ -11,7 +11,7 @@ async def process_with_instruction_agent(
     user_prompt_template = agent_config["user_prompt_template"]
 
     # Add instruction for handling irrelevant content
-    additional_instruction = "\n\nIf the provided text has no relevant content to your task, output an empty string."
+    additional_instruction = "\n\nIf the provided text has no relevant content to your task, output an empty string. Make sure all the relevant content from the text from which you will build your question is included in your instruction."
     modified_system_prompt = system_prompt + additional_instruction
 
     # Format the user prompt with the text and one-shot example
