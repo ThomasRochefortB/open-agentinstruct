@@ -13,10 +13,10 @@ from datasets import load_dataset, Dataset, concatenate_datasets
 
 torch.backends.cuda.matmul.allow_tf32 = True
 torch.backends.cudnn.allow_tf32 = True
+
 # -------------------------------
 # Preprocess Function
 # -------------------------------
-
 
 def preprocess_function(
     examples: Dict[str, Any], tokenizer: AutoTokenizer
@@ -27,7 +27,6 @@ def preprocess_function(
             tokenizer,
             {
                 "instruction": examples["instruction"][i],
-                "context": examples["context"][i],
                 "answer": examples["answer"][i],
             },
         )[0]
@@ -35,11 +34,9 @@ def preprocess_function(
     ]
     return {"text": inputs}
 
-
 # -------------------------------
 # Chat Template Helper
 # -------------------------------
-
 
 def apply_chat_template_if_available(
     tokenizer: AutoTokenizer, examples: Dict[str, Any]
@@ -51,7 +48,7 @@ def apply_chat_template_if_available(
                 {"role": "system", "content": "You are a helpful assistant."},
                 {
                     "role": "user",
-                    "content": f"{examples['context']}\n{examples['instruction']}",
+                    "content": examples['instruction'],
                 },
                 {"role": "assistant", "content": examples["answer"]},
             ]
@@ -64,18 +61,15 @@ def apply_chat_template_if_available(
                 f"Error applying chat template: {e}. Falling back to default formatting."
             )
 
-    # Fallback to default formatting: Context first, then instruction.
+    # Fallback to default formatting: Just instruction and answer
     return [
-        f"Context: {examples['context']}\n\n"
         f"Instruction: {examples['instruction']}\n\n"
         f"Answer: {examples['answer']}"
     ]
 
-
 # -------------------------------
 # Load and Preprocess Dataset
 # -------------------------------
-
 
 def load_jsonl_dataset(file_paths: List[str]) -> Dataset:
     datasets = [
@@ -83,11 +77,9 @@ def load_jsonl_dataset(file_paths: List[str]) -> Dataset:
     ]
     return concatenate_datasets(datasets)
 
-
 # -------------------------------
 # Main Fine-Tuning Function
 # -------------------------------
-
 
 def main(args):
     print("Loading tokenizer...")
@@ -141,12 +133,10 @@ def main(args):
     data_collator = DataCollatorForCompletionOnlyLM("Answer:", tokenizer=tokenizer)
 
     print("Preparing training arguments...")
-    # Parse any extra training arguments passed via CLI
     extra_training_args = (
         json.loads(args.training_kwargs) if args.training_kwargs else {}
     )
 
-    # Initialize TrainingArguments with defaults and any extra arguments
     training_args = TrainingArguments(
         output_dir="finetuned_models",
         overwrite_output_dir=True,
@@ -167,7 +157,7 @@ def main(args):
         weight_decay=0.1,
         lr_scheduler_type="cosine",
         seed=42,
-        **extra_training_args,  # Add extra CLI-provided arguments
+        **extra_training_args,
     )
 
     trainer = Trainer(
@@ -186,7 +176,6 @@ def main(args):
     trainer.save_model(args.output_dir)
     tokenizer.save_pretrained(args.output_dir)
     print("Training complete and model saved.")
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -215,6 +204,12 @@ if __name__ == "__main__":
         type=str,
         default="{}",
         help="Additional TrainingArguments as a JSON string.",
+    )
+    parser.add_argument(
+        "--output_dir",
+        type=str,
+        default="./finetuned_model",
+        help="Directory where the model will be saved",
     )
 
     args = parser.parse_args()
