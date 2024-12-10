@@ -22,7 +22,7 @@ The AgentInstruct paper implements the following tasks which are not all impleme
 |            **AgentInstruct Task name**           | **Open-AgentInstruct** |
 |:----------------------------------:|:------------------------:|
 | **Reading Comprehension**          |             :heavy_check_mark:             |
-| **Open Domain Question Answering** |                          |
+| **Open Domain Question Answering** |                  :heavy_check_mark:         |
 | **Text Modification**              |             :heavy_check_mark:              |
 | **Web Agent**                      |                          |
 | **Brain Teaser**                   |                          |
