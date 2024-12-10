@@ -154,7 +154,7 @@ async def process_chunk(
             )
 
             refined_pairs = await refine_instructions(
-                instruction_answer_pairs, async_chat_completion, max_rounds=2
+                instruction_answer_pairs, async_chat_completion, max_rounds=1
             )
 
             for pair in refined_pairs:
@@ -238,7 +238,7 @@ async def main(async_chat_completion):
         print("All chunks have been processed.")
         return
 
-    semaphore = asyncio.Semaphore(1)
+    semaphore = asyncio.Semaphore(10)
     queue = asyncio.Queue()
 
     writer_task = asyncio.create_task(writer(queue))
