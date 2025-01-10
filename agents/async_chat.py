@@ -14,7 +14,7 @@ async def async_chat_completion(
                     {"role": "user", "content": user_prompt},
                 ]
                 response = await acompletion(
-                    model=model, messages=messages, temperature=0.0
+                    model=model, messages=messages, temperature=0.3
                 )
                 content = response["choices"][0]["message"]["content"]
                 return content.strip()
