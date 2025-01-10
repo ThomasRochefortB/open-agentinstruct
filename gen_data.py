@@ -79,6 +79,16 @@ parser.add_argument(
     action="store_true",
     help="Process chunks in random order by shuffling them before processing.",
 )
+parser.add_argument(
+    "--skip-refinement",
+    action="store_true",
+    help="Skip the instruction refinement step.",
+)
+parser.add_argument(
+    "--include-content",
+    action="store_true",
+    help="Include the transformed content in the output JSON for validation.",
+)
 args = parser.parse_args()
 
 if not args.dataset_name and not args.pdf_dir:
@@ -150,23 +160,24 @@ async def process_chunk(
                 instruction_agents,
                 one_shot_example,
                 async_chat_completion,
+                text,  # Pass the original text
                 debug,
             )
 
-            refined_pairs = await refine_instructions(
-                instruction_answer_pairs, async_chat_completion, max_rounds=1
-            )
+            if not args.skip_refinement:
+                instruction_answer_pairs = await refine_instructions(
+                    instruction_answer_pairs, async_chat_completion, max_rounds=1
+                )
 
-            for pair in refined_pairs:
+            for pair in instruction_answer_pairs:
                 pair["source"] = source_file
 
-            await queue.put((chunk_index, refined_pairs))
+            await queue.put((chunk_index, instruction_answer_pairs))
             await queue.put({"processed_chunk": chunk_index})
 
         except Exception as e:
             print(f"Error processing chunk {chunk_index}: {e}")
             await queue.put({"error": {"chunk": chunk_index, "error": str(e)}})
-
 
 async def writer(queue):
     processed_chunks = set()

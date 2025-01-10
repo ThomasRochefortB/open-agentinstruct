@@ -4,8 +4,8 @@ import random
 
 
 async def process_with_instruction_agent(
-    agent_config, text, one_shot_example, async_chat_completion
-):
+    agent_config, transformed_content, original_text, one_shot_example, async_chat_completion
+):  # Add original_text parameter
     agent_name = agent_config["name"]
     system_prompt = agent_config["system_prompt"]
     user_prompt_template = agent_config["user_prompt_template"]
@@ -15,7 +15,7 @@ async def process_with_instruction_agent(
     modified_system_prompt = system_prompt + additional_instruction
 
     # Format the user prompt with the text and one-shot example
-    user_prompt = construct_user_prompt(user_prompt_template, text, one_shot_example)
+    user_prompt = construct_user_prompt(user_prompt_template, transformed_content["content"], one_shot_example)
 
     try:
         generated_pairs = await async_chat_completion(
@@ -34,9 +34,12 @@ async def process_with_instruction_agent(
             print(f"No instruction-answer pair found for agent {agent_name}.")
             return []
 
-        # Add agent name to each pair
+        # Add agent name and transformed content info to each pair
         for pair in pairs:
             pair["agent"] = agent_name
+            pair["transformed_content"] = transformed_content["content"]
+            pair["transformation_type"] = transformed_content["type"]
+            pair["original_text"] = original_text  # Now we have access to original_text
 
         return pairs
 
@@ -81,6 +84,7 @@ async def generate_instructions(
     instruction_agents,
     one_shot_example,
     async_chat_completion,
+    original_text,  # Add original_text parameter
     debug=False,
 ):
     instruction_answer_pairs = []
@@ -96,7 +100,11 @@ async def generate_instructions(
     # Create a list of asyncio tasks for each transformed content and agent
     tasks = [
         process_with_instruction_agent(
-            agent_config, item["content"], one_shot_example, async_chat_completion
+            agent_config, 
+            item, 
+            original_text,  # Pass original_text through
+            one_shot_example, 
+            async_chat_completion
         )
         for item in transformed_contents
         for agent_config in agents_to_use
