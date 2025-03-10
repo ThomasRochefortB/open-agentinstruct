@@ -190,6 +190,8 @@ Remember to maintain the same format as the original content (including multiple
             result["transformed_content"] = pair.get("transformed_content")
             result["transformation_type"] = pair.get("transformation_type")
             result["original_text"] = pair.get("original_text")
+            # Preserve the original instruction agent name
+            result["instruction_agent"] = pair.get("instruction_agent")
             return result
 
         print(f"Failed to parse modified output for goal {goal_number}")

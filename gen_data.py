@@ -58,16 +58,10 @@ parser.add_argument(
     help="The name of the task. Can also be set via the TASK_NAME environment variable.",
 )
 parser.add_argument(
-    "--content-agent-config",
+    "--agent-config-path",
     type=str,
-    default="agents/content_gen_agents.json",
-    help="Path to the content generation agents configuration file.",
-)
-parser.add_argument(
-    "--instruction-agent-config",
-    type=str,
-    default="agents/instruction_gen_agents.json",
-    help="Path to the instruction generation agents configuration file.",
+    default="agents/split_agents",
+    help="Path to the base directory containing agent configuration files.",
 )
 parser.add_argument(
     "--debug",
@@ -213,7 +207,7 @@ async def writer(queue):
 
 async def main(async_chat_completion):
     content_agents, instruction_agents, one_shot_example = load_agent_configs(
-        args.content_agent_config, args.instruction_agent_config, args.task_name
+        args.agent_config_path, args.task_name
     )
 
     text_chunks = get_text_chunks()

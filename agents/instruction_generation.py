@@ -1,6 +1,7 @@
 import asyncio
 from utils.text_extraction import parse_instruction_answer_pairs
 import random
+import re
 
 
 async def process_with_instruction_agent(
@@ -10,20 +11,17 @@ async def process_with_instruction_agent(
     system_prompt = agent_config["system_prompt"]
     user_prompt_template = agent_config["user_prompt_template"]
 
-    # Add instruction for handling irrelevant content
-    additional_instruction = "\n\nIf the provided text has no relevant content to your task, output an empty string."
-    modified_system_prompt = system_prompt + additional_instruction
-
     # Format the user prompt with the text and one-shot example
+    # The irrelevant content instruction is already added in construct_user_prompt
     user_prompt = construct_user_prompt(user_prompt_template, transformed_content["content"], one_shot_example)
 
     try:
         generated_pairs = await async_chat_completion(
-            system_prompt=modified_system_prompt, user_prompt=user_prompt
+            system_prompt=system_prompt, user_prompt=user_prompt
         )
 
-        # Check if the output is empty (content not relevant)
-        if not generated_pairs or generated_pairs.strip() == "":
+        # Check if the output is "IRRELEVANT" or contains just that word with whitespace
+        if not generated_pairs or generated_pairs.strip() == "" or re.match(r'^\s*IRRELEVANT\s*$', generated_pairs, re.IGNORECASE):
             print(f"{agent_name}: No relevant content found. Skipping.")
             return []
 
@@ -37,6 +35,7 @@ async def process_with_instruction_agent(
         # Add agent name and transformed content info to each pair
         for pair in pairs:
             pair["agent"] = agent_name
+            pair["instruction_agent"] = agent_name
             pair["transformed_content"] = transformed_content["content"]
             pair["transformation_type"] = transformed_content["type"]
             pair["original_text"] = original_text  # Now we have access to original_text
@@ -61,7 +60,7 @@ def construct_user_prompt(user_prompt_template, text, one_shot_example):
             f"{one_shot_example['answer']}\n"
             "```\n\n"
             "Please follow this format strictly to generate a new question based on the provided content.\n\n"
-            "If the content is not relevant for generating a question in your domain, output an empty string."
+            "If the content is not relevant for generating a question in your domain, output only the word 'IRRELEVANT' without any additional text."
         )
 
         # Insert the text and the formatted example into the template
@@ -70,10 +69,10 @@ def construct_user_prompt(user_prompt_template, text, one_shot_example):
         )
         user_prompt = user_prompt + "\n\n" + formatted_one_shot_example
     else:
-        # Add instruction for handling irrelevant content
+        # Add instruction for handling irrelevant content - changed to IRRELEVANT
         user_prompt = (
             user_prompt_template.format(text=text)
-            + "\n\nIf the content is not relevant for generating a question in your domain, output an empty string."
+            + "\n\nIf the content is not relevant for generating a question in your domain, output only the word 'IRRELEVANT' without any additional text."
         )
 
     return user_prompt

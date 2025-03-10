@@ -19,25 +19,25 @@ An open-source recreation of the [AgentInstruct](https://arxiv.org/pdf/2407.0350
 
 ## Supported tasks
 The AgentInstruct paper implements the following tasks which are not all implemented yet in open-agentinstruct:
-|            **AgentInstruct Task name**           | **Open-AgentInstruct** |
-|:----------------------------------:|:------------------------:|
-| **Reading Comprehension**          |             :heavy_check_mark:             |
-| **Open Domain Question Answering** |                  :heavy_check_mark:         |
-| **Text Modification**              |             :heavy_check_mark:              |
-| **Web Agent**                      |                          |
-| **Brain Teaser**                   |                          |
-| **Analytical Reasoning**           |                :heavy_check_mark:           |
-| **Multiple Choice Questions**      |              :heavy_check_mark:             |
-| **Data To Text**                   |                          |
-| **Fermi**                          |                          |
-| **Coding**                         |                          |
-| **Text Extraction**                |                          |
-| **Text Classification**            |                          |
-| **Retrieval Augmented Generation** |                          |
-| **Tool Use**                       |                          |
-| **Creative Content Generation**    |                          |
-| **Few Shot Reasoning**             |                          |
-| **Conversation**                   |                          |
+| **AgentInstruct Task name**           | **Open-AgentInstruct** |
+|:-------------------------------------|:----------------------:|
+| **Reading Comprehension**             | :heavy_check_mark:     |
+| **Open Domain Question Answering**    | :heavy_check_mark:     |
+| **Text Modification**                 | :heavy_check_mark:     |
+| **Web Agent**                         |                        |
+| **Brain Teaser**                      | :heavy_check_mark:     |
+| **Analytical Reasoning**              | :heavy_check_mark:     |
+| **Multiple Choice Questions**         | :heavy_check_mark:     |
+| **Data To Text**                      | :heavy_check_mark:     |
+| **Fermi**                            |                        |
+| **Coding**                           |                        |
+| **Text Extraction**                  |                        |
+| **Text Classification**              |                        |
+| **Retrieval Augmented Generation**   |                        |
+| **Tool Use**                         |                        |
+| **Creative Content Generation**      | :heavy_check_mark:     |
+| **Few Shot Reasoning**               | :heavy_check_mark:     |
+| **Conversation**                     | :heavy_check_mark:     |
 
 <!-- What benchmarks will evaluate these:
 - [MMLU](https://huggingface.co/datasets/cais/mmlu) (Multiple choice questions)

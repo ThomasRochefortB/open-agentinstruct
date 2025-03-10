@@ -37,6 +37,7 @@ def format_mcq(sample, wrap_width=80):
     instruction = sample.get("instruction", "No instruction provided.")
     answer = sample.get("answer", "No answer provided.")
     agent = sample.get("agent", "No agent information")
+    instruction_agent = sample.get("instruction_agent", "No instruction agent information")
     transformed_content = sample.get("transformed_content", "No transformed content")
     source = sample.get("source", "No source available")
     original_text = sample.get("original_text", "No original text available")
@@ -53,7 +54,8 @@ def format_mcq(sample, wrap_width=80):
     for choice in choices.split("\n"):
         output.append(textwrap.fill(choice.strip(), width=wrap_width))
     output.append(f"\nCorrect Answer: {answer}")
-    output.append(f"\nAgent: {agent}")
+    output.append(f"\nRefinement Agent: {agent}")
+    output.append(f"\nInstruction Agent: {instruction_agent}")
     if transformed_content and transformed_content != "``` \n```":
         output.append("\nTransformed Content:")
         output.append(textwrap.fill(transformed_content, width=wrap_width))

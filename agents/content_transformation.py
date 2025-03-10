@@ -1,27 +1,25 @@
 import asyncio
 import random
+import re
 
 
 async def process_with_agent(
     agent_name, system_prompt, user_prompt_template, text, async_chat_completion
 ):
-    # Additional instruction to be appended
-    additional_instruction = "\n\nIf the provided text has no relevant content to your task, output an empty string."
+    # Additional instruction about irrelevant content
+    additional_instruction = "\n\nIf the provided text has no relevant content to your task, output only the word 'IRRELEVANT' without any additional text."
 
-    # Modify the system prompt
-    modified_system_prompt = system_prompt + additional_instruction
-
-    # Format the user prompt with the provided text
-    user_prompt = user_prompt_template.format(text=text)
+    # Format the user prompt with the provided text and add the additional instruction
+    user_prompt = user_prompt_template.format(text=text) + additional_instruction
 
     try:
         # Use the async_chat_completion function instead of directly calling the OpenAI API
         content = await async_chat_completion(
-            system_prompt=modified_system_prompt, user_prompt=user_prompt
+            system_prompt=system_prompt, user_prompt=user_prompt
         )
 
-        # Check if the output is empty
-        if content == "":
+        # Check if the output is "IRRELEVANT" or contains just that word with whitespace
+        if re.match(r'^\s*IRRELEVANT\s*$', content, re.IGNORECASE):
             print(f"{agent_name}: No relevant content found. Skipping.")
             return None
 

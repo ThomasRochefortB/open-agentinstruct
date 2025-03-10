@@ -5,8 +5,8 @@ from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
 import pymupdf4llm
-from unstructured.partition.pdf import partition_pdf
-from unstructured.chunking.title import chunk_by_title
+# from unstructured.partition.pdf import partition_pdf
+# from unstructured.chunking.title import chunk_by_title
 from datasets import load_dataset
 from typing import Dict, Optional
 
