@@ -24,12 +24,12 @@ The AgentInstruct paper implements the following tasks which are not all impleme
 | **Reading Comprehension**             | :heavy_check_mark:     |
 | **Open Domain Question Answering**    | :heavy_check_mark:     |
 | **Text Modification**                 | :heavy_check_mark:     |
-| **Web Agent**                         |                        |
+| **Web Agent**                         | :heavy_check_mark:     |
 | **Brain Teaser**                      | :heavy_check_mark:     |
 | **Analytical Reasoning**              | :heavy_check_mark:     |
 | **Multiple Choice Questions**         | :heavy_check_mark:     |
 | **Data To Text**                      | :heavy_check_mark:     |
-| **Fermi**                            |                        |
+| **Fermi**                            | :heavy_check_mark:     |
 | **Coding**                           |                        |
 | **Text Extraction**                  |                        |
 | **Text Classification**              |                        |
