@@ -51,6 +51,13 @@ def construct_user_prompt(user_prompt_template, text, one_shot_example):
     """
     Constructs the user prompt by inserting the text and one-shot example into the template.
     """
+    # Add instruction about making questions self-contained
+    self_contained_instruction = (
+        "Important: Unless you're asking a general knowledge question (like 'What is the function of mitochondria?'), "
+        "make sure the question includes all the necessary context from the provided content needed to answer it. "
+        "The question should be self-contained with all required information."
+    )
+    
     if one_shot_example:
         # Format the one-shot example to show the expected format
         formatted_one_shot_example = (
@@ -60,6 +67,7 @@ def construct_user_prompt(user_prompt_template, text, one_shot_example):
             f"{one_shot_example['answer']}\n"
             "```\n\n"
             "Please follow this format strictly to generate a new question based on the provided content.\n\n"
+            f"{self_contained_instruction}\n\n"
             "If the content is not relevant for generating a question in your domain, output only the word 'IRRELEVANT' without any additional text."
         )
 
@@ -72,6 +80,7 @@ def construct_user_prompt(user_prompt_template, text, one_shot_example):
         # Add instruction for handling irrelevant content - changed to IRRELEVANT
         user_prompt = (
             user_prompt_template.format(text=text)
+            + f"\n\n{self_contained_instruction}"
             + "\n\nIf the content is not relevant for generating a question in your domain, output only the word 'IRRELEVANT' without any additional text."
         )
 

@@ -31,7 +31,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument(
     "--model",
     type=str,
-    default="gpt-4o-mini",
+    default="gemini/gemini-2.0-flash",
     help="The model to use for LLM completions.",
 )
 parser.add_argument(
@@ -106,7 +106,7 @@ def get_text_chunks():
         return extract_text_chunks_from_dataset(
             dataset_name=args.dataset_name,
             split="train",
-            text_field="text",
+            text_field="content",
             chunk_size=20000,
             use_samples=False,
         )

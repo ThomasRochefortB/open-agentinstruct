@@ -7,7 +7,13 @@ async def process_with_agent(
     agent_name, system_prompt, user_prompt_template, text, async_chat_completion
 ):
     # Additional instruction about irrelevant content
-    additional_instruction = "\n\nIf the provided text has no relevant content to your task, output only the word 'IRRELEVANT' without any additional text."
+    additional_instruction = (
+        "\n\nYou must be extremely strict about content relevance. Your task is to:"
+        "\n1. Carefully evaluate if the text contains content that is DIRECTLY relevant to your specific task"
+        "\n2. If there is ANY doubt about relevance, or if the content is only tangentially related, output only the word 'IRRELEVANT'"
+        "\n3. Only transform content when you are completely certain it is highly relevant to your task"
+        "\n4. Output only the word 'IRRELEVANT' (no other text) for any content that doesn't meet this strict relevance standard"
+    )
 
     # Format the user prompt with the provided text and add the additional instruction
     user_prompt = user_prompt_template.format(text=text) + additional_instruction
