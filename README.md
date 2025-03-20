@@ -29,15 +29,15 @@ The AgentInstruct paper implements the following tasks which are not all impleme
 | **Analytical Reasoning**              | :heavy_check_mark:     |
 | **Multiple Choice Questions**         | :heavy_check_mark:     |
 | **Data To Text**                      | :heavy_check_mark:     |
-| **Fermi**                            | :heavy_check_mark:     |
-| **Coding**                           |                        |
-| **Text Extraction**                  |                        |
-| **Text Classification**              |                        |
-| **Retrieval Augmented Generation**   |                        |
-| **Tool Use**                         |                        |
-| **Creative Content Generation**      | :heavy_check_mark:     |
-| **Few Shot Reasoning**               | :heavy_check_mark:     |
-| **Conversation**                     | :heavy_check_mark:     |
+| **Fermi**                             | :heavy_check_mark:     |
+| **Coding**                            | :heavy_check_mark:     |
+| **Text Extraction**                   | :heavy_check_mark:     |
+| **Text Classification**               | :heavy_check_mark:     |
+| **Retrieval Augmented Generation**    | :heavy_check_mark:     |
+| **Tool Use**                          | :heavy_check_mark:     |
+| **Creative Content Generation**       | :heavy_check_mark:     |
+| **Few Shot Reasoning**                | :heavy_check_mark:     |
+| **Conversation**                      | :heavy_check_mark:     |
 
 <!-- What benchmarks will evaluate these:
 - [MMLU](https://huggingface.co/datasets/cais/mmlu) (Multiple choice questions)

@@ -1,0 +1,68 @@
+{
+  "one_shot_example": {
+    "instruction": "Instruction:\nExtract all the named entities (people, organizations, locations) from the following text. Present your findings in a structured table with columns for Entity, Entity Type, and Frequency (number of mentions).\n\nText:\nMicrosoft CEO Satya Nadella announced a new partnership with OpenAI during his keynote at the Build conference in Seattle. The partnership will focus on integrating GPT-4 capabilities into Microsoft products including Office, Azure, and Bing. Nadella emphasized that this collaboration would bring AI benefits to enterprises across North America and Europe. He also mentioned that Microsoft's Chief Technology Officer, Kevin Scott, would oversee the implementation, working closely with OpenAI's CEO Sam Altman. Later, Satya Nadella reiterated Microsoft's commitment to responsible AI development.",
+    "answer": "Answer:\nHere is the structured table of named entities extracted from the text:\n\n| Entity | Entity Type | Frequency |\n|--------|------------|----------|\n| Satya Nadella | Person | 2 |\n| Microsoft | Organization | 4 |\n| OpenAI | Organization | 2 |\n| Build | Event | 1 |\n| Seattle | Location | 1 |\n| GPT-4 | Product/Technology | 1 |\n| Office | Product | 1 |\n| Azure | Product | 1 |\n| Bing | Product | 1 |\n| North America | Location | 1 |\n| Europe | Location | 1 |\n| Kevin Scott | Person | 1 |\n| Sam Altman | Person | 1 |"
+  },
+  "agents": [
+    {
+      "name": "Named Entity Recognition Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying and categorizing named entities (people, organizations, locations, etc.) within text.",
+      "user_prompt_template": "Create an instruction-answer pair for a named entity recognition task based on the following text. The instruction should ask to identify, categorize, and possibly analyze the distribution of named entities in the text.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to extract named entities from the text with specific requirements about how to present the information]\n\nAnswer:\n[A comprehensive answer that correctly identifies all named entities in the text, categorizes them, and presents them in the requested format]"
+    },
+    {
+      "name": "Keyword Extraction Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying the most important keywords or key phrases from text.",
+      "user_prompt_template": "Create an instruction-answer pair for a keyword extraction task based on the following text. The instruction should ask to identify the most important keywords or key phrases in the text based on specific criteria.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to extract keywords from the text with specific requirements about selection criteria and presentation]\n\nAnswer:\n[A comprehensive answer that correctly identifies the most important keywords or phrases in the text according to the specified criteria and presents them in the requested format]"
+    },
+    {
+      "name": "Structured Information Extraction Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying and organizing structured information (tables, lists, etc.) embedded within unstructured text.",
+      "user_prompt_template": "Create an instruction-answer pair for a structured information extraction task based on the following text. The instruction should ask to identify and reorganize structured information hidden within the unstructured text.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to extract structured information from the text with specific requirements about how to organize and present it]\n\nAnswer:\n[A comprehensive answer that correctly identifies and extracts the structured information from the text and presents it in the requested format]"
+    },
+    {
+      "name": "Technical Information Extraction Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying technical information (specifications, parameters, formulas, etc.) from technical documents.",
+      "user_prompt_template": "Create an instruction-answer pair for a technical information extraction task based on the following text. The instruction should ask to identify and organize specific technical information from the text.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to extract technical information from the text with specific requirements about what to extract and how to present it]\n\nAnswer:\n[A comprehensive answer that correctly identifies and extracts the requested technical information from the text and presents it in the requested format]"
+    },
+    {
+      "name": "Numerical Data Extraction Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying and analyzing numerical data (statistics, measurements, financial figures, etc.) within text.",
+      "user_prompt_template": "Create an instruction-answer pair for a numerical data extraction task based on the following text. The instruction should ask to identify, organize, and possibly analyze numerical data embedded in the text.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to extract numerical data from the text with specific requirements about what to extract and how to present or analyze it]\n\nAnswer:\n[A comprehensive answer that correctly identifies and extracts the numerical data from the text and presents or analyzes it as requested]"
+    },
+    {
+      "name": "Temporal Information Extraction Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying and organizing temporal information (dates, times, sequences, durations, etc.) within text.",
+      "user_prompt_template": "Create an instruction-answer pair for a temporal information extraction task based on the following text. The instruction should ask to identify and organize temporal information embedded in the text.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to extract temporal information from the text with specific requirements about what to extract and how to present it]\n\nAnswer:\n[A comprehensive answer that correctly identifies and extracts the temporal information from the text and presents it in the requested format]"
+    },
+    {
+      "name": "Relationship Extraction Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying relationships between entities or concepts mentioned in text.",
+      "user_prompt_template": "Create an instruction-answer pair for a relationship extraction task based on the following text. The instruction should ask to identify and characterize relationships between entities or concepts mentioned in the text.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to extract relationships from the text with specific requirements about what types of relationships to identify and how to present them]\n\nAnswer:\n[A comprehensive answer that correctly identifies and characterizes the relationships between entities or concepts in the text and presents them in the requested format]"
+    },
+    {
+      "name": "Topic Extraction Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying the main topics, themes, or subject matter discussed in text.",
+      "user_prompt_template": "Create an instruction-answer pair for a topic extraction task based on the following text. The instruction should ask to identify and possibly analyze the main topics or themes discussed in the text.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to extract topics from the text with specific requirements about how to identify them and present the information]\n\nAnswer:\n[A comprehensive answer that correctly identifies the main topics or themes in the text and presents them in the requested format]"
+    },
+    {
+      "name": "Domain-Specific Extraction Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying specialized information from specific domains (medical, legal, financial, scientific, etc.).",
+      "user_prompt_template": "Create an instruction-answer pair for a domain-specific information extraction task based on the following text. The instruction should ask to identify specialized information relevant to a particular domain mentioned in the text.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to extract domain-specific information from the text with specific requirements about what to extract and how to present it]\n\nAnswer:\n[A comprehensive answer that correctly identifies and extracts the domain-specific information from the text and presents it in the requested format]"
+    },
+    {
+      "name": "Sentiment and Opinion Extraction Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying sentiments, opinions, attitudes, or stances expressed in text.",
+      "user_prompt_template": "Create an instruction-answer pair for a sentiment and opinion extraction task based on the following text. The instruction should ask to identify and possibly analyze sentiments, opinions, or attitudes expressed in the text.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to extract sentiments and opinions from the text with specific requirements about what to extract and how to present or analyze it]\n\nAnswer:\n[A comprehensive answer that correctly identifies and characterizes the sentiments and opinions expressed in the text and presents them in the requested format]"
+    },
+    {
+      "name": "Code Element Extraction Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying and analyzing elements from code snippets or programming-related text.",
+      "user_prompt_template": "Create an instruction-answer pair for a code element extraction task based on the following text containing code or programming-related content. The instruction should ask to identify and possibly analyze specific elements from the code or programming concepts.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to extract code elements or programming concepts from the text with specific requirements about what to extract and how to present it]\n\nAnswer:\n[A comprehensive answer that correctly identifies and extracts the requested code elements or programming concepts and presents them in the requested format]"
+    },
+    {
+      "name": "Pattern Extraction Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying patterns, recurring elements, or structural features within text.",
+      "user_prompt_template": "Create an instruction-answer pair for a pattern extraction task based on the following text. The instruction should ask to identify and analyze patterns, recurring elements, or structural features within the text.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to extract patterns or recurring elements from the text with specific requirements about what to look for and how to present the findings]\n\nAnswer:\n[A comprehensive answer that correctly identifies and analyzes the patterns or recurring elements in the text and presents them in the requested format]"
+    }
+  ]
+} 

@@ -1,0 +1,68 @@
+{
+  "one_shot_example": {
+    "instruction": "Instruction:\nDetermine which category best describes the following text. Choose from these categories: Technology, Sports, Politics, Entertainment, Business, Health, Science, Education.\n\nText:\nThe latest smartphone from TechCorp features an improved 5G capability, a 108-megapixel camera, and a revolutionary AI chip that optimizes battery usage based on user behavior. Early reviews suggest that the facial recognition system is significantly faster than previous models, while the augmented reality applications benefit from the more powerful processor. The company expects to ship 10 million units in the first quarter.",
+    "answer": "Answer:\nCategory: Technology\n\nReasoning: This text is clearly about a new smartphone and its technical features. It discusses specific technology components like 5G capability, camera specifications, AI chips, facial recognition, augmented reality, and processors. The focus is entirely on the technical aspects and market expectations of a new consumer electronic device, which places this firmly in the Technology category rather than any of the other options like Sports, Politics, Entertainment, Business, Health, Science, or Education."
+  },
+  "agents": [
+    {
+      "name": "Binary Classification Agent",
+      "system_prompt": "You are an expert in creating binary classification tasks where text must be assigned to one of two possible categories.",
+      "user_prompt_template": "Create an instruction-answer pair for a binary text classification task based on the following text. The instruction should ask to classify the text into one of two opposing categories (e.g., positive/negative, relevant/irrelevant, spam/not spam).\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to classify the text into one of two categories]\n\nAnswer:\n[The correct classification with a detailed explanation of the reasoning behind the classification]"
+    },
+    {
+      "name": "Multi-class Classification Agent",
+      "system_prompt": "You are an expert in creating multi-class classification tasks where text must be assigned to exactly one category from multiple possible categories.",
+      "user_prompt_template": "Create an instruction-answer pair for a multi-class text classification task based on the following text. The instruction should ask to classify the text into exactly one of several (at least 3) predefined categories.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to classify the text into one of several categories]\n\nAnswer:\n[The correct classification with a detailed explanation of the reasoning behind the classification and why other categories do not apply]"
+    },
+    {
+      "name": "Multi-label Classification Agent",
+      "system_prompt": "You are an expert in creating multi-label classification tasks where text can be assigned to multiple applicable categories simultaneously.",
+      "user_prompt_template": "Create an instruction-answer pair for a multi-label text classification task based on the following text. The instruction should ask to classify the text into all applicable categories from a predefined list.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to identify all applicable categories for the text]\n\nAnswer:\n[A list of all applicable categories with a detailed explanation of why each selected category applies to the text]"
+    },
+    {
+      "name": "Sentiment Analysis Agent",
+      "system_prompt": "You are an expert in creating sentiment analysis tasks where text must be classified according to the sentiment or emotion it expresses.",
+      "user_prompt_template": "Create an instruction-answer pair for a sentiment analysis task based on the following text. The instruction should ask to classify the text according to the sentiment or emotion it expresses.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to classify the sentiment of the text]\n\nAnswer:\n[The sentiment classification with a detailed explanation that identifies specific linguistic markers or content that indicates the sentiment]"
+    },
+    {
+      "name": "Intent Classification Agent",
+      "system_prompt": "You are an expert in creating intent classification tasks where text must be classified according to the purpose or intention behind it.",
+      "user_prompt_template": "Create an instruction-answer pair for an intent classification task based on the following text. The instruction should ask to identify the primary purpose or intention behind the text.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to classify the intent of the text]\n\nAnswer:\n[The intent classification with a detailed explanation that identifies specific linguistic markers or content that indicates the intent]"
+    },
+    {
+      "name": "Topic Classification Agent",
+      "system_prompt": "You are an expert in creating topic classification tasks where text must be classified according to its main subject or theme.",
+      "user_prompt_template": "Create an instruction-answer pair for a topic classification task based on the following text. The instruction should ask to identify the main subject or theme of the text from a list of possible topics.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to classify the topic of the text]\n\nAnswer:\n[The topic classification with a detailed explanation that identifies specific content that indicates the main subject or theme]"
+    },
+    {
+      "name": "Urgency Classification Agent",
+      "system_prompt": "You are an expert in creating urgency classification tasks where text must be classified according to how urgent or time-sensitive it is.",
+      "user_prompt_template": "Create an instruction-answer pair for an urgency classification task based on the following text. The instruction should ask to classify the text according to its level of urgency or time-sensitivity.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to classify the urgency level of the text]\n\nAnswer:\n[The urgency classification with a detailed explanation that identifies specific linguistic markers or content that indicates the level of urgency]"
+    },
+    {
+      "name": "Domain Expertise Classification Agent",
+      "system_prompt": "You are an expert in creating domain expertise classification tasks where text must be classified according to the specialized field or knowledge domain it belongs to.",
+      "user_prompt_template": "Create an instruction-answer pair for a domain expertise classification task based on the following text. The instruction should ask to identify the specialized field or knowledge domain the text belongs to.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to classify the domain of the text]\n\nAnswer:\n[The domain classification with a detailed explanation that identifies specific terminology or concepts that indicate the specialized field]"
+    },
+    {
+      "name": "Content Moderation Classification Agent",
+      "system_prompt": "You are an expert in creating content moderation classification tasks where text must be classified according to whether it contains inappropriate or harmful content.",
+      "user_prompt_template": "Create an instruction-answer pair for a content moderation classification task based on the following text. The instruction should ask to classify the text according to whether it contains inappropriate or harmful content and what type.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to classify the text for content moderation purposes]\n\nAnswer:\n[The content moderation classification with a detailed explanation that identifies any potentially problematic content or confirms its absence]"
+    },
+    {
+      "name": "Formality Classification Agent",
+      "system_prompt": "You are an expert in creating formality classification tasks where text must be classified according to its level of formality or informality.",
+      "user_prompt_template": "Create an instruction-answer pair for a formality classification task based on the following text. The instruction should ask to classify the text according to its level of formality or informality.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to classify the formality level of the text]\n\nAnswer:\n[The formality classification with a detailed explanation that identifies specific linguistic markers or stylistic elements that indicate the level of formality]"
+    },
+    {
+      "name": "Technical Complexity Classification Agent",
+      "system_prompt": "You are an expert in creating technical complexity classification tasks where text must be classified according to its level of technical complexity or the expertise required to understand it.",
+      "user_prompt_template": "Create an instruction-answer pair for a technical complexity classification task based on the following text. The instruction should ask to classify the text according to its level of technical complexity or the expertise required to understand it.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to classify the technical complexity of the text]\n\nAnswer:\n[The complexity classification with a detailed explanation that identifies specific technical terminology, concepts, or structures that indicate the level of complexity]"
+    },
+    {
+      "name": "Audience Classification Agent",
+      "system_prompt": "You are an expert in creating audience classification tasks where text must be classified according to its intended audience or reader.",
+      "user_prompt_template": "Create an instruction-answer pair for an audience classification task based on the following text. The instruction should ask to identify the intended audience or reader of the text.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction asking to classify the intended audience of the text]\n\nAnswer:\n[The audience classification with a detailed explanation that identifies specific content, style, or language choices that indicate the intended audience]"
+    }
+  ]
+} 
