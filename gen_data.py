@@ -256,10 +256,22 @@ async def writer(queue):
             if isinstance(item, tuple):
                 chunk_index, refined_pairs = item
                 for pair in refined_pairs:
-                    # Remove content fields unless --include-content is specified
-                    if not args.include_content:
-                        pair = {k: v for k, v in pair.items() if k not in ["transformed_content", "original_text"]}
-                    data_f.write(json.dumps(pair) + "\n")
+                    # Format as chat with roles
+                    chat_messages = [
+                        {"role": "user", "content": pair.get("instruction", "")},
+                        {"role": "assistant", "content": pair.get("answer", "")}
+                    ]
+                    
+                    # Add metadata if needed
+                    if args.include_content and ("transformed_content" in pair or "original_text" in pair):
+                        metadata = {k: v for k, v in pair.items() 
+                                 if k not in ["instruction", "answer"]}
+                        chat_data = {"messages": chat_messages, "metadata": metadata}
+                        data_f.write(json.dumps(chat_data) + "\n")
+                    else:
+                        # Just write the messages array directly
+                        data_f.write(json.dumps(chat_messages) + "\n")
+                        
                 data_f.flush()
             elif isinstance(item, dict):
                 if "processed_chunk" in item:
@@ -348,10 +360,23 @@ async def process_task(task_name, async_chat_completion):
                     if isinstance(item, tuple):
                         chunk_index, refined_pairs = item
                         for pair in refined_pairs:
-                            # Remove content fields unless --include-content is specified
-                            if not args.include_content:
-                                pair = {k: v for k, v in pair.items() if k not in ["transformed_content", "original_text"]}
-                            data_f.write(json.dumps(pair) + "\n")
+                            # Format as chat with roles
+                            chat_messages = [
+                                {"role": "user", "content": pair.get("instruction", "")},
+                                {"role": "assistant", "content": pair.get("answer", "")}
+                            ]
+                            
+                            # Add metadata if needed
+                            if args.include_content and ("transformed_content" in pair or "original_text" in pair):
+                                # Extract metadata (excluding instruction/answer which are now in the messages)
+                                metadata = {k: v for k, v in pair.items() 
+                                         if k not in ["instruction", "answer"]}
+                                chat_data = {"messages": chat_messages, "metadata": metadata}
+                                data_f.write(json.dumps(chat_data) + "\n")
+                            else:
+                                # Just write the messages array directly like in convert_to_chat.py
+                                data_f.write(json.dumps(chat_messages) + "\n")
+                                
                         data_f.flush()
                     elif isinstance(item, dict):
                         if "processed_chunk" in item:
@@ -382,21 +407,11 @@ async def process_task(task_name, async_chat_completion):
             for index, chunk in tasks_to_create
         ]
 
-        def shutdown():
-            print(f"Received stop signal while processing task {task_name}. Cancelling tasks...")
-            for task in tasks:
-                if not task.done():
-                    task.cancel()
-            asyncio.create_task(queue.put(None))
-
-        loop = asyncio.get_running_loop()
-        for sig in (signal.SIGINT, signal.SIGTERM):
-            loop.add_signal_handler(sig, shutdown)
-
         try:
             await asyncio.gather(*tasks, return_exceptions=True)
         except asyncio.CancelledError:
-            print("Tasks have been cancelled.")
+            print(f"Tasks for {task_name} have been cancelled.")
+            raise  # Re-raise the exception
         finally:
             await queue.put(None)
             await writer_task
@@ -404,10 +419,21 @@ async def process_task(task_name, async_chat_completion):
         print(f"{task_name.capitalize()} task processing complete!")
     except Exception as e:
         print(f"Error processing task {task_name}: {e}")
-
+    
+    return tasks  # Return tasks for potential cancellation from the main function
 
 async def main(async_chat_completion):
     """Main function to run the data generation process."""
+    # Single signal handler for immediate exit
+    def shutdown():
+        print("\nReceived interrupt - exiting immediately!")
+        os._exit(1)  # Force exit the process
+
+    # Register signal handlers at start
+    loop = asyncio.get_running_loop()
+    for sig in (signal.SIGINT, signal.SIGTERM):
+        loop.add_signal_handler(sig, shutdown)
+
     if args.all_tasks:
         # Get all available task names by looking at instruction JSON files
         task_names = []
@@ -422,11 +448,13 @@ async def main(async_chat_completion):
         # Process each task sequentially
         for task_name in task_names:
             await process_task(task_name, async_chat_completion)
-            
-        print("\nAll tasks have been processed!")
+        
+        print("\nAll tasks processing completed or interrupted!")
     else:
         # Process a single task
-        await process_task(args.task_name, async_chat_completion)
+        task_tasks = await process_task(args.task_name, async_chat_completion)
+        if task_tasks:
+            print("\nAll tasks processing completed or interrupted!")
 
 
 if __name__ == "__main__":
