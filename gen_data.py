@@ -124,19 +124,20 @@ def get_text_chunks():
     if args.dataset_names:
         all_chunks = []
         
-        # Process dataset names and extract text fields if provided in the format "dataset_name:text_field"
+        # Process dataset names and extract text fields and splits if provided
         datasets_and_fields = []
         for dataset_spec in args.dataset_names:
-            if ":" in dataset_spec:
-                # Split "dataset_name:text_field" into separate parts
-                parts = dataset_spec.split(":", 1)
-                dataset_name = parts[0]
-                text_field = parts[1]
-                datasets_and_fields.append((dataset_name, text_field))
+            parts = dataset_spec.split(":", 2)  # Split into up to 3 parts
+            dataset_name = parts[0]
+            text_field = parts[1] if len(parts) > 1 else None
+            
+            # Parse multiple splits if provided (comma-separated)
+            if len(parts) > 2:
+                splits = [s.strip() for s in parts[2].split(",")]
             else:
-                # No text field specified, use the default text field (from args.text_fields)
-                dataset_name = dataset_spec
-                datasets_and_fields.append((dataset_name, None))
+                splits = ["train"]  # Default to "train" if not specified
+                
+            datasets_and_fields.append((dataset_name, text_field, splits))
         
         # For any datasets without a specified text field, use the provided --text-fields
         text_fields = args.text_fields
@@ -145,7 +146,7 @@ def get_text_chunks():
         else:
             default_text_field = "text"
         
-        for idx, (dataset_name, specified_field) in enumerate(datasets_and_fields):
+        for idx, (dataset_name, specified_field, splits) in enumerate(datasets_and_fields):
             # Use the specified field if provided, otherwise fall back to the text_fields argument
             if specified_field:
                 text_field = specified_field
@@ -154,20 +155,20 @@ def get_text_chunks():
             else:
                 text_field = default_text_field
                 
-            print(f"Processing dataset: {dataset_name} using text field: {text_field}")
+            print(f"Processing dataset: {dataset_name} using text field: {text_field}, splits: {splits}")
             
-            try:
-                chunks = extract_text_chunks_from_dataset(
-                    dataset_name=dataset_name,
-                    split="train",
-                    text_field=text_field,
-                    chunk_size=20000,
-                    use_samples=False,
-                )
-                chunks = [(dataset_name, chunk) for chunk in chunks]
-                all_chunks.extend(chunks)
-            except Exception as e:
-                print(f"Error processing dataset {dataset_name}: {e}")
+            for split in splits:
+                try:
+                    chunks = extract_text_chunks_from_dataset(
+                        dataset_name=dataset_name,
+                        split=split,
+                        text_field=text_field,
+                        use_samples=True,
+                    )
+                    chunks = [(dataset_name, chunk) for chunk in chunks]
+                    all_chunks.extend(chunks)
+                except Exception as e:
+                    print(f"Error processing dataset {dataset_name}: {e}")
                 
         return all_chunks
     elif args.pdf_dir:
@@ -262,15 +263,21 @@ async def writer(queue):
                         {"role": "assistant", "content": pair.get("answer", "")}
                     ]
                     
-                    # Add metadata if needed
+                    # Always include basic metadata (model and source)
                     if args.include_content and ("transformed_content" in pair or "original_text" in pair):
+                        # Full metadata with content
                         metadata = {k: v for k, v in pair.items() 
                                  if k not in ["instruction", "answer"]}
-                        chat_data = {"messages": chat_messages, "metadata": metadata}
-                        data_f.write(json.dumps(chat_data) + "\n")
                     else:
-                        # Just write the messages array directly
-                        data_f.write(json.dumps(chat_messages) + "\n")
+                        # Minimal metadata with just model and source
+                        metadata = {
+                            "model": pair.get("model", ""),
+                            "source": pair.get("source", "")
+                        }
+                    
+                    # Always write with metadata format
+                    chat_data = {"messages": chat_messages, "metadata": metadata}
+                    data_f.write(json.dumps(chat_data) + "\n")
                         
                 data_f.flush()
             elif isinstance(item, dict):
@@ -366,17 +373,22 @@ async def process_task(task_name, async_chat_completion):
                                 {"role": "assistant", "content": pair.get("answer", "")}
                             ]
                             
-                            # Add metadata if needed
+                            # Always include basic metadata (model and source)
                             if args.include_content and ("transformed_content" in pair or "original_text" in pair):
-                                # Extract metadata (excluding instruction/answer which are now in the messages)
+                                # Full metadata with content
                                 metadata = {k: v for k, v in pair.items() 
                                          if k not in ["instruction", "answer"]}
-                                chat_data = {"messages": chat_messages, "metadata": metadata}
-                                data_f.write(json.dumps(chat_data) + "\n")
                             else:
-                                # Just write the messages array directly like in convert_to_chat.py
-                                data_f.write(json.dumps(chat_messages) + "\n")
-                                
+                                # Minimal metadata with just model and source
+                                metadata = {
+                                    "model": pair.get("model", ""),
+                                    "source": pair.get("source", "")
+                                }
+                            
+                            # Always write with metadata format
+                            chat_data = {"messages": chat_messages, "metadata": metadata}
+                            data_f.write(json.dumps(chat_data) + "\n")
+                            
                         data_f.flush()
                     elif isinstance(item, dict):
                         if "processed_chunk" in item:
