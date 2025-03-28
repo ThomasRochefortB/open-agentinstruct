@@ -6,28 +6,14 @@ import re
 async def process_with_agent(
     agent_name, system_prompt, user_prompt_template, text, async_chat_completion
 ):
-    # Additional instruction about irrelevant content
-    additional_instruction = (
-        "\n\nYou must be extremely strict about content relevance. Your task is to:"
-        "\n1. Carefully evaluate if the text contains content that is DIRECTLY relevant to your specific task"
-        "\n2. If there is ANY doubt about relevance, or if the content is only tangentially related, output only the word 'IRRELEVANT'"
-        "\n3. Only transform content when you are completely certain it is highly relevant to your task"
-        "\n4. Output only the word 'IRRELEVANT' (no other text) for any content that doesn't meet this strict relevance standard"
-    )
-
-    # Format the user prompt with the provided text and add the additional instruction
-    user_prompt = user_prompt_template.format(text=text) + additional_instruction
+    # Format the user prompt with the provided text
+    user_prompt = user_prompt_template.format(text=text)
 
     try:
         # Use the async_chat_completion function instead of directly calling the OpenAI API
         content = await async_chat_completion(
             system_prompt=system_prompt, user_prompt=user_prompt
         )
-
-        # Check if the output is "IRRELEVANT" or contains just that word with whitespace
-        if re.match(r'^\s*IRRELEVANT\s*$', content, re.IGNORECASE):
-            print(f"{agent_name}: No relevant content found. Skipping.")
-            return None
 
         return {"type": agent_name.lower().replace(" ", "_"), "content": content}
 
