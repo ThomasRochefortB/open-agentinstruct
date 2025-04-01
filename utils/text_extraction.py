@@ -207,6 +207,7 @@ def extract_text_chunks_from_dataset(
     chunk_size=1000,
     dataset_kwargs={},
     use_samples=False,
+    min_chars=None,
 ):
     """
     Loads a HuggingFace dataset and extracts text chunks or individual samples.
@@ -218,6 +219,7 @@ def extract_text_chunks_from_dataset(
         chunk_size (int): The number of characters per chunk when not using samples. Default is 1000.
         dataset_kwargs (dict): Additional keyword arguments to pass to `load_dataset`.
         use_samples (bool): If True, return individual text samples from the dataset. If False, concatenate text and split into chunks.
+        min_chars (int, optional): If specified and use_samples is True, concatenate samples until they reach this minimum character count.
 
     Returns:
         list: A list of text chunks or individual samples.
@@ -228,6 +230,30 @@ def extract_text_chunks_from_dataset(
     if use_samples:
         # Return individual text samples
         text_contents = [item[text_field] for item in dataset if text_field in item]
+        
+        # If min_chars is specified, combine samples until they meet the minimum length
+        if min_chars and min_chars > 0:
+            print(f"Using minimum character count: {min_chars} for dataset {dataset_name}")
+            combined_chunks = []
+            current_chunk = ""
+            
+            for text in text_contents:
+                if len(current_chunk) >= min_chars:
+                    combined_chunks.append(current_chunk)
+                    current_chunk = text
+                else:
+                    # Add a space between concatenated texts
+                    if current_chunk:
+                        current_chunk += " " + text
+                    else:
+                        current_chunk = text
+            
+            # Add the last chunk if it's not empty
+            if current_chunk:
+                combined_chunks.append(current_chunk)
+                
+            return combined_chunks
+        
         return text_contents
     else:
         # Concatenate all the text fields into one large string

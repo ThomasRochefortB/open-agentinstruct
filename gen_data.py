@@ -38,7 +38,7 @@ parser.add_argument(
     "--dataset-names",
     type=str,
     nargs="+",
-    help="List of Hugging Face datasets to process. Format: 'dataset_name' or 'dataset_name:text_field'.",
+    help="List of Hugging Face datasets to process. Format: 'dataset_name' or 'dataset_name:text_field' or 'dataset_name:text_field:splits' or 'dataset_name:text_field:splits:min_chars' where min_chars is the minimum character count per chunk.",
 )
 parser.add_argument(
     "--pdf-dir",
@@ -127,7 +127,7 @@ def get_text_chunks():
         # Process dataset names and extract text fields and splits if provided
         datasets_and_fields = []
         for dataset_spec in args.dataset_names:
-            parts = dataset_spec.split(":", 2)  # Split into up to 3 parts
+            parts = dataset_spec.split(":")  # Split on all colons
             dataset_name = parts[0]
             text_field = parts[1] if len(parts) > 1 else None
             
@@ -136,8 +136,16 @@ def get_text_chunks():
                 splits = [s.strip() for s in parts[2].split(",")]
             else:
                 splits = ["train"]  # Default to "train" if not specified
+            
+            # Parse minimum characters if provided
+            min_chars = None
+            if len(parts) > 3:
+                try:
+                    min_chars = int(parts[3])
+                except ValueError:
+                    print(f"Warning: Invalid minimum character count '{parts[3]}' for dataset {dataset_name}. Using no minimum.")
                 
-            datasets_and_fields.append((dataset_name, text_field, splits))
+            datasets_and_fields.append((dataset_name, text_field, splits, min_chars))
         
         # For any datasets without a specified text field, use the provided --text-fields
         text_fields = args.text_fields
@@ -146,7 +154,7 @@ def get_text_chunks():
         else:
             default_text_field = "text"
         
-        for idx, (dataset_name, specified_field, splits) in enumerate(datasets_and_fields):
+        for idx, (dataset_name, specified_field, splits, min_chars) in enumerate(datasets_and_fields):
             # Use the specified field if provided, otherwise fall back to the text_fields argument
             if specified_field:
                 text_field = specified_field
@@ -164,6 +172,7 @@ def get_text_chunks():
                         split=split,
                         text_field=text_field,
                         use_samples=True,
+                        min_chars=min_chars,
                     )
                     chunks = [(dataset_name, chunk) for chunk in chunks]
                     all_chunks.extend(chunks)
