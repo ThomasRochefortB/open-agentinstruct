@@ -53,16 +53,22 @@ def construct_user_prompt(user_prompt_template, text, one_shot_example):
     """
     # Add instruction about making questions self-contained with proper context
     self_contained_instruction = (
-        "Important: For task-oriented instructions (like text extraction, summarization, modification, etc.), "
-        "make sure the instruction INCLUDES the necessary text content directly in the instruction itself. "
-        "The instruction should be self-contained with all required information needed to complete the task. "
-        "Even for general knowledge questions, include any context needed for specificity."
+        "The provided content that you see will not be passed to the next user. Therefore, it is important that the instruction is self-contained with all information needed to complete the task based on the specified format for its type."
+        "Reflect on whether the task requires the content to be included directly in the instruction. "
+        "For tasks like text extraction or text modification, include the relevant content directly after the main instruction, marked with the '**TEXT**' tag. "
+        "For Retrieval-Augmented Generation (RAG) tasks, the instruction should clearly state the query and provide the necessary retrieved documents/contextual information separately within the instruction field. "
+        "Ensure the instruction is self-contained with all information needed to complete the task based on the specified format for its type."
     )
     
     # Add instruction for handling irrelevant content
     irrelevant_instruction = (
         "If the content is not relevant or suitable for generating a meaningful instruction in your domain, "
         "output only the word 'IRRELEVANT' without any additional text. Skip content that doesn't fit your expertise area."
+    )
+
+    # Add instruction for conciseness
+    conciseness_instruction = (
+        "Aim for conciseness in the generated instruction/question."
     )
     
     if one_shot_example:
@@ -75,6 +81,7 @@ def construct_user_prompt(user_prompt_template, text, one_shot_example):
             "```\n\n"
             "Please follow this format strictly to generate a new instruction based on the provided content.\n\n"
             f"{self_contained_instruction}\n\n"
+            f"{conciseness_instruction}\n\n"
             f"{irrelevant_instruction}"
         )
 
@@ -88,6 +95,7 @@ def construct_user_prompt(user_prompt_template, text, one_shot_example):
         user_prompt = (
             user_prompt_template.format(text=text)
             + f"\n\n{self_contained_instruction}"
+            + f"\n\n{conciseness_instruction}"
             + f"\n\n{irrelevant_instruction}"
         )
 
