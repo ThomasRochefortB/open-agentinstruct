@@ -167,3 +167,4 @@ data/
 benchmarks/
 finetuned_models/
 wandb/
+finetuning/
