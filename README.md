@@ -144,3 +144,12 @@ The paper uses Mistral-7b and compares to Mistral-7b instruct. To limit the hard
 - The `utils/` folder holds:
 
 - The `data/` folder holds:
+
+
+
+
+ python gen_data.py --dataset-names "crumb/openstax-text" --all-tasks --max-chunks 100 --skip-refinement --include-content
+
+
+
+ python finetuning/finetune.py --train_files data/generated_data/text_extraction.jsonl
