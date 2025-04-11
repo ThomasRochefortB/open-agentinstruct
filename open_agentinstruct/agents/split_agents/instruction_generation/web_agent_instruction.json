@@ -1,0 +1,58 @@
+{
+  "one_shot_example": {
+    "instruction": "Instruction:\nYou're interacting with an online shopping website. The page shows a grid of product listings for laptops. Each product card displays an image, product name, price, and rating. Your task is to:\n\n1. Scroll down to view more products until you find a laptop with at least 4.5 stars rating and price under $1000\n2. Click on that product to view its details\n3. Add the item to your shopping cart\n4. Navigate to the shopping cart\n5. Begin the checkout process\n\nProvide step-by-step actions you would take, including what elements you would interact with and how (clicking, scrolling, etc.).",
+    "answer": "Answer:\nI'll navigate the online shopping website to find and purchase a laptop meeting the requirements:\n\n1. First, I'll examine the visible laptop products on the initial screen, checking each for ratings of 4.5+ stars and prices under $1000.\n\n2. Since I need to see more products, I'll scroll down gradually, using the mouse wheel or trackpad to move down approximately 25% of the page height at a time.\n\n3. I'll continue scrolling and examining products until I find one that meets both criteria: 4.5+ star rating and under $1000.\n\n4. Once I've identified a suitable laptop (e.g., \"TechPro Ultrabook, $899, 4.7★\"), I'll click directly on its product card/image.\n\n5. On the product details page, I'll look for the \"Add to Cart\" button, typically located near the price or product images, and click it.\n\n6. After adding the item, I'll look for a shopping cart icon, usually in the top-right corner of the navigation bar, and click on it.\n\n7. In the shopping cart view, I'll verify the correct item is in my cart, then look for a \"Checkout\" or \"Proceed to Checkout\" button, typically at the bottom or right side of the cart summary, and click it.\n\n8. This completes the task by beginning the checkout process as requested."
+  },
+  "agents": [
+    {
+      "name": "Navigation Task Agent",
+      "system_prompt": "You are an expert in creating web navigation tasks that require finding specific information by navigating through multiple pages and menu structures.",
+      "user_prompt_template": "Create an instruction-answer pair for a web navigation task based on the following website description. The instruction should require the agent to navigate through multiple pages or sections to find specific information.\n\nWebsite description:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed navigation instruction]\n\nAnswer:\n[A detailed step-by-step solution describing exactly how to navigate the website to complete the task, including specific interactions like clicks, scrolling, and form inputs]"
+    },
+    {
+      "name": "Form Filling Task Agent",
+      "system_prompt": "You are an expert in creating web form completion tasks that require filling out complex forms with various types of inputs and validation requirements.",
+      "user_prompt_template": "Create an instruction-answer pair for a web form filling task based on the following website description. The instruction should require the agent to complete a multi-field form with various input types.\n\nWebsite description:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed form filling instruction]\n\nAnswer:\n[A detailed step-by-step solution describing exactly how to complete the form, including which fields to fill and how to handle any validation requirements]"
+    },
+    {
+      "name": "Search and Filter Task Agent",
+      "system_prompt": "You are an expert in creating web search and filtering tasks that require using search functionality and applying multiple filters to find specific information.",
+      "user_prompt_template": "Create an instruction-answer pair for a web search and filtering task based on the following website description. The instruction should require the agent to use search and filtering capabilities to find specific information or items.\n\nWebsite description:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed search and filter instruction]\n\nAnswer:\n[A detailed step-by-step solution describing exactly how to use search and filters to complete the task, including specific interactions]"
+    },
+    {
+      "name": "Multi-step Workflow Task Agent",
+      "system_prompt": "You are an expert in creating complex multi-step workflow tasks on websites that require completing a sequence of related actions across different pages.",
+      "user_prompt_template": "Create an instruction-answer pair for a multi-step workflow task based on the following website description. The instruction should require the agent to complete a workflow involving multiple sequential steps across different parts of the website.\n\nWebsite description:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed multi-step workflow instruction]\n\nAnswer:\n[A detailed step-by-step solution describing exactly how to complete each stage of the workflow, including specific interactions]"
+    },
+    {
+      "name": "Data Extraction Task Agent",
+      "system_prompt": "You are an expert in creating web data extraction tasks that require finding and compiling specific information from various parts of a website.",
+      "user_prompt_template": "Create an instruction-answer pair for a web data extraction task based on the following website description. The instruction should require the agent to find and extract specific information from different sections of the website.\n\nWebsite description:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed data extraction instruction]\n\nAnswer:\n[A detailed step-by-step solution describing exactly how to navigate to and extract the required information, including specific interactions]"
+    },
+    {
+      "name": "Account Management Task Agent",
+      "system_prompt": "You are an expert in creating web account management tasks that involve user registration, login, profile updates, and settings management.",
+      "user_prompt_template": "Create an instruction-answer pair for a web account management task based on the following website description. The instruction should require the agent to perform operations related to user accounts such as registration, login, or profile management.\n\nWebsite description:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed account management instruction]\n\nAnswer:\n[A detailed step-by-step solution describing exactly how to complete the account management task, including specific interactions]"
+    },
+    {
+      "name": "E-commerce Transaction Task Agent",
+      "system_prompt": "You are an expert in creating e-commerce transaction tasks that involve product selection, cart management, and checkout processes.",
+      "user_prompt_template": "Create an instruction-answer pair for an e-commerce transaction task based on the following website description. The instruction should require the agent to complete a shopping process from product selection to checkout.\n\nWebsite description:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed e-commerce transaction instruction]\n\nAnswer:\n[A detailed step-by-step solution describing exactly how to complete the shopping process, including specific interactions]"
+    },
+    {
+      "name": "Interactive Content Task Agent",
+      "system_prompt": "You are an expert in creating tasks that involve interacting with dynamic content such as sliders, expandable sections, tabs, and interactive visualizations.",
+      "user_prompt_template": "Create an instruction-answer pair for a task involving interactive content based on the following website description. The instruction should require the agent to interact with dynamic elements like sliders, tabs, expandable sections, or interactive visualizations.\n\nWebsite description:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed interactive content instruction]\n\nAnswer:\n[A detailed step-by-step solution describing exactly how to interact with the dynamic elements to complete the task]"
+    },
+    {
+      "name": "Social Media Interaction Task Agent",
+      "system_prompt": "You are an expert in creating tasks involving social media interactions such as posting, commenting, reacting, and managing connections.",
+      "user_prompt_template": "Create an instruction-answer pair for a social media interaction task based on the following website description. The instruction should require the agent to perform typical social media activities like posting, commenting, reacting, or managing connections.\n\nWebsite description:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed social media interaction instruction]\n\nAnswer:\n[A detailed step-by-step solution describing exactly how to complete the social media interactions, including specific elements to interact with]"
+    },
+    {
+      "name": "Dashboard Navigation Task Agent",
+      "system_prompt": "You are an expert in creating tasks that involve navigating complex dashboards with multiple data visualizations, filters, and interactive elements.",
+      "user_prompt_template": "Create an instruction-answer pair for a dashboard navigation task based on the following dashboard description. The instruction should require the agent to find specific information or insights using the dashboard's features.\n\nDashboard description:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed dashboard navigation instruction]\n\nAnswer:\n[A detailed step-by-step solution describing exactly how to navigate the dashboard and use its features to complete the task]"
+    }
+  ]
+}

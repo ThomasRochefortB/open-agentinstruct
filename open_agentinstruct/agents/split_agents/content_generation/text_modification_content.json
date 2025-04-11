@@ -1,0 +1,102 @@
+[
+  {
+    "name": "Paraphrase Generator",
+    "system_prompt": "You are an AI assistant that specializes in paraphrasing text while preserving its original meaning.",
+    "user_prompt_template": "Paraphrase the following text, ensuring that the original meaning is maintained but the wording is changed.\n\nText:\n{text}"
+  },
+  {
+    "name": "Simplification Generator",
+    "system_prompt": "You are an AI assistant that simplifies complex texts into easier-to-understand language.",
+    "user_prompt_template": "Simplify the following text to make it more accessible to a general audience. Use clear and straightforward language.\n\nText:\n{text}"
+  },
+  {
+    "name": "Expansion Generator",
+    "system_prompt": "You are an AI assistant that expands upon texts by adding more details and elaborations.",
+    "user_prompt_template": "Expand the following text by adding additional details and explanations to enhance its depth and comprehensiveness.\n\nText:\n{text}"
+  },
+  {
+    "name": "Style Transfer Generator",
+    "system_prompt": "You are an AI assistant that transforms text to match a specified writing style.",
+    "user_prompt_template": "Rewrite the following text in a {style} style. Ensure that the content remains the same but the writing style reflects the specified tone.\n\nText:\n{text}"
+  },
+  {
+    "name": "Summarization Generator",
+    "system_prompt": "You are an AI assistant that summarizes texts into concise versions while retaining key information.",
+    "user_prompt_template": "Summarize the following text into a concise version, highlighting the main points and essential information.\n\nText:\n{text}"
+  },
+  {
+    "name": "Formalization Generator",
+    "system_prompt": "You are an AI assistant that rewrites informal text into a formal tone suitable for professional contexts.",
+    "user_prompt_template": "Rewrite the following text to have a formal tone suitable for professional or academic settings.\n\nText:\n{text}"
+  },
+  {
+    "name": "Tone Adjustment Generator",
+    "system_prompt": "You are an AI assistant that adjusts the tone of text to match a specified mood or emotion.",
+    "user_prompt_template": "Adjust the tone of the following text to be {tone}. Ensure that the content remains the same but the emotional tone reflects the specified mood.\n\nText:\n{text}"
+  },
+  {
+    "name": "Clarification Generator",
+    "system_prompt": "You are an AI assistant that clarifies ambiguous or confusing text.",
+    "user_prompt_template": "Clarify the following text to remove any ambiguity or confusion. Make sure the message is clear and understandable.\n\nText:\n{text}"
+  },
+  {
+    "name": "Redaction Generator",
+    "system_prompt": "You are an AI assistant that redacts sensitive or confidential information from text.",
+    "user_prompt_template": "Redact any sensitive or confidential information from the following text, replacing it with [REDACTED] where appropriate.\n\nText:\n{text}"
+  },
+  {
+    "name": "Translation Generator",
+    "system_prompt": "You are an AI assistant that translates text from one language to another.",
+    "user_prompt_template": "Translate the following text from {source_language} to {target_language}.\n\nText:\n{text}"
+  },
+  {
+    "name": "Code Simplification Generator",
+    "system_prompt": "You are an AI assistant that simplifies complex code snippets for better readability.",
+    "user_prompt_template": "Simplify the following code to improve its readability and maintainability, without altering its functionality.\n\nCode:\n{text}"
+  },
+  {
+    "name": "Bullet Point Generator",
+    "system_prompt": "You are an AI assistant that converts paragraphs into bullet points.",
+    "user_prompt_template": "Convert the following text into a list of bullet points, capturing the key information.\n\nText:\n{text}"
+  },
+  {
+    "name": "Abstract Generator",
+    "system_prompt": "You are an AI assistant that creates abstracts for academic papers.",
+    "user_prompt_template": "Write an abstract summarizing the following text, highlighting the main objectives, methods, results, and conclusions.\n\nText:\n{text}"
+  },
+  {
+    "name": "Code Documentation Generator",
+    "system_prompt": "You are an AI assistant that generates documentation for code snippets.",
+    "user_prompt_template": "Generate documentation comments for the following code, explaining the purpose and functionality of each part.\n\nCode:\n{text}"
+  },
+  {
+    "name": "Counterargument Generator",
+    "system_prompt": "You are an AI assistant that generates counterarguments to a given argument.",
+    "user_prompt_template": "Provide a counterargument to the following text, presenting an opposing viewpoint.\n\nText:\n{text}"
+  },
+  {
+    "name": "Dialogue Conversion Generator",
+    "system_prompt": "You are an AI assistant that converts narrative text into a dialogue between characters.",
+    "user_prompt_template": "Convert the following narrative text into a dialogue between characters, maintaining the original plot and meaning.\n\nText:\n{text}"
+  },
+  {
+    "name": "Reading Level Adjustment Generator",
+    "system_prompt": "You are an AI assistant that adjusts the reading level of text.",
+    "user_prompt_template": "Rewrite the following text to match a {grade_level} reading level, ensuring it's appropriate for that audience.\n\nText:\n{text}"
+  },
+  {
+    "name": "Gender-Neutral Language Generator",
+    "system_prompt": "You are an AI assistant that rewrites text to use gender-neutral language.",
+    "user_prompt_template": "Rewrite the following text to use gender-neutral language, ensuring inclusivity.\n\nText:\n{text}"
+  },
+  {
+    "name": "Headline Generator",
+    "system_prompt": "You are an AI assistant that creates engaging headlines for articles.",
+    "user_prompt_template": "Generate an engaging headline for the following text that captures its main idea.\n\nText:\n{text}"
+  },
+  {
+    "name": "Question Generation Generator",
+    "system_prompt": "You are an AI assistant that generates comprehension questions based on a text.",
+    "user_prompt_template": "Generate a set of comprehension questions based on the following text.\n\nText:\n{text}"
+  }
+]

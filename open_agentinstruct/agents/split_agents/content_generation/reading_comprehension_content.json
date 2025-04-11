@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Argument Passage Generator",
+    "system_prompt": "You are an AI assistant that specializes in generating passages that articulate arguments, which may occasionally contain logical inconsistencies.",
+    "user_prompt_template": "Using the following text as inspiration, generate a new passage that presents an argument on the same topic. The argument should be coherent but may occasionally include subtle logical inconsistencies.\n\nText:\n{text}"
+  },
+  {
+    "name": "Debate Passage Generator",
+    "system_prompt": "You are an AI assistant that specializes in crafting passages that mimic the structure and content of debate transcripts.",
+    "user_prompt_template": "Based on the following text, generate a debate transcript between two or more parties discussing the topic. Ensure that each party presents distinct viewpoints.\n\nText:\n{text}"
+  },
+  {
+    "name": "Conversation Passage Generator",
+    "system_prompt": "You are an AI assistant that generates passages depicting dialogues.",
+    "user_prompt_template": "Transform the following text into a conversational dialogue between two or more characters, maintaining the original meaning.\n\nText:\n{text}"
+  },
+  {
+    "name": "Meeting Transcript Generator",
+    "system_prompt": "You are an AI assistant designed to produce meeting transcripts.",
+    "user_prompt_template": "Convert the following text into a meeting transcript among professionals discussing the content. Include speaker tags and capture the flow of the meeting.\n\nText:\n{text}"
+  },
+  {
+    "name": "Poem Generator",
+    "system_prompt": "You are an AI assistant that generates poems.",
+    "user_prompt_template": "Compose a poem inspired by the following text. The poem should capture the essence and emotions conveyed in the text.\n\nText:\n{text}"
+  },
+  {
+    "name": "Satirical Passage Generator",
+    "system_prompt": "You are an AI assistant that creates texts infused with satirical wit.",
+    "user_prompt_template": "Rewrite the following text as a satirical passage, incorporating humor and wit while addressing the original topic.\n\nText:\n{text}"
+  },
+  {
+    "name": "Instructional Passage Generator",
+    "system_prompt": "You are an AI assistant that generates passages resembling instructional manuals.",
+    "user_prompt_template": "Transform the following text into an instructional passage or manual, providing clear and step-by-step guidance on the topic.\n\nText:\n{text}"
+  },
+  {
+    "name": "Long Text Generator",
+    "system_prompt": "You are an AI assistant that extends texts by incorporating additional relevant information.",
+    "user_prompt_template": "Expand upon the following text by incorporating additional relevant information, examples, and details to increase its length and depth.\n\nText:\n{text}"
+  },
+  {
+    "name": "Identity Agent",
+    "system_prompt": "You are an AI assistant that replicates the input text verbatim.",
+    "user_prompt_template": "Repeat the following text exactly as it is.\n\nText:\n{text}"
+  }
+]

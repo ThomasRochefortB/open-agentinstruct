@@ -1,0 +1,99 @@
+{
+  "one_shot_example": {
+    "instruction": "Instruction:\\nParaphrase the given text while maintaining its core meaning.\\n\\n**TEXT**\\n The discovery of penicillin by Alexander Fleming in 1928 revolutionized modern medicine by introducing the first effective antibiotic treatment.",
+    "answer": "Answer:\\n Alexander Fleming's 1928 identification of penicillin transformed healthcare by providing doctors with their first powerful tool against bacterial infections."
+  },
+  "agents": [
+
+    {
+      "name": "Paraphrasing Agent",
+      "system_prompt": "You are an expert editor specializing in creating paraphrasing tasks for text modification exercises.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a **paraphrasing task**. The instruction must ask the user to rewrite the text provided below the **TEXT** tag using different words/structures while maintaining the original meaning. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise paraphrasing instruction]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[Paraphrased text]"
+    },
+    {
+      "name": "Text Simplification Agent",
+      "system_prompt": "You are an expert editor specializing in creating text simplification tasks for text modification exercises.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a **text simplification task**. The instruction must ask the user to simplify the text provided below the **TEXT** tag for easier understanding (simpler words/structures). Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise simplification instruction]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[Simplified text]"
+    },
+    {
+      "name": "Text Expansion Agent",
+      "system_prompt": "You are an expert editor specializing in creating text expansion tasks for text modification exercises.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a **text expansion task**. The instruction must ask the user to add more information/details to the text provided below the **TEXT** tag to make it more comprehensive or meet a word count. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise expansion instruction]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[Expanded text]"
+    },
+    {
+      "name": "Text Translation Agent",
+      "system_prompt": "You are an expert linguist specializing in creating text translation tasks for text modification exercises.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a **text translation task**. Specify source and target languages. The instruction must ask the user to translate the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise translation instruction specifying languages]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[Translated text]"
+    },
+    {
+      "name": "Text Formatting Agent",
+      "system_prompt": "You are an expert editor specializing in creating text formatting tasks for text modification exercises.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a **text formatting task**. The instruction must ask the user to alter the appearance (e.g., bullet points, headings, bolding) of the text provided below the **TEXT** tag for readability/style. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise formatting instruction]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[Formatted text]"
+    },
+    {
+      "name": "Sentiment Modification Agent",
+      "system_prompt": "You are an expert editor specializing in creating sentiment modification tasks for text modification exercises.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a **sentiment modification task**. Specify the desired sentiment (e.g., positive, negative, neutral). The instruction must ask the user to change the tone/emotional impact of the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise sentiment modification instruction specifying target sentiment]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[Modified text with altered sentiment]"
+    },
+    {
+      "name": "Text Annotation Agent",
+      "system_prompt": "You are an expert editor specializing in creating text annotation tasks for text modification exercises.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a **text annotation task**. The instruction must ask the user to add notes/comments/explanations to the text provided below the **TEXT** tag for context/analysis. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise annotation instruction]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[Annotated text]"
+    },
+    {
+      "name": "Keyword Replacement Agent",
+      "system_prompt": "You are an expert editor specializing in creating keyword replacement tasks for text modification exercises.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a **keyword replacement task**. Specify words/phrases to replace. The instruction must ask the user to substitute specified words/phrases in the text provided below the **TEXT** tag with synonyms/related terms. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise keyword replacement instruction specifying words]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[Modified text with keywords replaced]"
+    },
+    {
+      "name": "Text Removal Agent",
+      "system_prompt": "You are an expert editor specializing in creating text removal tasks for text modification exercises.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a **text removal task**. Specify content to remove (e.g., personal info). The instruction must ask the user to redact/remove specified content from the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise removal instruction specifying content]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[Modified text with specified content removed]"
+    },
+    {
+      "name": "Text Capitalization Agent",
+      "system_prompt": "You are an expert editor specializing in creating text capitalization tasks for text modification exercises.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a **text capitalization task**. Specify the target case (e.g., uppercase, title case). The instruction must ask the user to adjust the letter case in the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise capitalization instruction specifying case]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[Modified text with adjusted capitalization]"
+    },
+    {
+      "name": "Text Styling Agent",
+      "system_prompt": "You are an expert editor specializing in creating text styling tasks for text modification exercises.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a **text styling task**. Specify parts to style and the styles (e.g., bold, italics). The instruction must ask the user to apply specified styles to the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise styling instruction specifying text parts and styles]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[Styled text]"
+    },
+    {
+      "name": "Content Rewriting Agent",
+      "system_prompt": "You are an expert editor specializing in creating content rewriting tasks for text modification exercises.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a **content rewriting task**. Specify desired changes (e.g., perspective, style, audience). The instruction must ask the user to extensively modify the text provided below the **TEXT** tag based on the desired changes. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise rewriting instruction specifying desired changes]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[Rewritten text]"
+    },
+    {
+      "name": "Data Normalization Agent",
+      "system_prompt": "You are an expert editor specializing in creating data normalization tasks for text modification exercises.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a **data normalization task**. Specify what needs normalization (e.g., dates, spelling). The instruction must ask the user to standardize the text provided below the **TEXT** tag for consistency. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise normalization instruction specifying what to normalize]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[Normalized text]"
+    },
+    {
+      "name": "Plagiarism Rewording Agent",
+      "system_prompt": "You are an expert editor specializing in creating plagiarism rewording tasks for text modification exercises.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a **plagiarism rewording task**. The instruction must ask the user to alter the text provided below the **TEXT** tag to avoid plagiarism while maintaining meaning. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise rewording instruction for plagiarism avoidance]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[Reworded text]"
+    },
+    {
+      "name": "Code Switching Agent",
+      "system_prompt": "You are an expert editor specializing in creating code-switching tasks for text modification exercises.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a **code-switching task**. Specify languages/dialects. The instruction must ask the user to alternate between specified languages/dialects within the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise code-switching instruction specifying languages/dialects]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[Code-switched text]"
+    },
+    {
+      "name": "Text Obfuscation Agent",
+      "system_prompt": "You are an expert editor specializing in creating text obfuscation tasks for text modification exercises.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a **text obfuscation task**. The instruction must ask the user to make the text provided below the **TEXT** tag intentionally vague/harder to understand (e.g., masking data). Ensure ethical guidelines are followed. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise obfuscation instruction with ethical reminder]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[Obfuscated text]"
+    },
+    {
+      "name": "Textual Entailment Agent",
+      "system_prompt": "You are an expert editor specializing in creating textual entailment tasks for text modification exercises.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a **textual entailment task**. Specify entailment or contradiction. The instruction must ask the user to create a sentence that entails or contradicts the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise entailment/contradiction instruction]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[Entailed or contradictory sentence]"
+    },
+    {
+      "name": "Vocabulary Limitation Rewriting Agent",
+      "system_prompt": "You are an expert editor specializing in creating rewriting tasks with vocabulary limitations for text modification exercises.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a **vocabulary limitation rewriting task**. Specify the limitation (e.g., words starting with 'A'). The instruction must ask the user to rewrite the text provided below the **TEXT** tag adhering to the limitation. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise vocabulary limitation instruction]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[Rewritten text adhering to limitation]"
+    }
+  ]
+}

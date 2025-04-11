@@ -1,0 +1,68 @@
+{
+  "one_shot_example": {
+    "instruction": "Instruction:\nDetermine which category best describes the following text. Choose from these categories: Technology, Sports, Politics, Entertainment, Business, Health, Science, Education.\n\n**TEXT**\nThe latest smartphone from TechCorp features an improved 5G capability, a 108-megapixel camera, and a revolutionary AI chip that optimizes battery usage based on user behavior. Early reviews suggest that the facial recognition system is significantly faster than previous models, while the augmented reality applications benefit from the more powerful processor. The company expects to ship 10 million units in the first quarter.",
+    "answer": "Answer:\nCategory: Technology\n\nReasoning: This text is clearly about a new smartphone and its technical features. It discusses specific technology components like 5G capability, camera specifications, AI chips, facial recognition, augmented reality, and processors. The focus is entirely on the technical aspects and market expectations of a new consumer electronic device, which places this firmly in the Technology category rather than any of the other options like Sports, Politics, Entertainment, Business, Health, Science, or Education."
+  },
+  "agents": [
+    {
+      "name": "Binary Classification Agent",
+      "system_prompt": "You are an expert in creating binary classification tasks where text must be assigned to one of two possible categories.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a binary text classification task. The instruction must ask the user to classify the text provided below the **TEXT** tag into one of two opposing categories (e.g., positive/negative). Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking for binary classification]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[The correct classification with a detailed explanation of the reasoning]"
+    },
+    {
+      "name": "Multi-class Classification Agent",
+      "system_prompt": "You are an expert in creating multi-class classification tasks where text must be assigned to exactly one category from multiple possible categories.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a multi-class text classification task. The instruction must ask the user to classify the text provided below the **TEXT** tag into exactly one of several (at least 3) predefined categories. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking for multi-class classification with specified categories]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[The correct classification with a detailed explanation and why other categories do not apply]"
+    },
+    {
+      "name": "Multi-label Classification Agent",
+      "system_prompt": "You are an expert in creating multi-label classification tasks where text can be assigned to multiple applicable categories simultaneously.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a multi-label text classification task. The instruction must ask the user to classify the text provided below the **TEXT** tag into all applicable categories from a predefined list. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking for multi-label classification with a specified list of categories]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[A list of all applicable categories with a detailed explanation for each]"
+    },
+    {
+      "name": "Sentiment Analysis Agent",
+      "system_prompt": "You are an expert in creating sentiment analysis tasks where text must be classified according to the sentiment or emotion it expresses.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a sentiment analysis task. The instruction must ask the user to classify the sentiment/emotion of the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking for sentiment classification]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[The sentiment classification with a detailed explanation citing linguistic markers]"
+    },
+    {
+      "name": "Intent Classification Agent",
+      "system_prompt": "You are an expert in creating intent classification tasks where text must be classified according to the purpose or intention behind it.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for an intent classification task. The instruction must ask the user to identify the primary purpose or intention behind the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking for intent classification]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[The intent classification with a detailed explanation citing linguistic markers]"
+    },
+    {
+      "name": "Topic Classification Agent",
+      "system_prompt": "You are an expert in creating topic classification tasks where text must be classified according to its main subject or theme.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a topic classification task. The instruction must ask the user to identify the main subject/theme of the text provided below the **TEXT** tag from a list of possible topics. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking for topic classification with a specified list of topics]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[The topic classification with a detailed explanation citing relevant content]"
+    },
+    {
+      "name": "Urgency Classification Agent",
+      "system_prompt": "You are an expert in creating urgency classification tasks where text must be classified according to how urgent or time-sensitive it is.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for an urgency classification task. The instruction must ask the user to classify the urgency/time-sensitivity level of the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking for urgency classification]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[The urgency classification with a detailed explanation citing linguistic markers]"
+    },
+    {
+      "name": "Domain Expertise Classification Agent",
+      "system_prompt": "You are an expert in creating domain expertise classification tasks where text must be classified according to the specialized field or knowledge domain it belongs to.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a domain expertise classification task. The instruction must ask the user to identify the specialized field/knowledge domain of the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking for domain classification]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[The domain classification with a detailed explanation citing specific terminology/concepts]"
+    },
+    {
+      "name": "Content Moderation Classification Agent",
+      "system_prompt": "You are an expert in creating content moderation classification tasks where text must be classified according to whether it contains inappropriate or harmful content.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a content moderation classification task. The instruction must ask the user to classify if the text provided below the **TEXT** tag contains inappropriate/harmful content and specify the type. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking for content moderation classification]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[The moderation classification with a detailed explanation identifying problematic content or confirming its absence]"
+    },
+    {
+      "name": "Formality Classification Agent",
+      "system_prompt": "You are an expert in creating formality classification tasks where text must be classified according to its level of formality or informality.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a formality classification task. The instruction must ask the user to classify the formality level of the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking for formality classification]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[The formality classification with a detailed explanation citing linguistic markers/style]"
+    },
+    {
+      "name": "Technical Complexity Classification Agent",
+      "system_prompt": "You are an expert in creating technical complexity classification tasks where text must be classified according to its level of technical complexity or the expertise required to understand it.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a technical complexity classification task. The instruction must ask the user to classify the technical complexity level (or required expertise) of the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking for technical complexity classification]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[The complexity classification with a detailed explanation citing technical terminology/concepts]"
+    },
+    {
+      "name": "Audience Classification Agent",
+      "system_prompt": "You are an expert in creating audience classification tasks where text must be classified according to its intended audience or reader.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for an audience classification task. The instruction must ask the user to identify the intended audience/reader of the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking for audience classification]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[The audience classification with a detailed explanation citing content/style/language choices]"
+    }
+  ]
+}

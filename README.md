@@ -72,58 +72,68 @@ The paper uses Mistral-7b and compares to Mistral-7b instruct. To limit the hard
 
 ## Features
 - LiteLLM compatible LLMs
-- Finetuning pipeline for llama3 
+- Finetuning pipeline for llama3
 
 ## Installation
 
-1. Clone the repository:
+**Option 1: Install from PyPI (Recommended for users)**
+
+Once the package is published, you can install it directly using pip:
+
+```sh
+pip install open-agentinstruct
+```
+
+**Option 2: Install from source (For developers)**
+
+1.  Clone the repository:
     ```sh
-    git clone https://github.com/ThomasRochefortB/open-agentinstruct.git
+    git clone https://github.com/thomas/open-agentinstruct.git # TODO: Update with your repo URL
     cd open-agentinstruct
     ```
 
-2. Create the environment using `micromamba`:
+2.  Create a virtual environment (recommended):
     ```sh
-    micromamba create -f env.yml
-    micromamba activate open-agentinstruct
+    python -m venv .venv
+    source .venv/bin/activate # On Windows use `.venv\Scripts\activate`
     ```
 
-3. Set up your API keys necessary to use the desired LiteLLM model:
-    - Create a `.env` file in the root directory.
-    - Add your API key to the `.env` file:
-        ```
+3.  Install the package in editable mode along with development dependencies:
+    ```sh
+    pip install -e ".[dev]"
+    ```
+
+4.  Set up your API keys necessary to use the desired LiteLLM model(s):
+    *   Create a `.env` file in the root directory (or wherever you run the command).
+    *   Add your API key(s) to the `.env` file (the library uses `python-dotenv` to load them):
+        ```dotenv
+        # Example for OpenAI
         OPENAI_API_KEY=your_openai_api_key
-        COHERE_API_KEY=your_cohere_api_key
-        ANTHROPIC_API_KEY=your_anthropic_key
-        ...
+        # Add other keys as needed (e.g., COHERE_API_KEY, ANTHROPIC_API_KEY)
+        # ...
         ```
-4. Benchmarking requires the [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) library. To install please [follow this](https://github.com/EleutherAI/lm-evaluation-harness?tab=readme-ov-file#install).
 
 ## Usage
 
-1. Run the main script:
-- To run on a HF dataset
-    ```sh
-    python gen_data.py --dataset_name <hf/datasetname>
-    ```
-- To run on a set of seed `.pdf`s
-    ```sh
-    python gen_data.py --pdf-dir data/seed_data/
-    ```
-2. Train a model on the generated dataset:
-    ```sh
-    python finetuning/finetune.py 
-    ```
-3. Benchmark your finetuned model:
-    ```sh
-   lm_eval --model hf \
-    --model_args pretrained=<your finetuned model path> \
-    --tasks mmlu \
-    --num_fewshot 5 \
-    --device cuda \
-    --batch_size auto \
-    --output_path results
-    ```
+The primary way to use the data generation workflow is through the command-line interface:
+
+```sh
+# Basic usage with a Hugging Face dataset
+open-agentinstruct-generate --dataset-names <hf/datasetname> --task-name <your_task_name>
+
+# Example: Generate reading comprehension data from the first 100 chunks of openstax
+open-agentinstruct-generate --dataset-names "crumb/openstax-text" --task-name reading_comprehension --max-chunks 100
+
+# Example: Generate data for all tasks from a PDF directory, including original content
+open-agentinstruct-generate --pdf-dir path/to/your/pdfs --all-tasks --include-content
+
+# See all available options
+open-agentinstruct-generate --help
+```
+
+Generated data will be saved to `./data/generated_data/<task_name>.jsonl` by default.
+
+*Note: The finetuning and benchmarking scripts (`finetuning/finetune.py`, `lm_eval.sh`) are currently outside the installable package structure. You would run them directly from your cloned repository if needed.*
 
 ## Example of generated data:
 ```json
@@ -132,18 +142,41 @@ The paper uses Mistral-7b and compares to Mistral-7b instruct. To limit the hard
 ```
 ## Project Structure
 
-- The main script to generate datasets using the open-agentinstruct workflow is in `gen_data.py`
+-   **`open_agentinstruct/`**: The main source code for the installable package.
+    -   `__init__.py`: Makes the directory a Python package.
+    -   `cli.py`: Contains the command-line interface logic (formerly `gen_data.py`), powered by `argparse`.
+    -   `agents/`: Contains the core agent logic and configuration files.
+        -   `__init__.py`
+        -   `async_chat.py`: Handles asynchronous calls to LLMs.
+        -   `content_transformation.py`: Implements the content transformation flow.
+        -   `instruction_generation.py`: Implements the instruction generation flow.
+        -   `instruction_refinement.py`: Implements the instruction refinement flow.
+        -   `split_agents/`: Contains JSON configuration files defining agent prompts and parameters for different tasks.
+    -   `utils/`: Contains utility functions.
+        -   `__init__.py`
+        -   `agent_utils.py`: Utilities related to agent configuration loading.
+        -   `text_extraction.py`: Functions for extracting text from datasets and PDFs.
+        -   *(Other utility modules)*
+-   **`data/`**: Default directory for generated data and potentially seed data (excluded from package).
+-   **`.cache/`**: Default directory for progress tracking files (excluded from package).
+-   **`finetuning/`**: Example scripts for finetuning models (excluded from package).
+-   **`tests/`**: Contains unit and integration tests (excluded from package). *(You should add tests here!)*
+-   **`pyproject.toml`**: Defines build system requirements and project metadata (PEP 518, PEP 621).
+-   **`setup.cfg`**: Provides detailed configuration for the `setuptools` build backend (dependencies, package discovery, entry points, package data).
+-   **`README.md`**: This file.
+-   **`LICENSE`**: Project license file.
+-   **`.gitignore`**: Specifies intentionally untracked files that Git should ignore.
+-   **`.github/workflows/`**: Contains GitHub Actions workflow files for CI/CD (testing, publishing).
 
-- The `agents/` folder holds: 
-    - `content_gen_agents.json` : The prompts defining the content transformation agents for the various tasks
-    - `instruction_gen_agents.json` : The prompts defining the instruction generation agents for the various tasks
-    - `content_transformation.py` : The code for the content transformation agent 
-    - `instruction_generation.py` : The code for the instruction generation agent
-    - `instruction_refinement.py` : The code for the instruction refinement agent
+Example execution commands from the root directory after installation:
 
-- The `utils/` folder holds:
+```sh
+# Generate data for all tasks from the specified dataset, processing max 100 chunks, skipping refinement, including content
+open-agentinstruct-generate --dataset-names "crumb/openstax-text" --all-tasks --max-chunks 100 --skip-refinement --include-content
 
-- The `data/` folder holds:
+# Example finetuning command (run from repo clone, not part of installed package)
+# python finetuning/finetune.py --train_files data/generated_data/text_extraction.jsonl
+```
 
 
 

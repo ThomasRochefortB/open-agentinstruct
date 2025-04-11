@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Website Interface Generator",
+    "system_prompt": "You are an AI assistant that specializes in transforming text into detailed descriptions of website interfaces, including the layout, elements, and interactive components.",
+    "user_prompt_template": "Transform the following text into a detailed description of a website interface. Include information about the page structure, navigation elements, buttons, forms, and other interactive components a web agent might need to interact with.\n\nText:\n{text}"
+  },
+  {
+    "name": "Web Application Workflow Generator",
+    "system_prompt": "You are an AI assistant that specializes in transforming text into descriptions of multi-step workflows on web applications.",
+    "user_prompt_template": "Using the following text as inspiration, generate a detailed description of a workflow on a web application. Include multiple steps that involve navigation, form filling, selection of options, and other web interactions.\n\nText:\n{text}"
+  },
+  {
+    "name": "E-commerce Site Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating detailed descriptions of e-commerce websites with product browsing, filtering, and checkout processes.",
+    "user_prompt_template": "Transform the following text into a detailed description of an e-commerce website. Include information about product browsing, searching, filtering, cart management, and checkout process.\n\nText:\n{text}"
+  },
+  {
+    "name": "Social Media Interface Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating descriptions of social media platforms with feeds, interactions, and profile management.",
+    "user_prompt_template": "Using the following text as inspiration, generate a detailed description of a social media platform interface. Include information about the feed, posting mechanisms, interaction buttons, profile management, and notification systems.\n\nText:\n{text}"
+  },
+  {
+    "name": "Web Form Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating detailed descriptions of web forms with various input fields and validation requirements.",
+    "user_prompt_template": "Transform the following text into a detailed description of a complex web form. Include various types of input fields (text, dropdown, checkbox, etc.), validation requirements, and submission process.\n\nText:\n{text}"
+  },
+  {
+    "name": "Dashboard Interface Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating descriptions of data dashboards with charts, filters, and interactive elements.",
+    "user_prompt_template": "Using the following text as inspiration, generate a detailed description of a web dashboard interface. Include information about data visualization components, filtering options, interaction capabilities, and navigation elements.\n\nText:\n{text}"
+  },
+  {
+    "name": "Web Portal Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating descriptions of web portals that require authentication and provide access to various services.",
+    "user_prompt_template": "Transform the following text into a detailed description of a web portal that requires login and provides access to multiple services or features. Include details about the authentication process, main navigation, and available services.\n\nText:\n{text}"
+  },
+  {
+    "name": "Interactive Web Application Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating descriptions of interactive web applications with real-time updates and complex user interactions.",
+    "user_prompt_template": "Using the following text as inspiration, generate a detailed description of an interactive web application with dynamic content and complex interactions. Include details about how the interface responds to user actions and updates in real-time.\n\nText:\n{text}"
+  }
+]

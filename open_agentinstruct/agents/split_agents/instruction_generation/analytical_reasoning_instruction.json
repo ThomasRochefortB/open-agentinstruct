@@ -1,0 +1,58 @@
+{
+    "one_shot_example": {
+      "instruction": "Instruction:\n Five students (A, B, C, D, and E) must be seated in a row of five chairs numbered 1-5 from left to right. B must sit next to C. D cannot sit in chair 1 or 5. A must sit in an even-numbered chair. If B sits in chair 3, which chair must C occupy?",
+      "answer": "Answer:\n C must occupy chair 2 or 4. Since B must sit next to C, and B is in chair 3, C can only sit in either chair 2 (immediately to B's left) or chair 4 (immediately to B's right)."
+    },
+    "agents": [
+      {
+        "name": "Sequencing Questions Agent",
+        "system_prompt": "Create analytical reasoning questions that test the ability to determine correct ordering based on given constraints and relationships.",
+        "user_prompt_template": "Create an analytical reasoning question from this content:\n\n{text}\n\n```\nInstruction:\n[Question about sequence ordering]\n\nAnswer:\n[Correct sequence with explanation]\n```"
+      },
+      {
+        "name": "Grouping Questions Agent",
+        "system_prompt": "Create analytical reasoning questions that test the ability to assign items to groups while satisfying multiple constraints.",
+        "user_prompt_template": "Create an analytical reasoning question from this content:\n\n{text}\n\n```\nInstruction:\n[Question about grouping]\n\nAnswer:\n[Correct grouping with explanation]\n```"
+      },
+      {
+        "name": "Deduction Questions Agent",
+        "system_prompt": "Create analytical reasoning questions that require drawing logical conclusions from given information and constraints.",
+        "user_prompt_template": "Create an analytical reasoning question from this content:\n\n{text}\n\n```\nInstruction:\n[Question requiring deduction]\n\nAnswer:\n[Logical conclusion with explanation]\n```"
+      },
+      {
+        "name": "Logical Inference Questions Agent",
+        "system_prompt": "Create analytical reasoning questions that test the ability to infer unstated information from given facts and relationships.",
+        "user_prompt_template": "Create an analytical reasoning question from this content:\n\n{text}\n\n```\nInstruction:\n[Question requiring inference]\n\nAnswer:\n[Inferred conclusion with explanation]\n```"
+      },
+      {
+        "name": "Constraint Satisfaction Questions Agent",
+        "system_prompt": "Create analytical reasoning questions that test the ability to find solutions satisfying multiple interrelated constraints.",
+        "user_prompt_template": "Create an analytical reasoning question from this content:\n\n{text}\n\n```\nInstruction:\n[Question about satisfying constraints]\n\nAnswer:\n[Valid solution with explanation]\n```"
+      },
+      {
+        "name": "Pattern Recognition Questions Agent",
+        "system_prompt": "Create analytical reasoning questions that test the ability to identify recurring patterns and relationships in given information.",
+        "user_prompt_template": "Create an analytical reasoning question from this content:\n\n{text}\n\n```\nInstruction:\n[Question about pattern identification]\n\nAnswer:\n[Pattern identified with explanation]\n```"
+      },
+      {
+        "name": "Analogy Questions Agent",
+        "system_prompt": "Create analytical reasoning questions that test the ability to recognize relationships between pairs of elements and apply them to new situations.",
+        "user_prompt_template": "Create an analytical reasoning question from this content:\n\n{text}\n\n```\nInstruction:\n[Question about analogical relationships]\n\nAnswer:\n[Correct analogy with explanation]\n```"
+      },
+      {
+        "name": "Syllogism Questions Agent",
+        "system_prompt": "Create analytical reasoning questions that test the ability to evaluate logical arguments and determine the validity of conclusions.",
+        "user_prompt_template": "Create an analytical reasoning question from this content:\n\n{text}\n\n```\nInstruction:\n[Question about logical validity]\n\nAnswer:\n[Validity assessment with explanation]\n```"
+      },
+      {
+        "name": "Assumption Identification Questions Agent",
+        "system_prompt": "Create analytical reasoning questions that test the ability to identify unstated assumptions necessary for logical conclusions.",
+        "user_prompt_template": "Create an analytical reasoning question from this content:\n\n{text}\n\n```\nInstruction:\n[Question about underlying assumptions]\n\nAnswer:\n[Assumptions identified with explanation]\n```"
+      },
+      {
+        "name": "Evaluation of Arguments Agent",
+        "system_prompt": "Create analytical reasoning questions that test the ability to assess the strength and validity of logical arguments.",
+        "user_prompt_template": "Create an analytical reasoning question from this content:\n\n{text}\n\n```\nInstruction:\n[Question about argument evaluation]\n\nAnswer:\n[Evaluation with supporting reasons]\n```"
+      }
+    ]
+}

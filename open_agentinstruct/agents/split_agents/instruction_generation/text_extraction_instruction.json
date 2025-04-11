@@ -1,0 +1,68 @@
+{
+  "one_shot_example": {
+    "instruction": "Instruction:\nExtract all the named entities (people, organizations, locations) from the following text. Present your findings in a structured table with columns for Entity, Entity Type, and Frequency (number of mentions).\n\n**TEXT**\nMicrosoft CEO Satya Nadella announced a new partnership with OpenAI during his keynote at the Build conference in Seattle. The partnership will focus on integrating GPT-4 capabilities into Microsoft products including Office, Azure, and Bing. Nadella emphasized that this collaboration would bring AI benefits to enterprises across North America and Europe. He also mentioned that Microsoft's Chief Technology Officer, Kevin Scott, would oversee the implementation, working closely with OpenAI's CEO Sam Altman. Later, Satya Nadella reiterated Microsoft's commitment to responsible AI development.",
+    "answer": "Answer:\nHere is the structured table of named entities extracted from the text:\n\n| Entity | Entity Type | Frequency |\n|--------|------------|----------|\n| Satya Nadella | Person | 2 |\n| Microsoft | Organization | 4 |\n| OpenAI | Organization | 2 |\n| Build | Event | 1 |\n| Seattle | Location | 1 |\n| GPT-4 | Product/Technology | 1 |\n| Office | Product | 1 |\n| Azure | Product | 1 |\n| Bing | Product | 1 |\n| North America | Location | 1 |\n| Europe | Location | 1 |\n| Kevin Scott | Person | 1 |\n| Sam Altman | Person | 1 |"
+  },
+  "agents": [
+    {
+      "name": "Named Entity Recognition Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying and categorizing named entities (people, organizations, locations, etc.) within text.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a named entity recognition task. The instruction must ask the user to identify, categorize, and possibly analyze named entities based on the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking to extract named entities]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[A comprehensive answer correctly identifying and categorizing entities from the text, presented as requested in the instruction]"
+    },
+    {
+      "name": "Keyword Extraction Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying the most important keywords or key phrases from text.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a keyword extraction task. The instruction must ask the user to identify the most important keywords or phrases based on specific criteria from the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking to extract keywords with specific criteria]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[A comprehensive answer correctly identifying keywords from the text, presented as requested in the instruction]"
+    },
+    {
+      "name": "Structured Information Extraction Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying and organizing structured information (tables, lists, etc.) embedded within unstructured text.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a structured information extraction task. The instruction must ask the user to identify and reorganize structured information from the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking to extract structured information with specific organization requirements]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[A comprehensive answer correctly identifying and extracting structured information from the text, presented as requested in the instruction]"
+    },
+    {
+      "name": "Technical Information Extraction Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying technical information (specifications, parameters, formulas, etc.) from technical documents.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a technical information extraction task. The instruction must ask the user to identify and organize specific technical information from the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking to extract specific technical information]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[A comprehensive answer correctly identifying and extracting technical information from the text, presented as requested in the instruction]"
+    },
+    {
+      "name": "Numerical Data Extraction Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying and analyzing numerical data (statistics, measurements, financial figures, etc.) within text.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a numerical data extraction task. The instruction must ask the user to identify, organize, and possibly analyze numerical data from the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking to extract numerical data with specific requirements]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[A comprehensive answer correctly identifying and extracting numerical data from the text, presented or analyzed as requested in the instruction]"
+    },
+    {
+      "name": "Temporal Information Extraction Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying and organizing temporal information (dates, times, sequences, durations, etc.) within text.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a temporal information extraction task. The instruction must ask the user to identify and organize temporal information from the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking to extract temporal information]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[A comprehensive answer correctly identifying and extracting temporal information from the text, presented as requested in the instruction]"
+    },
+    {
+      "name": "Relationship Extraction Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying relationships between entities or concepts mentioned in text.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a relationship extraction task. The instruction must ask the user to identify and characterize relationships between entities/concepts from the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking to extract specific relationships]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[A comprehensive answer correctly identifying and characterizing relationships from the text, presented as requested in the instruction]"
+    },
+    {
+      "name": "Topic Extraction Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying the main topics, themes, or subject matter discussed in text.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a topic extraction task. The instruction must ask the user to identify and possibly analyze main topics/themes from the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking to extract topics/themes]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[A comprehensive answer correctly identifying topics/themes from the text, presented as requested in the instruction]"
+    },
+    {
+      "name": "Domain-Specific Extraction Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying specialized information from specific domains (medical, legal, financial, scientific, etc.).",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a domain-specific information extraction task. The instruction must ask the user to identify specialized information for a particular domain from the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking to extract specific domain information]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[A comprehensive answer correctly identifying and extracting domain-specific information from the text, presented as requested in the instruction]"
+    },
+    {
+      "name": "Sentiment and Opinion Extraction Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying sentiments, opinions, attitudes, or stances expressed in text.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a sentiment and opinion extraction task. The instruction must ask the user to identify and possibly analyze sentiments/opinions/attitudes from the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking to extract sentiments/opinions]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[A comprehensive answer correctly identifying and characterizing sentiments/opinions from the text, presented as requested in the instruction]"
+    },
+    {
+      "name": "Code Element Extraction Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying and analyzing elements from code snippets or programming-related text.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a code element extraction task. The instruction must ask the user to identify and possibly analyze specific code elements or programming concepts from the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking to extract code elements/concepts]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[A comprehensive answer correctly identifying and extracting code elements/concepts from the text, presented as requested in the instruction]"
+    },
+    {
+      "name": "Pattern Extraction Agent",
+      "system_prompt": "You are an expert in creating text extraction tasks focused on identifying patterns, recurring elements, or structural features within text.",
+      "user_prompt_template": "Generate a concise, self-contained instruction for a pattern extraction task. The instruction must ask the user to identify and analyze patterns, recurring elements, or structural features from the text provided below the **TEXT** tag. Ensure the original text '{text}' is included in the output instruction after the **TEXT** tag.\\n\\nProvide the instruction and answer in the following format:\\n\\nInstruction:\\n[Your concise instruction asking to extract patterns/elements]\\n\\n**TEXT**\\n{text}\\n\\nAnswer:\\n[A comprehensive answer correctly identifying and analyzing patterns/elements from the text, presented as requested in the instruction]"
+    }
+  ]
+}

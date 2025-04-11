@@ -1,0 +1,58 @@
+{
+  "one_shot_example": {
+    "instruction": "Instruction:\nEstimate the number of piano tuners in Chicago.\n\nProvide a step-by-step approach, making reasonable assumptions about the population of Chicago, the percentage of households that own pianos, how often pianos need tuning, and how many pianos a tuner can service per year. Show your calculations and reasoning for each assumption.",
+    "answer": "Answer:\nI'll estimate the number of piano tuners in Chicago using a step-by-step approach:\n\n1) Population of Chicago: I'll assume Chicago has approximately 3 million people.\n\n2) Households in Chicago: Assuming an average of 2.5 people per household, Chicago would have about 3,000,000 ÷ 2.5 = 1,200,000 households.\n\n3) Percentage of households with pianos: Let's assume 5% of households own a piano. This gives us 1,200,000 × 0.05 = 60,000 pianos in Chicago.\n\n4) Piano tuning frequency: Assuming pianos are tuned on average once per year, that's 60,000 tunings per year.\n\n5) Piano tuner workload: If a piano tuner can tune 4 pianos per day, working 5 days a week for 50 weeks per year, each tuner performs about 4 × 5 × 50 = 1,000 tunings per year.\n\n6) Number of piano tuners: To service all pianos, we would need 60,000 ÷ 1,000 = 60 piano tuners in Chicago.\n\nTherefore, I estimate there are approximately 60 piano tuners in Chicago."
+  },
+  "agents": [
+    {
+      "name": "Quantity Estimation Agent",
+      "system_prompt": "You are an expert educator specializing in creating Fermi problems that involve estimating quantities or counts of objects, people, or events.",
+      "user_prompt_template": "Create an instruction-answer pair for a Fermi estimation problem about quantities or counts based on the following text. The instruction should ask the user to estimate a specific quantity that requires breaking down the problem and making reasonable assumptions.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your estimation question]\n\nAnswer:\n[A step-by-step solution that breaks down the problem, states reasonable assumptions, shows calculations, and arrives at a final estimate]"
+    },
+    {
+      "name": "Time Duration Estimation Agent",
+      "system_prompt": "You are an expert educator specializing in creating Fermi problems that involve estimating time durations or frequencies of events.",
+      "user_prompt_template": "Create an instruction-answer pair for a Fermi estimation problem about time or duration based on the following text. The instruction should ask the user to estimate a specific timeframe or frequency that requires breaking down the problem and making reasonable assumptions.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your estimation question]\n\nAnswer:\n[A step-by-step solution that breaks down the problem, states reasonable assumptions, shows calculations, and arrives at a final estimate]"
+    },
+    {
+      "name": "Resource Consumption Estimation Agent",
+      "system_prompt": "You are an expert educator specializing in creating Fermi problems that involve estimating resource consumption or utilization rates.",
+      "user_prompt_template": "Create an instruction-answer pair for a Fermi estimation problem about resource consumption or utilization based on the following text. The instruction should ask the user to estimate a specific resource usage that requires breaking down the problem and making reasonable assumptions.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your estimation question]\n\nAnswer:\n[A step-by-step solution that breaks down the problem, states reasonable assumptions, shows calculations, and arrives at a final estimate]"
+    },
+    {
+      "name": "Statistical Parameter Estimation Agent",
+      "system_prompt": "You are an expert educator specializing in creating Fermi problems that involve estimating statistical parameters or probabilities.",
+      "user_prompt_template": "Create an instruction-answer pair for a Fermi estimation problem about statistical parameters or probabilities based on the following text. The instruction should ask the user to estimate a specific statistical value that requires breaking down the problem and making reasonable assumptions.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your estimation question]\n\nAnswer:\n[A step-by-step solution that breaks down the problem, states reasonable assumptions, shows calculations, and arrives at a final estimate]"
+    },
+    {
+      "name": "Physical Measurement Estimation Agent",
+      "system_prompt": "You are an expert educator specializing in creating Fermi problems that involve estimating physical measurements or dimensions.",
+      "user_prompt_template": "Create an instruction-answer pair for a Fermi estimation problem about physical measurements or dimensions based on the following text. The instruction should ask the user to estimate a specific physical quantity that requires breaking down the problem and making reasonable assumptions.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your estimation question]\n\nAnswer:\n[A step-by-step solution that breaks down the problem, states reasonable assumptions, shows calculations, and arrives at a final estimate]"
+    },
+    {
+      "name": "Cost Estimation Agent",
+      "system_prompt": "You are an expert educator specializing in creating Fermi problems that involve estimating costs or economic values.",
+      "user_prompt_template": "Create an instruction-answer pair for a Fermi estimation problem about costs or economic values based on the following text. The instruction should ask the user to estimate a specific monetary value that requires breaking down the problem and making reasonable assumptions.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your estimation question]\n\nAnswer:\n[A step-by-step solution that breaks down the problem, states reasonable assumptions, shows calculations, and arrives at a final estimate]"
+    },
+    {
+      "name": "Energy Estimation Agent",
+      "system_prompt": "You are an expert educator specializing in creating Fermi problems that involve estimating energy usage or production.",
+      "user_prompt_template": "Create an instruction-answer pair for a Fermi estimation problem about energy usage or production based on the following text. The instruction should ask the user to estimate a specific energy quantity that requires breaking down the problem and making reasonable assumptions.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your estimation question]\n\nAnswer:\n[A step-by-step solution that breaks down the problem, states reasonable assumptions, shows calculations, and arrives at a final estimate]"
+    },
+    {
+      "name": "Probability Estimation Agent",
+      "system_prompt": "You are an expert educator specializing in creating Fermi problems that involve estimating probabilities or chances of events.",
+      "user_prompt_template": "Create an instruction-answer pair for a Fermi estimation problem about probability or chances of events based on the following text. The instruction should ask the user to estimate a specific probability that requires breaking down the problem and making reasonable assumptions.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your estimation question]\n\nAnswer:\n[A step-by-step solution that breaks down the problem, states reasonable assumptions, shows calculations, and arrives at a final estimate]"
+    },
+    {
+      "name": "Rate Estimation Agent",
+      "system_prompt": "You are an expert educator specializing in creating Fermi problems that involve estimating rates of change or processes.",
+      "user_prompt_template": "Create an instruction-answer pair for a Fermi estimation problem about rates of change or processes based on the following text. The instruction should ask the user to estimate a specific rate that requires breaking down the problem and making reasonable assumptions.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your estimation question]\n\nAnswer:\n[A step-by-step solution that breaks down the problem, states reasonable assumptions, shows calculations, and arrives at a final estimate]"
+    },
+    {
+      "name": "Complex System Estimation Agent",
+      "system_prompt": "You are an expert educator specializing in creating Fermi problems that involve estimating parameters of complex systems with multiple variables.",
+      "user_prompt_template": "Create an instruction-answer pair for a Fermi estimation problem about a complex system with multiple variables based on the following text. The instruction should ask the user to estimate a specific parameter that requires breaking down the problem and making reasonable assumptions.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your estimation question]\n\nAnswer:\n[A step-by-step solution that breaks down the problem, states reasonable assumptions, shows calculations, and arrives at a final estimate]"
+    }
+  ]
+}
