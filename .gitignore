@@ -165,4 +165,5 @@ cython_debug/
 archive/
 data/
 benchmarks/
-finetuned_model/
+finetuned_models/
+wandb/
