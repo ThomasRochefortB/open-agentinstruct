@@ -14,18 +14,22 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
-    "License :: OSI Approved :: Apache Software License", # Assuming Apache based on common HF practice; VERIFY YOUR LICENSE FILE
+    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
-# Dependencies and entry points are defined in setup.cfg
-dynamic = ["dependencies", "entry-points"]
+# Dependencies and optional-dependencies are defined in setup.cfg
+# Scripts are now defined directly below
+dynamic = ["dependencies", "optional-dependencies"]
+
+[project.scripts]
+open-agentinstruct-generate = "open_agentinstruct.cli:main_wrapper"
 
 [project.urls]
-Homepage = "https://github.com/thomas/open-agentinstruct" # TODO: Update with your actual repo URL
-Repository = "https://github.com/thomas/open-agentinstruct" # TODO: Update with your actual repo URL
+Homepage = "https://github.com/ThomasRochefortB/open-agentinstruct"
+Repository = "https://github.com/ThomasRochefortB/open-agentinstruct"
 
 # Configuration for tools like Ruff, Pytest, Coveragepy could go here in [tool.*] sections
 # Example for Ruff (add if you use it)

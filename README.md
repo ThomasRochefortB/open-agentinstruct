@@ -55,19 +55,6 @@ The AgentInstruct paper implements the following tasks which are not all impleme
 
 
 
-<!-- ### Which model will we support?
-The paper uses Mistral-7b and compares to Mistral-7b instruct. To limit the hardware requirements at the start, we will use:
-
--  [Llama-3.2-1B](https://huggingface.co/meta-llama/Llama-3.2-1B) and compare to its [instruct version](https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct) -->
-
-<!-- ### Current results:
-| **Benchmark** | **# shots** |     **Metric**     | **LLama 3.2 1B** | **Llama 3.2 1B-Instruct** | **Llama 3.2 3B** | **OpenOrca3** |
-|:-------------:|:-----------:|:------------------:|:----------------:|:-------------------------:|:----------------:|:-------------:|
-|      MMLU     |      5      | macro_avg/acc_char |       32.2       |            49.3           |       58.0       |               |
-|      DROP     |      3      |         f1         |       28.0       |            N/A            |       45.2       |               |
-
- -->
-
 
 
 ## Features
@@ -88,7 +75,7 @@ pip install open-agentinstruct
 
 1.  Clone the repository:
     ```sh
-    git clone https://github.com/thomas/open-agentinstruct.git # TODO: Update with your repo URL
+    git clone https://github.com/ThomasRochefortB/open-agentinstruct.git
     cd open-agentinstruct
     ```
 
@@ -173,16 +160,4 @@ Example execution commands from the root directory after installation:
 ```sh
 # Generate data for all tasks from the specified dataset, processing max 100 chunks, skipping refinement, including content
 open-agentinstruct-generate --dataset-names "crumb/openstax-text" --all-tasks --max-chunks 100 --skip-refinement --include-content
-
-# Example finetuning command (run from repo clone, not part of installed package)
-# python finetuning/finetune.py --train_files data/generated_data/text_extraction.jsonl
 ```
-
-
-
-
- python gen_data.py --dataset-names "crumb/openstax-text" --all-tasks --max-chunks 100 --skip-refinement --include-content
-
-
-
- python finetuning/finetune.py --train_files data/generated_data/text_extraction.jsonl

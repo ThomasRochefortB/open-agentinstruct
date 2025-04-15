@@ -28,13 +28,16 @@ import pkg_resources  # To find package data
 nest_asyncio.apply()
 
 # Load environment variables from CWD or parent directories
-load_dotenv(find_dotenv=True)
+load_dotenv()
 
 # --- Global variable for args ---
 # This is generally not ideal, but refactoring the whole script
 # to pass args explicitly is a larger change.
 # Consider refactoring later if needed.
 args = None
+
+# --- Global variable to track active tasks for cancellation ---
+active_tasks = set()
 
 
 def setup_parser():
@@ -267,8 +270,8 @@ async def process_chunk(
     """Processes a single chunk of text."""
     async with semaphore:
         print(
-            f"Processing chunk {chunk_index + 1}..."
-        )  # Use 1-based index for printing
+            f"Processing chunk {chunk_index + 1}... (# Tasks: {len(active_tasks)})"  # Add active task count
+        )
         try:
             source_name = "unknown"
             text = ""
@@ -344,14 +347,28 @@ async def process_chunk(
                 {"processed_chunk": chunk_index}
             )  # Signal successful processing
 
+        except asyncio.CancelledError:
+            print(f"Chunk {chunk_index + 1} processing was cancelled.")
+            await queue.put(
+                {"cancelled_chunk": chunk_index}
+            )  # Optionally signal cancellation
+            # Re-raise the cancellation error so gather knows
+            raise
         except Exception as e:
             print(f"Error processing chunk {chunk_index + 1}: {e}")
             # Log error details if possible (e.g., using traceback module)
             await queue.put({"error": {"chunk": chunk_index, "error": str(e)}})
+        finally:
+            # Ensure task is removed from active set upon completion or cancellation
+            active_tasks.discard(asyncio.current_task())
+            print(
+                f"Chunk {chunk_index + 1} finished. (# Tasks: {len(active_tasks)})"
+            )  # Add active task count
 
 
 async def process_task(task_name, current_args, async_chat_fn):
     """Processes a single data generation task."""
+    global active_tasks  # Modify global set
     print(f"\n{'='*50}")
     print(f"Processing task: {task_name}")
     print(f"{'='*50}\n")
@@ -382,18 +399,18 @@ async def process_task(task_name, current_args, async_chat_fn):
             f"Error loading agent configurations for task '{task_name}' from '{current_args.agent_config_path}': {e}"
         )
         print("Please ensure the agent config path is correct and JSON files exist.")
-        return []  # Skip this task
+        return  # Skip this task
     except Exception as e:
         print(
             f"Unexpected error loading agent configurations for task '{task_name}': {e}"
         )
-        return []  # Skip this task
+        return  # Skip this task
 
     # Get text chunks for this task
     text_chunks = get_text_chunks(current_args)
     if not text_chunks:
         print(f"No text chunks found for task '{task_name}'. Skipping.")
-        return []
+        return
 
     source_type = "dataset(s)" if current_args.dataset_names else "PDF directory"
     print(
@@ -445,7 +462,7 @@ async def process_task(task_name, current_args, async_chat_fn):
 
     if not tasks_to_create:
         print(f"All required chunks for task '{task_name}' are already processed.")
-        return []  # No tasks needed for this run
+        return  # No tasks needed for this run
     else:
         print(f"Creating {len(tasks_to_create)} processing tasks for '{task_name}'.")
 
@@ -458,6 +475,7 @@ async def process_task(task_name, current_args, async_chat_fn):
         error_count = 0
         empty_count = 0
         skipped_count = 0
+        cancelled_count = 0  # Track cancellations
 
         try:
             # Open files in append mode
@@ -507,21 +525,29 @@ async def process_task(task_name, current_args, async_chat_fn):
                             empty_count += 1
                         elif "skipped_chunk" in item:
                             skipped_count += 1
+                        elif "cancelled_chunk" in item:  # Handle cancellation signal
+                            cancelled_count += 1
 
                     q.task_done()  # Mark task as done in the queue
+        except asyncio.CancelledError:
+            print(f"Writer task for '{task_name}' was cancelled.")
+            raise  # Propagate cancellation
         except Exception as e:
             print(f"FATAL ERROR in task_writer for task '{task_name}': {e}")
             # Handle writer error (e.g., log, raise)
         finally:
             print(
-                f"Writer finished for task '{task_name}'. Summary: Processed={processed_count}, Errors={error_count}, Empty={empty_count}, Skipped={skipped_count}"
+                f"Writer finished for task '{task_name}'. Summary: Processed={processed_count}, Errors={error_count}, Empty={empty_count}, Skipped={skipped_count}, Cancelled={cancelled_count}"
             )
 
+    # Create the writer task
     writer_task = asyncio.create_task(task_writer(queue, output_file, progress_file))
+    active_tasks.add(writer_task)  # Track writer task
 
     # Create processing tasks
-    processing_tasks = [
-        asyncio.create_task(
+    processing_tasks = []
+    for index, chunk_data in tasks_to_create:
+        task = asyncio.create_task(
             process_chunk(
                 index,  # Pass original index
                 chunk_data,
@@ -534,31 +560,36 @@ async def process_task(task_name, current_args, async_chat_fn):
                 async_chat_fn,  # Pass partial chat function
             )
         )
-        for index, chunk_data in tasks_to_create
-    ]
+        processing_tasks.append(task)
+        active_tasks.add(task)  # Add processing task to global set
 
-    # Wait for all processing tasks to complete
+    # Wait for all processing tasks to complete or be cancelled
     try:
-        await asyncio.gather(*processing_tasks, return_exceptions=True)
+        await asyncio.gather(
+            *processing_tasks, return_exceptions=False
+        )  # Don't return exceptions here, they are handled in process_chunk
     except asyncio.CancelledError:
-        print(f"Processing tasks for {task_name} were cancelled.")
-        # Cancel writer task if processing is cancelled
-        if not writer_task.done():
-            writer_task.cancel()
-        raise
+        print(f"Processing tasks for {task_name} gather loop cancelled.")
+        # The shutdown handler already cancelled individual tasks
     finally:
         # Signal writer to finish after all tasks are done or cancelled
         await queue.put(None)
-        # Wait for writer task to finish handling remaining queue items
-        await writer_task
+        # Wait for writer task to finish handling remaining queue items or be cancelled
+        try:
+            await writer_task
+        except asyncio.CancelledError:
+            print(
+                f"Writer task for {task_name} did not finish cleanly after cancellation signal."
+            )
+        finally:
+            active_tasks.discard(writer_task)  # Remove writer task from active set
 
     print(f"Task '{task_name}' processing finished.")
-    return processing_tasks  # Return the list of tasks (useful for main cancellation)
 
 
 async def main_async(current_args):
     """Asynchronous part of the main execution."""
-    global args  # Allow modification of global args
+    global args, active_tasks  # Allow modification of global args and task set
     args = current_args
 
     # Resolve agent config path
@@ -580,22 +611,42 @@ async def main_async(current_args):
     # Create the partial function for chat completion with the specified model
     async_chat_fn = partial(async_chat_completion, model=args.model)
 
-    # --- Signal Handling --- Needs careful setup with asyncio
+    # --- Signal Handling ---
     loop = asyncio.get_running_loop()
-    active_tasks = []
+    shutdown_requested = asyncio.Event()  # Event to signal shutdown
 
-    def shutdown_handler(sig):
+    async def shutdown_handler(sig):
+        if shutdown_requested.is_set():
+            print("Shutdown already requested. Force exiting...")
+            # Optionally add a small delay then force exit if tasks don't stop
+            # await asyncio.sleep(5)
+            # os._exit(1) # Force exit if needed
+            return
+
         print(f"\nReceived signal {sig}. Initiating graceful shutdown...")
-        # Cancel all active processing tasks
-        for task in active_tasks:
+        shutdown_requested.set()  # Signal that shutdown is in progress
+
+        # Cancel all tracked active tasks (processing and writer)
+        cancelled_count = 0
+        tasks_to_cancel = list(
+            active_tasks
+        )  # Copy set to avoid modification during iteration
+        for task in tasks_to_cancel:
             if not task.done():
                 task.cancel()
-        # Don't force exit here, allow tasks and writer to finish cleanup
-        print("Cancellation requests sent to active tasks. Waiting for completion...")
+                cancelled_count += 1
+
+        print(
+            f"Cancellation requests sent to {cancelled_count} active tasks. Waiting for completion..."
+        )
+        # Allow the main loop to handle cancellations and cleanup
 
     for sig in (signal.SIGINT, signal.SIGTERM):
         try:
-            loop.add_signal_handler(sig, lambda s=sig: shutdown_handler(s))
+            # Use lambda to prevent the handler from receiving the loop argument
+            loop.add_signal_handler(
+                sig, lambda s=sig: asyncio.create_task(shutdown_handler(s))
+            )
         except NotImplementedError:
             # Windows might not support add_signal_handler
             print(
@@ -604,58 +655,89 @@ async def main_async(current_args):
             # Consider alternative shutdown mechanisms if needed
 
     # --- Task Processing ---
+    main_processing_task = None
     try:
-        if args.all_tasks:
-            # Discover task names from agent config directory
-            instruction_dir = Path(args.agent_config_path) / "instruction_generation"
-            if not instruction_dir.is_dir():
-                print(
-                    f"Error: Instruction generation config directory not found: {instruction_dir}"
+        # Wrap the main task processing in a single task to manage cancellation
+        async def run_all_tasks():
+            if args.all_tasks:
+                # Discover task names from agent config directory
+                instruction_dir = (
+                    Path(args.agent_config_path) / "instruction_generation"
                 )
-                sys.exit(1)
+                if not instruction_dir.is_dir():
+                    print(
+                        f"Error: Instruction generation config directory not found: {instruction_dir}"
+                    )
+                    return  # Exit this async function
 
-            task_names = []
-            for filename in os.listdir(instruction_dir):
-                if filename.endswith("_instruction.json"):
-                    task_name = filename.replace("_instruction.json", "")
-                    task_names.append(task_name)
+                task_names = []
+                for filename in os.listdir(instruction_dir):
+                    if filename.endswith("_instruction.json"):
+                        task_name = filename.replace("_instruction.json", "")
+                        task_names.append(task_name)
 
-            if not task_names:
-                print(
-                    f"Error: No task configuration files (*_instruction.json) found in {instruction_dir}"
-                )
-                sys.exit(1)
+                if not task_names:
+                    print(
+                        f"Error: No task configuration files (*_instruction.json) found in {instruction_dir}"
+                    )
+                    return
 
-            print(f"Found {len(task_names)} tasks: {', '.join(task_names)}")
+                print(f"Found {len(task_names)} tasks: {', '.join(task_names)}")
 
-            # Process tasks sequentially (easier cancellation handling)
-            for task_name in task_names:
-                task_run_tasks = await process_task(task_name, args, async_chat_fn)
-                active_tasks.extend(task_run_tasks)  # Keep track for cancellation
-                # Optional: Check for cancellation requests between tasks
-                # await asyncio.sleep(0) # Yield control briefly
+                # Process tasks sequentially
+                for task_name in task_names:
+                    if shutdown_requested.is_set():
+                        print(f"Skipping task {task_name} due to shutdown request.")
+                        break
+                    await process_task(task_name, args, async_chat_fn)
 
-            print("\nAll tasks processing completed or were interrupted.")
-        else:
-            # Process a single specified task
-            single_task_run_tasks = await process_task(
-                args.task_name, args, async_chat_fn
-            )
-            active_tasks.extend(single_task_run_tasks)
-            print("\nSingle task processing completed or was interrupted.")
+                print("\nAll tasks processing completed or were interrupted.")
+            else:
+                # Process a single specified task
+                if not shutdown_requested.is_set():
+                    await process_task(args.task_name, args, async_chat_fn)
+                    print("\nSingle task processing completed or was interrupted.")
+                else:
+                    print(f"Skipping task {args.task_name} due to shutdown request.")
+
+        # Start the main processing task
+        main_processing_task = asyncio.create_task(run_all_tasks())
+        active_tasks.add(main_processing_task)  # Track main task itself
+        await main_processing_task  # Wait for it to complete or be cancelled
 
     except asyncio.CancelledError:
-        print("Main execution loop cancelled.")
+        print("Main execution task was cancelled.")
     except Exception as e:
         print(f"An unexpected error occurred during main execution: {e}")
         # Log traceback here if possible
     finally:
-        # Remove signal handlers before exiting
+        # Ensure main task is removed from active set
+        if main_processing_task:
+            active_tasks.discard(main_processing_task)
+
+        # Wait briefly for remaining tasks to finish cancelling if shutdown was requested
+        if shutdown_requested.is_set():
+            print("Allowing a moment for tasks to finalize cancellation...")
+            # Give cancelled tasks a chance to finish their finally blocks
+            await asyncio.sleep(1)  # Adjust sleep time if needed
+
+            # Check if any tasks are still somehow running (shouldn't happen often)
+            still_running = [t for t in active_tasks if not t.done()]
+            if still_running:
+                print(
+                    f"Warning: {len(still_running)} tasks did not complete shutdown cleanly."
+                )
+
+        # Remove signal handlers AFTER the main task processing logic
+        print("Removing signal handlers...")
         for sig in (signal.SIGINT, signal.SIGTERM):
             try:
                 loop.remove_signal_handler(sig)
-            except NotImplementedError:
-                pass  # Ignore if not supported
+            except (
+                NotImplementedError,
+                ValueError,
+            ):  # ValueError if handler not registered
+                pass  # Ignore if not supported or already removed
         print("Cleanup finished. Exiting.")
 
 
@@ -672,9 +754,18 @@ def main_wrapper():
 
     # Run the async main function
     try:
-        asyncio.run(main_async(cli_args))
+        # Use the default event loop runner which handles KeyboardInterrupt better
+        asyncio.run(main_async(cli_args), debug=False)  # Set debug=False for production
     except KeyboardInterrupt:
-        print("\nInterrupted by user (KeyboardInterrupt). Exiting.")
+        # This might still catch if the signal handlers don't fully work
+        # or if the interrupt happens before the loop starts properly.
+        print(
+            "\nInterrupted by user (KeyboardInterrupt) before or during loop start. Exiting forcefully."
+        )
+        sys.exit(1)
+    except asyncio.CancelledError:
+        # This can happen if the main_async task itself gets cancelled externally
+        print("\nMain async task cancelled externally. Exiting.")
         sys.exit(1)
 
 

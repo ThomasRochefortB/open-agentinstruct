@@ -1,6 +1,8 @@
 import asyncio
 from typing import List, Dict, Optional
-from utils.text_extraction import parse_modified_output
+from open_agentinstruct.utils.text_extraction import (
+    parse_modified_output,
+)
 
 
 async def refine_instructions(

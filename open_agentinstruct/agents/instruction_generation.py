@@ -1,5 +1,5 @@
 import asyncio
-from utils.text_extraction import parse_instruction_answer_pairs
+from open_agentinstruct.utils.text_extraction import parse_instruction_answer_pairs
 import random
 import re
 
