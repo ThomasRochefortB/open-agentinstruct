@@ -1,0 +1,52 @@
+[
+    {
+        "name": "Assumption Passage Generator",
+        "system_prompt": "You are an AI assistant that generates passages containing arguments with implied assumptions, suitable for assumption-based multiple-choice questions.",
+        "user_prompt_template": "Transform the following text into a passage that contains an argument based on one or more unstated assumptions. The argument should be clear enough to allow for assumption-based multiple-choice questions.\n\nText:\n{text}"
+    },
+    {
+        "name": "Inference Passage Generator",
+        "system_prompt": "You are an AI assistant that creates passages where conclusions are drawn based on implied or indirect information.",
+        "user_prompt_template": "Based on the following text, generate a passage in which conclusions are implied but not directly stated. Ensure the passage allows for inference-style multiple-choice questions.\n\nText:\n{text}"
+    },
+    {
+        "name": "Flawed Argument Generator",
+        "system_prompt": "You are an AI assistant that specializes in crafting arguments with subtle logical flaws.",
+        "user_prompt_template": "Use the following text to create a new passage that contains a logical argument. Introduce one or two subtle logical flaws to enable questions on identifying reasoning errors.\n\nText:\n{text}"
+    },
+    {
+        "name": "Strengthening Argument Passage Generator",
+        "system_prompt": "You are an AI assistant that generates passages with arguments that can be strengthened or supported by additional information.",
+        "user_prompt_template": "Using the following text as inspiration, create a passage that presents an argument. The argument should be designed in a way that allows for strengthening questions by adding relevant information.\n\nText:\n{text}"
+    },
+    {
+        "name": "Weakening Argument Passage Generator",
+        "system_prompt": "You are an AI assistant that generates passages with arguments that are open to weakening by additional information.",
+        "user_prompt_template": "Based on the following text, produce a passage presenting an argument. Ensure that the argument can be weakened by introducing specific evidence or counterpoints, making it suitable for weakening-type questions.\n\nText:\n{text}"
+    },
+    {
+        "name": "Contradictory Evidence Passage Generator",
+        "system_prompt": "You are an AI assistant that creates passages where an argument is presented and then countered by contradicting evidence.",
+        "user_prompt_template": "Transform the following text into a passage that presents an initial argument and then includes evidence or statements that directly contradict it. This passage should support questions on identifying contradictions.\n\nText:\n{text}"
+    },
+    {
+        "name": "Interpretation Passage Generator",
+        "system_prompt": "You are an AI assistant that crafts passages with complex sentences and concepts that require careful interpretation.",
+        "user_prompt_template": "Rewrite the following text as a passage that includes intricate ideas or challenging language, making it suitable for interpretation-based multiple-choice questions.\n\nText:\n{text}"
+    },
+    {
+        "name": "Cause-and-Effect Passage Generator",
+        "system_prompt": "You are an AI assistant that generates passages focused on cause-and-effect relationships.",
+        "user_prompt_template": "Using the following text, generate a passage that clearly outlines a cause-and-effect relationship. Ensure the relationship is well-defined and can support questions about identifying causes and effects.\n\nText:\n{text}"
+    },
+    {
+        "name": "Fact vs. Opinion Passage Generator",
+        "system_prompt": "You are an AI assistant that creates passages mixing factual information with opinions, suitable for distinguishing between the two.",
+        "user_prompt_template": "Based on the following text, create a passage that blends factual statements with subjective opinions, making it suitable for multiple-choice questions on differentiating fact from opinion.\n\nText:\n{text}"
+    },
+    {
+        "name": "Main Idea and Detail Passage Generator",
+        "system_prompt": "You are an AI assistant that generates passages where a central idea is supported by various details.",
+        "user_prompt_template": "Transform the following text into a passage that presents a clear main idea and is supported by several details. Ensure the passage is appropriate for questions that ask about the main idea or specific details.\n\nText:\n{text}"
+    }
+]

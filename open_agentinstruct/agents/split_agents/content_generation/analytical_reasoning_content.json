@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Scenario Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating complex scenarios suitable for analytical reasoning exercises.",
+    "user_prompt_template": "Using the following text as inspiration, generate a new scenario that involves a set of entities with relationships and constraints, suitable for analytical reasoning problems. The scenario should be clear, logical, and contain sufficient information for creating analytical reasoning questions.\n\nText:\n{text}"
+  },
+  {
+    "name": "Data Set Generator",
+    "system_prompt": "You are an AI assistant that creates data sets from text, suitable for analytical reasoning tasks.",
+    "user_prompt_template": "Based on the following text, generate a set of data points or information that can be used in an analytical reasoning problem. Ensure the data includes entities, attributes, relationships, and constraints necessary for analytical reasoning.\n\nText:\n{text}"
+  },
+  {
+    "name": "Puzzle Passage Generator",
+    "system_prompt": "You are an AI assistant that transforms text into logical puzzles for analytical reasoning exercises.",
+    "user_prompt_template": "Convert the following text into a logical puzzle that requires analytical reasoning to solve. Include entities, conditions, and constraints that make the puzzle challenging and engaging.\n\nText:\n{text}"
+  },
+  {
+    "name": "Relationship Diagram Generator",
+    "system_prompt": "You are an AI assistant that creates descriptions of relationships between entities for analytical reasoning tasks.",
+    "user_prompt_template": "Transform the following text into a description outlining relationships and constraints between different entities. Ensure the information is suitable for creating analytical reasoning questions that test understanding of these relationships.\n\nText:\n{text}"
+  },
+  {
+    "name": "Sequencing Problem Generator",
+    "system_prompt": "You are an AI assistant that generates sequencing problems for analytical reasoning exercises.",
+    "user_prompt_template": "Using the following text, create a sequencing scenario where items need to be ordered based on given constraints. Include all necessary conditions that affect the ordering.\n\nText:\n{text}"
+  },
+  {
+    "name": "Grouping Problem Generator",
+    "system_prompt": "You are an AI assistant that crafts grouping problems for analytical reasoning tasks.",
+    "user_prompt_template": "Based on the following text, generate a grouping scenario where items are assigned to groups under certain constraints. Provide all conditions that govern how items can be grouped.\n\nText:\n{text}"
+  },
+  {
+    "name": "Assignment Problem Generator",
+    "system_prompt": "You are an AI assistant that creates assignment problems for analytical reasoning exercises.",
+    "user_prompt_template": "Convert the following text into an assignment scenario where entities must be assigned to positions or categories under specific constraints. Include all relevant conditions and limitations.\n\nText:\n{text}"
+  },
+  {
+    "name": "Scheduling Problem Generator",
+    "system_prompt": "You are an AI assistant that generates scheduling problems suitable for analytical reasoning.",
+    "user_prompt_template": "Using the following text, create a scheduling scenario that involves assigning events or tasks to times or dates under given constraints. Provide all necessary conditions affecting the schedule.\n\nText:\n{text}"
+  },
+  {
+    "name": "Identity Agent",
+    "system_prompt": "You are an AI assistant that replicates the input text verbatim.",
+    "user_prompt_template": "Repeat the following text exactly as it is.\n\nText:\n{text}"
+  }
+]

@@ -1,0 +1,83 @@
+{
+  "one_shot_example": {
+    "instruction": "Instruction:\n Read the following passage:\n\nClimate change poses an unprecedented threat to global ecosystems. Rising temperatures are causing polar ice caps to melt at an alarming rate, leading to rising sea levels and threatening coastal communities. Additionally, changing weather patterns are disrupting traditional agricultural cycles, potentially impacting food security worldwide.\n\nQuestion: What is the main impact of rising temperatures on coastal communities according to the passage?",
+    "answer": "Answer:\n According to the passage, rising temperatures are causing polar ice caps to melt, which leads to rising sea levels that threaten coastal communities."
+  },
+  "agents": [
+    {
+      "name": "Main Idea Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating main idea questions for reading comprehension exercises.",
+      "user_prompt_template": "Create an instruction-answer pair for a **main idea question**. The instruction should include both the passage and a question asking to identify the primary message or theme.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your main idea question]\n\nAnswer:\n[The correct answer]"
+    },
+    {
+      "name": "Detail Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating detail-oriented questions for reading comprehension exercises.",
+      "user_prompt_template": "Create an instruction-answer pair for a **detail question**. The instruction should include both the passage and a question about specific details or facts.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your detail question]\n\nAnswer:\n[The correct answer]"
+    },
+    {
+      "name": "Inference Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating inference questions for reading comprehension exercises.",
+      "user_prompt_template": "Create an instruction-answer pair for an **inference question**. The instruction should include both the passage and a question requiring logical inference.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your inference question]\n\nAnswer:\n[The correct answer with explanation of inference]"
+    },
+    {
+      "name": "Vocabulary-in-Context Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating vocabulary-in-context questions for reading comprehension exercises.",
+      "user_prompt_template": "Create an instruction-answer pair for a **vocabulary-in-context question**. The instruction should include both the passage and a question about word meaning in context.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your vocabulary question]\n\nAnswer:\n[The correct answer with context-based explanation]"
+    },
+    {
+      "name": "Purpose Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating purpose questions for reading comprehension exercises.",
+      "user_prompt_template": "Create an instruction-answer pair for a **purpose question**. The instruction should include both the passage and a question about author's purpose or intent.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your purpose question]\n\nAnswer:\n[The correct answer]"
+    },
+    {
+      "name": "Tone and Attitude Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating tone and attitude questions for reading comprehension exercises.",
+      "user_prompt_template": "Create an instruction-answer pair for a **tone and attitude question**. The instruction should include both the passage and a question about author's tone or attitude.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your tone/attitude question]\n\nAnswer:\n[The correct answer with evidence from text]"
+    },
+    {
+      "name": "Logical Structure Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating logical structure questions for reading comprehension exercises.",
+      "user_prompt_template": "Create an instruction-answer pair for a **logical structure question**. The instruction should include both the passage and a question about organizational pattern or reasoning.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your structure question]\n\nAnswer:\n[The correct answer with explanation]"
+    },
+    {
+      "name": "Summary Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating summary questions for reading comprehension exercises.",
+      "user_prompt_template": "Create an instruction-answer pair for a **summary question**. The instruction should include both the passage and a request for summarization.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your summary request]\n\nAnswer:\n[The concise summary]"
+    },
+    {
+      "name": "Application Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating application questions for reading comprehension exercises.",
+      "user_prompt_template": "Create an instruction-answer pair for an **application question**. The instruction should include both the passage and a question about applying the information.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your application question]\n\nAnswer:\n[The correct answer with application explanation]"
+    },
+    {
+      "name": "Comparison Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating comparison questions for reading comprehension exercises.",
+      "user_prompt_template": "Create an instruction-answer pair for a **comparison question**. The instruction should include both the passage and a question comparing elements.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your comparison question]\n\nAnswer:\n[The correct answer with comparison details]"
+    },
+    {
+      "name": "Cause and Effect Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating cause and effect questions for reading comprehension exercises.",
+      "user_prompt_template": "Create an instruction-answer pair for a **cause and effect question**. The instruction should include both the passage and a question about causal relationships.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your cause/effect question]\n\nAnswer:\n[The correct answer with causal explanation]"
+    },
+    {
+      "name": "Paraphrase Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating paraphrase questions for reading comprehension exercises.",
+      "user_prompt_template": "Create an instruction-answer pair for a **paraphrase question**. The instruction should include both the passage and a request to restate content.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your paraphrase request]\n\nAnswer:\n[The correct paraphrase]"
+    },
+    {
+      "name": "Critical Evaluation Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating critical evaluation questions for reading comprehension exercises.",
+      "user_prompt_template": "Create an instruction-answer pair for a **critical evaluation question**. The instruction should include both the passage and a question requiring critical analysis.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your evaluation question]\n\nAnswer:\n[The correct evaluation with analysis]"
+    },
+    {
+      "name": "Prediction Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating prediction questions for reading comprehension exercises.",
+      "user_prompt_template": "Create an instruction-answer pair for a **prediction question**. The instruction should include both the passage and a question about likely future developments.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your prediction question]\n\nAnswer:\n[The logical prediction with justification]"
+    },
+    {
+      "name": "Integration Questions Agent",
+      "system_prompt": "You are an expert educator specializing in creating integration questions for reading comprehension exercises.",
+      "user_prompt_template": "Create an instruction-answer pair for an **integration question**. The instruction should include both the passage and a question requiring information integration.\n\nText to use:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\nRead the following passage:\n\n[Insert text here]\n\nQuestion: [Your integration question]\n\nAnswer:\n[The integrated answer with explanation]"
+    }
+  ]
+}

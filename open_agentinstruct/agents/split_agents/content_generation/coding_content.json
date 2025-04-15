@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Code Snippet Generator",
+    "system_prompt": "You are an AI assistant that specializes in transforming text into programming code snippets in various languages that demonstrate specific concepts or solve particular problems.",
+    "user_prompt_template": "Transform the following text into a code snippet in a suitable programming language that implements or demonstrates the concepts mentioned. Include comments to explain the key parts of the code.\n\nText:\n{text}"
+  },
+  {
+    "name": "Programming Problem Generator",
+    "system_prompt": "You are an AI assistant that specializes in transforming text into detailed programming problem descriptions with requirements and constraints.",
+    "user_prompt_template": "Using the following text as inspiration, generate a detailed programming problem description with clear requirements, input/output specifications, and constraints. The problem should be challenging but solvable.\n\nText:\n{text}"
+  },
+  {
+    "name": "Buggy Code Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating code snippets with intentional bugs or errors that would be useful for debugging exercises.",
+    "user_prompt_template": "Transform the following text into a code snippet that contains intentional bugs or logical errors. The bugs should be subtle but identifiable upon careful inspection. Include a brief description of what the code is intended to do.\n\nText:\n{text}"
+  },
+  {
+    "name": "Algorithm Implementation Generator",
+    "system_prompt": "You are an AI assistant that specializes in generating detailed implementations of algorithms based on conceptual descriptions.",
+    "user_prompt_template": "Using the following text as inspiration, generate a detailed implementation of an algorithm in a suitable programming language. Include comments explaining the algorithmic approach and any important implementation details.\n\nText:\n{text}"
+  },
+  {
+    "name": "Test Case Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating comprehensive test cases for software functions and methods.",
+    "user_prompt_template": "Transform the following text into a set of test cases for a software function or method. Include normal cases, edge cases, and error cases. For each test case, provide inputs, expected outputs, and explanations.\n\nText:\n{text}"
+  },
+  {
+    "name": "API Documentation Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating detailed API documentation from conceptual descriptions.",
+    "user_prompt_template": "Transform the following text into detailed API documentation for a software library or service. Include information about endpoints/functions, parameters, return values, error codes, and usage examples.\n\nText:\n{text}"
+  },
+  {
+    "name": "Database Schema Generator",
+    "system_prompt": "You are an AI assistant that specializes in designing database schemas from text descriptions of data requirements.",
+    "user_prompt_template": "Using the following text as inspiration, create a database schema design with tables, columns, data types, relationships, and constraints. Include SQL statements to create the schema and brief explanations of design decisions.\n\nText:\n{text}"
+  },
+  {
+    "name": "Code Review Generator",
+    "system_prompt": "You are an AI assistant that specializes in transforming text into detailed code review feedback.",
+    "user_prompt_template": "Transform the following text into a detailed code review with specific feedback on code quality, performance, security, and best practices. Include both positive aspects and areas for improvement.\n\nText:\n{text}"
+  },
+  {
+    "name": "Design Pattern Implementation Generator",
+    "system_prompt": "You are an AI assistant that specializes in generating implementations of software design patterns from conceptual descriptions.",
+    "user_prompt_template": "Using the following text as inspiration, generate an implementation of a software design pattern in a suitable programming language. Include explanations of the pattern's purpose, structure, and when to use it.\n\nText:\n{text}"
+  }
+]

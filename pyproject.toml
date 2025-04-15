@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "open-agentinstruct"
+version = "0.1.0" # Initial version
+description = "A library for generating instruction-following data using agent-based workflows."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+# Dependencies and optional-dependencies are defined in setup.cfg
+# Scripts are now defined directly below
+dynamic = ["dependencies", "optional-dependencies"]
+
+[project.scripts]
+open-agentinstruct-generate = "open_agentinstruct.cli:main_wrapper"
+
+[project.urls]
+Homepage = "https://github.com/ThomasRochefortB/open-agentinstruct"
+Repository = "https://github.com/ThomasRochefortB/open-agentinstruct"
+
+# Configuration for tools like Ruff, Pytest, Coveragepy could go here in [tool.*] sections
+# Example for Ruff (add if you use it)
+# [tool.ruff]
+# target-version = "py39"
+# line-length = 88 # Or your preferred length
+
+# [tool.ruff.lint]
+# select = ["E", "F", "W", "I"] # Example selection
+
+# [tool.ruff.format]
+# quote-style = "double"
+# indent-style = "space"
+# skip-magic-trailing-comma = false
+# line-ending = "auto"

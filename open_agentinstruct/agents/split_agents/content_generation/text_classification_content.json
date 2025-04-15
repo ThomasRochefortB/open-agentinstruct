@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Scientific Abstract Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating scientific abstracts with clear disciplinary markers that can be used for academic field classification.",
+    "user_prompt_template": "Transform the following text into a scientific abstract that clearly belongs to a specific academic field or subfield. The abstract should use terminology and discuss concepts that would make its disciplinary classification clear to a classifier.\n\nText:\n{text}"
+  },
+  {
+    "name": "Customer Review Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating customer reviews with clear sentiment markers that can be used for sentiment classification.",
+    "user_prompt_template": "Using the following text as inspiration, generate a customer review or feedback that expresses a clear sentiment (positive, negative, neutral, or mixed). Include language that would make sentiment classification possible.\n\nText:\n{text}"
+  },
+  {
+    "name": "News Article Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating news article excerpts that can be easily classified into standard news categories.",
+    "user_prompt_template": "Transform the following text into a news article excerpt that would clearly belong to a specific news category (e.g., politics, sports, technology, business, entertainment, etc.). Include terminology and content typical of that category.\n\nText:\n{text}"
+  },
+  {
+    "name": "Technical Documentation Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating technical documentation excerpts that can be classified by technical domain or expertise level.",
+    "user_prompt_template": "Using the following text as inspiration, generate a technical documentation excerpt that clearly belongs to a specific technical domain (e.g., web development, data science, cybersecurity, etc.) and targets a particular expertise level (beginner, intermediate, advanced).\n\nText:\n{text}"
+  },
+  {
+    "name": "Social Media Post Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating social media posts that can be classified by intent, tone, or content type.",
+    "user_prompt_template": "Transform the following text into a social media post with a clear intent or purpose (e.g., informational, promotional, entertainment, request, complaint) and distinctive tone.\n\nText:\n{text}"
+  },
+  {
+    "name": "Email Content Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating email content that can be classified by purpose, priority, or legitimacy.",
+    "user_prompt_template": "Using the following text as inspiration, generate an email that could be classified by purpose (e.g., business, personal, marketing), priority (urgent, important, routine), or legitimacy (legitimate, spam, phishing attempt).\n\nText:\n{text}"
+  },
+  {
+    "name": "Product Description Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating product descriptions that can be classified by product category, target audience, or marketing approach.",
+    "user_prompt_template": "Transform the following text into a product description that clearly belongs to a specific product category and targets a particular demographic. Include characteristics that would make its classification straightforward.\n\nText:\n{text}"
+  },
+  {
+    "name": "Medical Text Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating medical text excerpts that can be classified by medical specialty, document type, or audience.",
+    "user_prompt_template": "Using the following text as inspiration, generate a medical text excerpt that clearly belongs to a specific medical specialty and document type (e.g., clinical notes, research paper, patient education material).\n\nText:\n{text}"
+  },
+  {
+    "name": "Legal Document Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating legal text excerpts that can be classified by legal domain, document type, or purpose.",
+    "user_prompt_template": "Transform the following text into a legal document excerpt that clearly belongs to a specific legal domain (e.g., contract law, criminal law, intellectual property) and document type (e.g., contract, court filing, legal opinion).\n\nText:\n{text}"
+  }
+]

@@ -1,0 +1,51 @@
+# .github/workflows/publish.yml
+name: Publish Python Package to PyPI
+
+on:
+  push:
+    tags:
+      - 'v*.*.*' # Trigger on tags like v0.1.0, v1.2.3, etc.
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # Environment configuration for Trusted Publishing (preferred method)
+    # environment:
+    #   name: pypi
+    #   url: https://pypi.org/p/open-agentinstruct # Replace with your package name
+    # permissions:
+    #   id-token: write # Needed for OIDC token
+
+    # Optional: Prevent deployment unless tests pass
+    # needs: test # Make sure the 'test' job name matches your test workflow
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x' # Use a recent Python 3 version
+
+    - name: Install build dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build twine
+
+    - name: Build package
+      run: python -m build
+
+    # Use this step for PyPI Trusted Publishing (OIDC - Recommended)
+    # - name: Publish package distributions to PyPI
+    #   uses: pypa/gh-action-pypi-publish@release/v1
+    #   # No password needed, uses OIDC token
+
+    # Use this step for API Token publishing (Legacy - Requires PYPI_API_TOKEN secret)
+    - name: Publish package distributions to PyPI using API Token
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_API_TOKEN }} # Use the standard PyPI token secret
+        # Optional: Use --repository testpypi for testing releases
+        # repository_url: https://test.pypi.org/legacy/ # Commented out for official release

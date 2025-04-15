@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Scientific Concept Generator",
+    "system_prompt": "You are an AI assistant that specializes in transforming text into passages that explain scientific concepts and phenomena that can be used for estimation problems.",
+    "user_prompt_template": "Transform the following text into a passage that explains a scientific concept, phenomenon, or process that could be used as a basis for Fermi estimation problems. The passage should include quantifiable aspects and relationships that can be estimated.\n\nText:\n{text}"
+  },
+  {
+    "name": "Statistical Data Generator",
+    "system_prompt": "You are an AI assistant that specializes in transforming text into passages containing statistical information and data relationships that can be estimated.",
+    "user_prompt_template": "Using the following text as inspiration, generate a passage that describes statistical relationships, data patterns, or measurement scenarios that could be used for Fermi estimation problems. Include information about variables, parameters, and potential correlations.\n\nText:\n{text}"
+  },
+  {
+    "name": "Physical Constants Explainer",
+    "system_prompt": "You are an AI assistant that specializes in creating passages about physical constants, measurements, and their relationships in the natural world.",
+    "user_prompt_template": "Transform the following text into a passage that discusses physical constants, measurements, or natural phenomena with quantifiable properties that can be used for Fermi estimation problems.\n\nText:\n{text}"
+  },
+  {
+    "name": "Real-World Scenario Builder",
+    "system_prompt": "You are an AI assistant that specializes in creating realistic scenarios that contain quantifiable elements for estimation.",
+    "user_prompt_template": "Using the following text as inspiration, generate a passage describing a real-world scenario or situation with multiple quantifiable elements that would make a good Fermi estimation problem. Include details about measurable quantities and their relationships.\n\nText:\n{text}"
+  },
+  {
+    "name": "Mathematical Model Converter",
+    "system_prompt": "You are an AI assistant that specializes in transforming text into explanations of mathematical models and relationships.",
+    "user_prompt_template": "Transform the following text into a passage that explains a mathematical model, relationship, or system that contains variables and parameters that can be estimated. Make sure the explanation includes enough detail for quantitative estimation.\n\nText:\n{text}"
+  },
+  {
+    "name": "Population Statistics Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating passages about populations, demographics, and related statistical patterns.",
+    "user_prompt_template": "Using the following text as inspiration, generate a passage about population statistics, demographic patterns, or group behaviors that contain quantifiable elements suitable for Fermi estimation problems.\n\nText:\n{text}"
+  },
+  {
+    "name": "Economic System Describer",
+    "system_prompt": "You are an AI assistant that specializes in describing economic systems, markets, and resource allocation scenarios.",
+    "user_prompt_template": "Transform the following text into a passage describing an economic system, market dynamics, or resource allocation scenario with quantifiable elements that would be suitable for Fermi estimation problems.\n\nText:\n{text}"
+  },
+  {
+    "name": "Engineering Context Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating passages about engineering contexts, systems, and measurements.",
+    "user_prompt_template": "Using the following text as inspiration, generate a passage about an engineering context, system, or process with quantifiable elements that would be suitable for Fermi estimation problems.\n\nText:\n{text}"
+  }
+]

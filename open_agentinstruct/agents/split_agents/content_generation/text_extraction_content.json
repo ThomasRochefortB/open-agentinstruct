@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Scientific Document Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating scientific document excerpts with embedded technical information, methods, findings, and metrics that can be used for text extraction exercises.",
+    "user_prompt_template": "Transform the following text into a scientific document excerpt (such as a research paper, technical report, or scholarly article) with clearly embedded information like methods, results, technical specifications, and metrics that could be extracted.\n\nText:\n{text}"
+  },
+  {
+    "name": "Business Report Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating business report excerpts with embedded financial data, statistics, KPIs, and business terms that can be used for text extraction exercises.",
+    "user_prompt_template": "Using the following text as inspiration, generate a business report excerpt with embedded financial metrics, statistics, KPIs, trends, and business terms that could be extracted through text analysis.\n\nText:\n{text}"
+  },
+  {
+    "name": "Legal Document Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating legal document excerpts with embedded entities, dates, clauses, provisions, and specialized legal terminology that can be used for text extraction exercises.",
+    "user_prompt_template": "Transform the following text into a legal document excerpt (such as a contract, legislation, or legal opinion) with clearly embedded legal entities, dates, clauses, provisions, and specialized terminology that could be extracted.\n\nText:\n{text}"
+  },
+  {
+    "name": "Technical Documentation Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating technical documentation excerpts with embedded code references, parameters, functions, and technical terms that can be used for text extraction exercises.",
+    "user_prompt_template": "Using the following text as inspiration, generate a technical documentation excerpt with embedded code references, parameters, functions, algorithms, and technical terminology that could be extracted through text analysis.\n\nText:\n{text}"
+  },
+  {
+    "name": "Healthcare Record Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating healthcare record excerpts with embedded medical terms, procedures, medications, diagnoses, and patient information that can be used for text extraction exercises.",
+    "user_prompt_template": "Transform the following text into a healthcare record excerpt with clearly embedded medical terms, procedures, medications, diagnoses, and anonymized patient information that could be extracted.\n\nText:\n{text}"
+  },
+  {
+    "name": "Structured Data in Text Generator",
+    "system_prompt": "You are an AI assistant that specializes in embedding structured data (like tables, lists, and hierarchies) within natural language text for text extraction exercises.",
+    "user_prompt_template": "Using the following text as inspiration, generate a natural language passage that embeds structured data (such as tables, lists, or hierarchical information) in a way that would require text extraction techniques to organize and interpret.\n\nText:\n{text}"
+  },
+  {
+    "name": "News Article Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating news article excerpts with embedded entities, events, statistics, quotes, and locations that can be used for text extraction exercises.",
+    "user_prompt_template": "Transform the following text into a news article excerpt with clearly embedded named entities, events, dates, statistics, quotes, and locations that could be extracted through text analysis.\n\nText:\n{text}"
+  },
+  {
+    "name": "Product Description Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating product description excerpts with embedded specifications, features, pricing, and product identifiers that can be used for text extraction exercises.",
+    "user_prompt_template": "Using the following text as inspiration, generate a product description excerpt with embedded technical specifications, features, pricing information, and product identifiers that could be extracted.\n\nText:\n{text}"
+  },
+  {
+    "name": "Mixed Format Document Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating document excerpts with mixed formats (like text, code, tables, and lists) that can be used for complex text extraction exercises.",
+    "user_prompt_template": "Transform the following text into a document excerpt that combines multiple formats (such as natural language text, code snippets, tables, and lists) with embedded information that would require sophisticated text extraction techniques.\n\nText:\n{text}"
+  }
+]

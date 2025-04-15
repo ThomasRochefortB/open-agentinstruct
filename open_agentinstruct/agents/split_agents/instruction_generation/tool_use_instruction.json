@@ -1,0 +1,68 @@
+{
+  "one_shot_example": {
+    "instruction": "Instruction:\nYou have access to the following tools to help solve this task:\n\n1. Calculator\n   - Description: Performs mathematical calculations\n   - Usage: calculator(expression)\n   - Example: calculator(\"23 * 4.5 - 7\")\n\n2. WeatherAPI\n   - Description: Gets current weather information for a location\n   - Usage: weather(location)\n   - Example: weather(\"New York\")\n\n3. UnitConverter\n   - Description: Converts between different units of measurement\n   - Usage: convert(value, from_unit, to_unit)\n   - Example: convert(\"5\", \"kilometers\", \"miles\")\n\nTask: A family is planning a road trip from Chicago to Miami, which is approximately 1,377 miles. Their car gets an average of 28 miles per gallon of gas. The current temperature in Miami is 10°C warmer than in Chicago, where it's currently 15°C. Calculate how many gallons of gas they'll need for the trip, and tell them what temperature (in Fahrenheit) to expect when they arrive in Miami.\n\nProvide your reasoning step by step and use the appropriate tools to solve this problem.",
+    "answer": "Answer:\nI'll solve this problem step by step using the provided tools.\n\nStep 1: Calculate how many gallons of gas will be needed for the trip.\nI know the distance is 1,377 miles and the car gets 28 miles per gallon. To find the gallons needed, I'll divide the total distance by the miles per gallon.\n\n```\ncalculator(\"1377 / 28\")\n```\nResult: 49.17857142857143\n\nSo they'll need about 49.18 gallons of gas for the trip.\n\nStep 2: Find the current temperature in Chicago.\nThe problem states that it's currently 15°C in Chicago.\n\nStep 3: Calculate the temperature in Miami.\nMiami is 10°C warmer than Chicago, so:\n\n```\ncalculator(\"15 + 10\")\n```\nResult: 25\n\nSo the temperature in Miami is 25°C.\n\nStep 4: Convert the Miami temperature from Celsius to Fahrenheit.\nI'll use the unit converter tool for this:\n\n```\nconvert(\"25\", \"celsius\", \"fahrenheit\")\n```\nResult: 77\n\nTherefore, the family will need approximately 49.18 gallons of gas for their trip from Chicago to Miami, and they should expect a temperature of 77°F when they arrive in Miami."
+  },
+  "agents": [
+    {
+      "name": "Basic Tool Usage Agent",
+      "system_prompt": "You are an expert in creating tasks that require the basic use of single tools to solve straightforward problems.",
+      "user_prompt_template": "Create an instruction-answer pair for a basic tool usage task based on the following tool documentation. The instruction should describe a straightforward problem that requires using exactly one of the documented tools.\n\nTool documentation:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction describing a problem and the available tools, with clear expectations for the solution]\n\nAnswer:\n[A step-by-step solution that demonstrates proper use of the appropriate tool, including the exact tool call syntax and interpretation of the results]"
+    },
+    {
+      "name": "Multi-Tool Workflow Agent",
+      "system_prompt": "You are an expert in creating tasks that require using multiple tools in sequence to solve complex problems.",
+      "user_prompt_template": "Create an instruction-answer pair for a multi-tool workflow task based on the following tool documentation. The instruction should describe a complex problem that requires using at least two different tools in sequence.\n\nTool documentation:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction describing a complex problem and the available tools, with clear expectations for the solution]\n\nAnswer:\n[A step-by-step solution that demonstrates proper use of multiple tools in the correct sequence, including the exact tool call syntax for each step and interpretation of the results]"
+    },
+    {
+      "name": "Tool Selection Agent",
+      "system_prompt": "You are an expert in creating tasks that require selecting the most appropriate tools from a set of similar options to efficiently solve problems.",
+      "user_prompt_template": "Create an instruction-answer pair for a tool selection task based on the following tool documentation. The instruction should describe a problem where several tools could potentially be used, but one is clearly the most efficient choice.\n\nTool documentation:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction describing a problem and the available tools, with clear expectations for the solution]\n\nAnswer:\n[A solution that explains why the selected tool is the most appropriate choice, demonstrates its proper use, and explains why other potential tools would be less effective or efficient]"
+    },
+    {
+      "name": "Parameter Optimization Agent",
+      "system_prompt": "You are an expert in creating tasks that require fine-tuning tool parameters to achieve optimal results.",
+      "user_prompt_template": "Create an instruction-answer pair for a parameter optimization task based on the following tool documentation. The instruction should describe a problem where the correct tool is obvious, but success depends on choosing the optimal parameters.\n\nTool documentation:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction describing a problem where parameter optimization is crucial, along with the available tools]\n\nAnswer:\n[A solution that demonstrates how to select optimal parameters for the tool, explains the reasoning behind these choices, and shows how different parameter values would affect the outcome]"
+    },
+    {
+      "name": "Error Handling Agent",
+      "system_prompt": "You are an expert in creating tasks that require handling tool errors, edge cases, or unexpected results.",
+      "user_prompt_template": "Create an instruction-answer pair for an error handling task based on the following tool documentation. The instruction should describe a problem where tools might encounter errors, edge cases, or unexpected results that need to be properly handled.\n\nTool documentation:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction describing a problem involving potential tool errors or edge cases, along with the available tools]\n\nAnswer:\n[A solution that demonstrates how to detect and handle potential errors or unexpected results, including appropriate error checking, exception handling, or fallback strategies]"
+    },
+    {
+      "name": "Iterative Tool Usage Agent",
+      "system_prompt": "You are an expert in creating tasks that require iterative tool usage with feedback loops to progressively refine results.",
+      "user_prompt_template": "Create an instruction-answer pair for an iterative tool usage task based on the following tool documentation. The instruction should describe a problem that requires using tools iteratively with feedback from previous iterations to progressively refine the solution.\n\nTool documentation:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction describing a problem requiring iterative refinement, along with the available tools]\n\nAnswer:\n[A solution that demonstrates iterative tool usage, showing how information from each iteration informs subsequent tool calls, with clear reasoning at each step]"
+    },
+    {
+      "name": "Data Transformation Agent",
+      "system_prompt": "You are an expert in creating tasks that require transforming data between different formats or structures using appropriate tools.",
+      "user_prompt_template": "Create an instruction-answer pair for a data transformation task based on the following tool documentation. The instruction should describe a problem that requires transforming data from one format or structure to another using the appropriate tools.\n\nTool documentation:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction describing a data transformation problem, along with the available tools]\n\nAnswer:\n[A solution that demonstrates how to transform the data using the appropriate tools, showing the step-by-step process and explaining any intermediate transformations needed]"
+    },
+    {
+      "name": "Tool Composition Agent",
+      "system_prompt": "You are an expert in creating tasks that require composing simple tools to create more complex functionalities.",
+      "user_prompt_template": "Create an instruction-answer pair for a tool composition task based on the following tool documentation. The instruction should describe a problem that requires combining simple tools in creative ways to create more complex functionalities not directly available.\n\nTool documentation:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction describing a problem requiring creative tool composition, along with the available tools]\n\nAnswer:\n[A solution that demonstrates how to compose multiple simple tools to create more complex functionalities, explaining the rationale behind this composition and showing the complete workflow]"
+    },
+    {
+      "name": "Constrained Tool Usage Agent",
+      "system_prompt": "You are an expert in creating tasks that require solving problems with specific constraints on tool usage.",
+      "user_prompt_template": "Create an instruction-answer pair for a constrained tool usage task based on the following tool documentation. The instruction should describe a problem with specific constraints on tool usage (e.g., limited number of calls, restricted parameters, etc.).\n\nTool documentation:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction describing a problem with specific constraints on tool usage, along with the available tools]\n\nAnswer:\n[A solution that demonstrates how to solve the problem while adhering to the specified constraints, explaining any optimizations or strategies used to work within these limitations]"
+    },
+    {
+      "name": "Real-time Decision Making Agent",
+      "system_prompt": "You are an expert in creating tasks that require making real-time decisions about tool usage based on dynamic information.",
+      "user_prompt_template": "Create an instruction-answer pair for a real-time decision making task based on the following tool documentation. The instruction should describe a scenario where tool usage decisions must be made based on dynamic or changing information.\n\nTool documentation:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction describing a scenario requiring real-time decision making, along with the available tools]\n\nAnswer:\n[A solution that demonstrates the decision-making process for tool selection and usage based on the dynamic information, including contingency plans for different potential scenarios]"
+    },
+    {
+      "name": "Tool Orchestration Agent",
+      "system_prompt": "You are an expert in creating tasks that require orchestrating multiple tools in complex workflows with dependencies and parallel processes.",
+      "user_prompt_template": "Create an instruction-answer pair for a tool orchestration task based on the following tool documentation. The instruction should describe a complex problem that requires orchestrating multiple tools in workflows with dependencies and potentially parallel processes.\n\nTool documentation:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction describing a complex orchestration problem, along with the available tools]\n\nAnswer:\n[A solution that demonstrates how to orchestrate multiple tools in a complex workflow, clearly showing the dependencies between different steps, any parallel processes, and how to integrate the results]"
+    },
+    {
+      "name": "Tool Adaptation Agent",
+      "system_prompt": "You are an expert in creating tasks that require adapting tools for purposes beyond their primary intended use.",
+      "user_prompt_template": "Create an instruction-answer pair for a tool adaptation task based on the following tool documentation. The instruction should describe a problem where the available tools need to be adapted or used creatively for purposes beyond their primary intended function.\n\nTool documentation:\n{text}\n\nProvide the instruction and answer in the following format:\n\nInstruction:\n[Your detailed instruction describing a problem requiring creative tool adaptation, along with the available tools]\n\nAnswer:\n[A solution that demonstrates how to adapt or use tools creatively for purposes beyond their primary intended function, explaining the rationale and limitations of this approach]"
+    }
+  ]
+}

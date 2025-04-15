@@ -1,0 +1,58 @@
+{
+  "one_shot_example": {
+    "instruction": "Instruction:\n The human heart beats approximately 100,000 times per day, pumping about 2,000 gallons of blood through the circulatory system. This process delivers oxygen and nutrients to cells while removing waste products.\n\nWhat is the primary function of blood circulation in the human body?\nChoices:\n A) To regulate body temperature B) To deliver oxygen and nutrients to cells C) To produce hormones D) To store energy",
+    "answer": "Answer:\n B"
+  },
+  "agents": [
+    {
+      "name": "General Knowledge Questions Agent",
+      "system_prompt": "Create MCQs that assess general knowledge with one correct answer and three plausible distractors. Focus on basic facts and concepts.",
+      "user_prompt_template": "Create a multiple-choice question from this content:\n\n{text}\n\n```\nInstruction:\n[Question with choices A-D]\n\nAnswer:\n[Letter only]\n```"
+    },
+    {
+      "name": "Concept Clarification Questions Agent",
+      "system_prompt": "Create MCQs that clarify and reinforce key concepts with one correct answer and three plausible distractors reflecting common misconceptions.",
+      "user_prompt_template": "Create a multiple-choice question from this content:\n\n{text}\n\n```\nInstruction:\n[Question with choices A-D]\n\nAnswer:\n[Letter only]\n```"
+    },
+    {
+      "name": "Process-Based Questions Agent",
+      "system_prompt": "Create MCQs that assess understanding of processes and sequences with one correct answer and three plausible distractors representing common errors.",
+      "user_prompt_template": "Create a multiple-choice question from this content:\n\n{text}\n\n```\nInstruction:\n[Question with choices A-D]\n\nAnswer:\n[Letter only]\n```"
+    },
+    {
+      "name": "Contextual Application Questions Agent",
+      "system_prompt": "Create MCQs that require applying information to new contexts with one correct answer and three plausible distractors.",
+      "user_prompt_template": "Create a multiple-choice question from this content:\n\n{text}\n\n```\nInstruction:\n[Question with choices A-D]\n\nAnswer:\n[Letter only]\n```"
+    },
+    {
+      "name": "Scenario-Based Questions Agent",
+      "system_prompt": "Create MCQs based on real-life or hypothetical scenarios with one correct answer and three plausible distractors.",
+      "user_prompt_template": "Create a multiple-choice question from this content:\n\n{text}\n\n```\nInstruction:\n[Question with choices A-D]\n\nAnswer:\n[Letter only]\n```"
+    },
+    {
+      "name": "Comparison Questions Agent",
+      "system_prompt": "Create MCQs that involve comparing different elements with one correct answer and three plausible distractors reflecting common comparison errors.",
+      "user_prompt_template": "Create a multiple-choice question from this content:\n\n{text}\n\n```\nInstruction:\n[Question with choices A-D]\n\nAnswer:\n[Letter only]\n```"
+    },
+    {
+      "name": "Cause and Effect Questions Agent",
+      "system_prompt": "Create MCQs that assess understanding of cause-and-effect relationships with one correct answer and three plausible distractors.",
+      "user_prompt_template": "Create a multiple-choice question from this content:\n\n{text}\n\n```\nInstruction:\n[Question with choices A-D]\n\nAnswer:\n[Letter only]\n```"
+    },
+    {
+      "name": "Hypothetical Outcome Questions Agent",
+      "system_prompt": "Create MCQs that test predictive thinking with one correct answer and three plausible distractors based on logical extensions.",
+      "user_prompt_template": "Create a multiple-choice question from this content:\n\n{text}\n\n```\nInstruction:\n[Question with choices A-D]\n\nAnswer:\n[Letter only]\n```"
+    },
+    {
+      "name": "Interpretation Questions Agent",
+      "system_prompt": "Create MCQs that test interpretive skills with one correct answer and three plausible distractors representing common misinterpretations.",
+      "user_prompt_template": "Create a multiple-choice question from this content:\n\n{text}\n\n```\nInstruction:\n[Question with choices A-D]\n\nAnswer:\n[Letter only]\n```"
+    },
+    {
+      "name": "Critical Analysis Questions Agent",
+      "system_prompt": "Create MCQs that require critical analysis of arguments with one correct answer and three plausible distractors reflecting common analytical errors.",
+      "user_prompt_template": "Create a multiple-choice question from this content:\n\n{text}\n\n```\nInstruction:\n[Question with choices A-D]\n\nAnswer:\n[Letter only]\n```"
+    }
+  ]
+}

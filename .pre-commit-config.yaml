@@ -1,0 +1,23 @@
+# .pre-commit-config.yaml
+# See https://pre-commit.com for more information
+# See https://docs.astral.sh/ruff/integrations/#pre-commit for Ruff configuration
+
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0 # Use the latest version
+    hooks:
+    -   id: check-yaml
+    -   id: end-of-file-fixer
+    -   id: trailing-whitespace
+
+-   repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version. Must be kept in sync with `ruff` in setup.cfg / requirements
+    rev: v0.5.4 # Use a recent version compatible with your ruff install
+    hooks:
+    # Run the linter.
+    -   id: ruff
+        args: [--fix] # Automatically fix linting issues
+    # Run the formatter.
+    -   id: ruff-format
+        # Only format python files within the open_agentinstruct directory
+        files: ^open_agentinstruct/.*\.(py|pyi)$

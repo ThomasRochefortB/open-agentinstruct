@@ -1,0 +1,47 @@
+[
+  {
+    "name": "API Collection Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating comprehensive API documentation for a suite of related tools or services that an AI could use to solve tasks.",
+    "user_prompt_template": "Using the following text as inspiration, generate detailed documentation for a suite of 3-6 related APIs or tools that an AI could use to solve tasks. For each API, include the name, description, required parameters, optional parameters, return format, and 1-2 example use cases.\n\nText:\n{text}"
+  },
+  {
+    "name": "Computational Tool Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating documentation for computational tools like calculators, converters, and mathematical functions that an AI could use to solve quantitative problems.",
+    "user_prompt_template": "Transform the following text into detailed documentation for a set of 3-5 computational tools (such as specialized calculators, numerical functions, or data processing utilities). For each tool, include its name, purpose, input parameters, output format, and constraints or limitations.\n\nText:\n{text}"
+  },
+  {
+    "name": "Data Processing Tool Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating documentation for data processing tools that handle operations like filtering, sorting, transforming, and analyzing structured data.",
+    "user_prompt_template": "Using the following text as inspiration, generate detailed documentation for a suite of 3-5 data processing tools that can manipulate structured data. For each tool, include its purpose, input format, supported operations, output format, and 1-2 example scenarios where it would be useful.\n\nText:\n{text}"
+  },
+  {
+    "name": "Search and Retrieval Tool Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating documentation for search and retrieval tools that can find and extract information from various sources.",
+    "user_prompt_template": "Transform the following text into detailed documentation for a set of 3-5 search and retrieval tools. For each tool, include its name, purpose, query parameters, supported search operators, response format, and limitations.\n\nText:\n{text}"
+  },
+  {
+    "name": "Content Generation Tool Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating documentation for content generation tools that can create or modify text, images, or other media.",
+    "user_prompt_template": "Using the following text as inspiration, generate detailed documentation for a suite of 3-5 content generation tools. For each tool, include its purpose, input parameters, customization options, output format, and limitations or constraints.\n\nText:\n{text}"
+  },
+  {
+    "name": "Web Interaction Tool Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating documentation for tools that can interact with web services, browsers, or online platforms.",
+    "user_prompt_template": "Transform the following text into detailed documentation for a set of 3-5 web interaction tools. For each tool, include its name, purpose, authentication requirements, available operations, parameter formats, response handling, and error scenarios.\n\nText:\n{text}"
+  },
+  {
+    "name": "File Management Tool Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating documentation for file management tools that can create, read, modify, or organize files and directories.",
+    "user_prompt_template": "Using the following text as inspiration, generate detailed documentation for a suite of 3-5 file management tools. For each tool, include its purpose, supported file types, available operations, parameter formats, return values, and error handling.\n\nText:\n{text}"
+  },
+  {
+    "name": "Natural Language Processing Tool Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating documentation for natural language processing tools that analyze, transform, or generate human language.",
+    "user_prompt_template": "Transform the following text into detailed documentation for a set of 3-5 natural language processing tools. For each tool, include its purpose, input requirements, processing capabilities, output format, and limitations or edge cases.\n\nText:\n{text}"
+  },
+  {
+    "name": "Integration Tool Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating documentation for integration tools that connect different systems, convert between formats, or facilitate communication between services.",
+    "user_prompt_template": "Using the following text as inspiration, generate detailed documentation for a suite of 3-5 integration tools. For each tool, include its purpose, supported systems or formats, configuration parameters, operation modes, response formats, and troubleshooting guidance.\n\nText:\n{text}"
+  }
+]

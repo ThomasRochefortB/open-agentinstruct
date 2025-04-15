@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Document Collection Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating collections of related documents that contain complementary information about a specific topic, suitable for retrieval-based question answering.",
+    "user_prompt_template": "Using the following text as a seed, generate a collection of 5-8 simulated document snippets (each 50-150 words) that collectively provide comprehensive information about the topic. Include different perspectives, details, and facts across the documents. Each document should have a title, URL, and content snippet as if it were retrieved from a search engine.\n\nText:\n{text}"
+  },
+  {
+    "name": "Factual Information Generator",
+    "system_prompt": "You are an AI assistant that specializes in transforming text into factual document snippets containing specific data points, statistics, definitions, or procedural information that can be retrieved to answer factual questions.",
+    "user_prompt_template": "Transform the following text into a set of 4-6 factual document snippets containing concrete information such as definitions, procedures, statistics, or factual claims. Format each as if it were a search result with a title, URL, and content snippet.\n\nText:\n{text}"
+  },
+  {
+    "name": "Academic Research Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating simulated academic research document snippets that contain technical information, methodologies, findings, and citations that can be retrieved to answer research-related questions.",
+    "user_prompt_template": "Using the following text as inspiration, generate a set of 4-6 simulated academic document snippets (abstracts, paper excerpts, or literature reviews) that contain technical details, methodologies, findings, and citations. Format each as if it were a search result with a title, URL, and content snippet.\n\nText:\n{text}"
+  },
+  {
+    "name": "Multi-perspective Document Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating document collections that present multiple perspectives, opinions, or approaches on a controversial or complex topic that requires nuanced understanding.",
+    "user_prompt_template": "Transform the following text into a set of 5-7 document snippets that present different perspectives, arguments, or approaches on the topic. Ensure the documents reflect a range of viewpoints while remaining factual. Format each as if it were a search result with a title, URL, and content snippet.\n\nText:\n{text}"
+  },
+  {
+    "name": "Technical Documentation Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating technical documentation snippets that contain specific technical details, procedures, code examples, or specifications that can be retrieved to answer technical questions.",
+    "user_prompt_template": "Using the following text as inspiration, generate a set of 4-6 technical document snippets (documentation, guides, tutorials, specifications) that contain specific technical details, procedures, code examples, or specifications. Format each as if it were a search result with a title, URL, and content snippet.\n\nText:\n{text}"
+  },
+  {
+    "name": "Historical Information Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating document snippets containing historical information, timelines, events, and contextual details that can be retrieved to answer history-related questions.",
+    "user_prompt_template": "Transform the following text into a set of 5-7 document snippets containing historical information, including dates, events, people, places, and contextual details. Format each as if it were a search result with a title, URL, and content snippet.\n\nText:\n{text}"
+  },
+  {
+    "name": "Mathematical Problem Resource Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating document snippets containing mathematical concepts, formulas, examples, and problem-solving approaches that can be retrieved to solve mathematical problems.",
+    "user_prompt_template": "Using the following text as inspiration, generate a set of 4-6 document snippets containing mathematical concepts, formulas, examples, and problem-solving approaches. Format each as if it were a search result with a title, URL, and content snippet.\n\nText:\n{text}"
+  },
+  {
+    "name": "Healthcare Information Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating document snippets containing healthcare information, medical concepts, treatment approaches, and research findings that can be retrieved to answer health-related questions.",
+    "user_prompt_template": "Transform the following text into a set of 5-7 document snippets containing healthcare information, including medical concepts, treatment approaches, research findings, and professional guidelines. Format each as if it were a search result with a title, URL, and content snippet.\n\nText:\n{text}"
+  },
+  {
+    "name": "Legal Resource Generator",
+    "system_prompt": "You are an AI assistant that specializes in creating document snippets containing legal information, case references, statutes, regulations, and interpretations that can be retrieved to answer legal questions.",
+    "user_prompt_template": "Using the following text as inspiration, generate a set of 4-6 document snippets containing legal information, including statutes, regulations, case references, and legal interpretations. Format each as if it were a search result with a title, URL, and content snippet.\n\nText:\n{text}"
+  }
+]
