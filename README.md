@@ -50,7 +50,6 @@ The AgentInstruct paper implements the following tasks which are all implemented
 
 ## Features
 - LiteLLM compatible LLMs
-- Finetuning pipeline for llama3
 
 ## Installation
 
