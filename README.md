@@ -51,6 +51,15 @@ The AgentInstruct paper implements the following tasks which are all implemented
 ## Features
 - LiteLLM compatible LLMs
 
+## Security and supported Python versions
+
+Use Python 3.11–3.14. Security hardening uses a reviewed LiteLLM backport and
+patched dependency minimums; reproducible development installs use
+`uv sync --locked --all-extras --group dev`. See [SECURITY.md](SECURITY.md) and
+[the release/security guide](docs/security.md). PyPI publishing requires verified
+trusted-publisher setup and is explicitly blocked until that setup is complete.
+The already-published 0.1.0 release does not receive source changes automatically.
+
 ## Installation
 
 **Option 1: Install from PyPI (Recommended for users)**

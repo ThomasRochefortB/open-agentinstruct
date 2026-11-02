@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=84.1.0,<85"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,12 +8,13 @@ version = "0.1.0" # Initial version
 description = "A library for generating instruction-following data using agent-based workflows."
 readme = "README.md"
 license = { file = "LICENSE" }
-requires-python = ">=3.9"
+requires-python = ">=3.11,<3.15"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
@@ -45,3 +46,10 @@ Repository = "https://github.com/ThomasRochefortB/open-agentinstruct"
 # indent-style = "space"
 # skip-magic-trailing-comma = false
 # line-ending = "auto"
+
+[dependency-groups]
+dev = ["pytest>=9.0.3,<10", "build>=1.6.1,<2"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
