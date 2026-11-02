@@ -23,7 +23,7 @@ import signal
 from functools import partial
 from pathlib import Path
 import random
-import pkg_resources  # To find package data
+from importlib.resources import files
 
 nest_asyncio.apply()
 
@@ -138,12 +138,10 @@ def get_default_agent_config_path():
     """Gets the path to the bundled agent configurations within the package."""
     try:
         # This assumes setup.cfg correctly includes the package data
-        return pkg_resources.resource_filename(
-            "open_agentinstruct", "agents/split_agents"
-        )
+        return str(files("open_agentinstruct").joinpath("agents", "split_agents"))
     except Exception as e:
         print(
-            f"Warning: Could not find bundled agent configurations via pkg_resources: {e}"
+            f"Warning: Could not find bundled agent configurations via importlib.resources: {e}"
         )
         # Fallback if running from source without proper installation?
         # This might be fragile.
